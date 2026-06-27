@@ -22,27 +22,36 @@ public class Picture {
     @Column
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
     @Column(nullable = false)
     private String description;
+
     @Column(name = "file_path",nullable = false)
     private String filePath;
+
     @Column(name = "file_type", nullable = false)
     private String fileType;
+
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(nullable = false, columnDefinition = "picture_status")
     private PICTURE_STATUS status;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(nullable = false, columnDefinition = "category")
     private CATEGORY category;
+
     @Column(name = "uploaded_at", nullable = false)
     private Timestamp uploadedAt;
+
     @Column(nullable = false)
     private int width;
+
     @Column(nullable = false)
     private int height;
 

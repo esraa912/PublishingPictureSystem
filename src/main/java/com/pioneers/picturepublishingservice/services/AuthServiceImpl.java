@@ -6,9 +6,13 @@ import com.pioneers.picturepublishingservice.errors.exceptions.LogoutException;
 import com.pioneers.picturepublishingservice.errors.exceptions.RegisterException;
 import com.pioneers.picturepublishingservice.models.dtos.requests.UserLogin;
 import com.pioneers.picturepublishingservice.models.dtos.requests.UserSignup;
+import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
 import com.pioneers.picturepublishingservice.models.entities.User;
+import com.pioneers.picturepublishingservice.models.enums.PICTURE_STATUS;
+import com.pioneers.picturepublishingservice.repositories.PictureRepository;
 import com.pioneers.picturepublishingservice.repositories.UserRepository;
 import com.pioneers.picturepublishingservice.utils.CredentialsHelper;
+import com.pioneers.picturepublishingservice.utils.mappers.PictureMapper;
 import com.pioneers.picturepublishingservice.utils.mappers.UserMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -16,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -23,8 +28,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private final UserRepository userRepository;
     private final HttpSession httpSession;
+    private final UserRepository userRepository;
+    private final PictureRepository pictureRepository;
 
     @Transactional
     @Override
@@ -95,7 +101,7 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     @Override
     public void logoutUser(final UUID id) {
-        final String methodName = "logoutStudent()";
+        final String methodName = "logoutUser()";
         User foundUser = userRepository.findById(id)
                 .orElseThrow(() -> new LogoutException("User with id: [" + id + "is not found"));
 
@@ -108,5 +114,13 @@ public class AuthServiceImpl implements AuthService {
 
         foundUser.setLogin(false);
         userRepository.save(foundUser);
+    }
+
+    @Override
+    public List<PictureResponse> displayAllAcceptedPicture() {
+        return pictureRepository.findByStatus(PICTURE_STATUS.ACCEPTED)
+                .stream()
+                .map(PictureMapper::toPictureResponse)
+                .toList();
     }
 }

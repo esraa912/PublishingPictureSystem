@@ -4,9 +4,8 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <include file="/db/liquibase/changelogs/0001-create-roles-table.xml" relativeToChangelogFile="false" author="esraa.foad"/>
+    <include file="/db/liquibase/changelogs/0001-create-roles-enum.xml" relativeToChangelogFile="false" author="esraa.foad"/>
     <include file="/db/liquibase/changelogs/0002-create-users-table.xml" relativeToChangelogFile="false" author="esraa.foad"/>
     <include file="/db/liquibase/changelogs/0003-create-pictures-table.xml" relativeToChangelogFile="false" author="esraa.foad"/>
-    <include file="/db/liquibase/changelogs/0004-insert-dummy-data-for-roles.xml" relativeToChangelogFile="false" author="esraa.foad"/>
-    <include file="/db/liquibase/changelogs/0005-insert-dummy-data-for-admins.xml" relativeToChangelogFile="false" author="esraa.foad"/>
+    <include file="/db/liquibase/changelogs/0004-insert-dummy-data-for-admins.xml" relativeToChangelogFile="false" author="esraa.foad"/>
 </databaseChangeLog>

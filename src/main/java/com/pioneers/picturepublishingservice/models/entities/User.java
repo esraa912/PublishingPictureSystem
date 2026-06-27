@@ -1,8 +1,11 @@
 package com.pioneers.picturepublishingservice.models.entities;
 
+import com.pioneers.picturepublishingservice.models.enums.ROLE;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -16,18 +19,27 @@ public class User {
     @Column
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
     @Column(nullable = false)
     private String name;
+
     @Column(nullable = false, unique=true)
     private String email;
+
     @Column(nullable = false)
     private String password;
+
     @Column(name = "is_login", nullable = false)
     private boolean isLogin;
-    @Column(nullable = false)
-    private String role;
+
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(nullable = false, columnDefinition = "role")
+    private ROLE role;
+
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
+
     @Column(name = "is_archived", nullable = false)
     private boolean isArchived;
 
@@ -52,7 +64,7 @@ public class User {
         private String email;
         private String password;
         private boolean isLogin;
-        private String role;
+        private ROLE role;
         private Timestamp createdAt;
         private boolean isArchived;
 
@@ -81,7 +93,7 @@ public class User {
             return this;
         }
 
-        public UserBuilder role(String role){
+        public UserBuilder role(ROLE role){
             this.role = role;
             return this;
         }

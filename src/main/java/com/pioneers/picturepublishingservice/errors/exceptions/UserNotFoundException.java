@@ -6,14 +6,14 @@ import lombok.Getter;
 import java.sql.Timestamp;
 
 @Getter
-public class RegisterException extends  RuntimeException {
-    public static final String REGISTER_EXCEPTION_MESSAGE = "registrationException";
-    public static final int REGISTER_EXCEPTION_CODE = 1007;
+public class UserNotFoundException extends  RuntimeException {
+    public static final String REGISTER_EXCEPTION_MESSAGE = "userNotFoundException";
+    public static final int REGISTER_EXCEPTION_CODE = 1008;
 
     private final String description;
     private final Timestamp timestamp = TimeHelper.currentTimestamp();
 
-    public RegisterException( String description) {
+    public UserNotFoundException(String description) {
         super(description);
         this.description = description;
     }

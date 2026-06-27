@@ -2,16 +2,17 @@ package com.pioneers.picturepublishingservice.controllers;
 
 import com.pioneers.picturepublishingservice.models.dtos.requests.UserLogin;
 import com.pioneers.picturepublishingservice.models.dtos.requests.UserSignup;
+import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
 import com.pioneers.picturepublishingservice.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
@@ -29,7 +30,17 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public void loginApi(@RequestParam final UUID id){
+    public void logoutApi(@RequestParam final UUID id){
          authService.logoutUser(id);
     }
+
+    @GetMapping("/display-all-pictures")
+    public List<PictureResponse> displayAllAcceptedPictures(){
+        return authService.displayAllAcceptedPicture();
+    }
+
+
+
+
+
 }

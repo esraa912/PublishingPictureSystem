@@ -7,7 +7,7 @@
         <insert tableName="users">
             <column name="id" value="3d8cb291-2dfc-4ff4-8449-ce3176bd72f1"/>
             <column name="name" value="Esraa Foad"/>
-            <column name="email" value="esraafoad@gmail.com"/>
+            <column name="email" value="esraa.foad@gmail.com"/>
             <column name="password" value="admin123"/>
             <column name="is_login" value="false"/>
             <column name="role" value="ADMIN"/>

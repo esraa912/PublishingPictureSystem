@@ -1,10 +1,13 @@
 package com.pioneers.picturepublishingservice.services;
 
+import com.pioneers.picturepublishingservice.errors.exceptions.PictureExtensionException;
+import com.pioneers.picturepublishingservice.errors.exceptions.PictureSizeException;
 import com.pioneers.picturepublishingservice.models.entities.Picture;
 import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
 import com.pioneers.picturepublishingservice.models.enums.PICTURE_STATUS;
 import com.pioneers.picturepublishingservice.repositories.PictureRepository;
 import com.pioneers.picturepublishingservice.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,17 +33,18 @@ public class PictureServiceImpl implements PictureService{
     private final UserRepository userRepository;
 
 
+    @Transactional
     @Override
     public void uploadPicture(
             MultipartFile file, String description, CATEGORY category, UUID userId) throws IOException {
 
         if (file.getSize() > 2 * 1024 * 1024){
-            throw new IllegalArgumentException("File size exceeds 2MB limit");
+            throw new PictureSizeException("File size exceeds 2MB limit");
         }
 
         String extension = getExtension(Objects.requireNonNull(file.getOriginalFilename()));
         if(!List.of("jpg", "png", "gif").contains(extension.toLowerCase())){
-            throw new IllegalArgumentException("Only jpg, png, gif are allowed");
+            throw new PictureExtensionException("Only jpg, png, gif are allowed");
         }
 
         String fileName = UUID.randomUUID() + "." + extension;

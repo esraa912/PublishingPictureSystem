@@ -5,18 +5,12 @@
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <changeSet id="1781788607128-1" author="esraa.foad">
-        <createTable tableName="roles">
-            <column name="id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-
-            <column name="name" type="VARCHAR(50)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
+        <sql>
+            CREATE TYPE ROLE AS ENUM ('ADMIN', 'USER');
+        </sql>
 
         <rollback>
-            <dropTable tableName="roles"/>
+            <sql>DROP TYPE ROLE;</sql>
         </rollback>
     </changeSet>
 </databaseChangeLog>

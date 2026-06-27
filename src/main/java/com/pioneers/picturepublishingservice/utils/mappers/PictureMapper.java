@@ -38,13 +38,11 @@ public class PictureMapper {
 
         return PictureResponse.builder()
                 .description(picture.getDescription())
-                .filePath(picture.getFilePath())
-                .fileType(picture.getFileType())
-                .status(picture.getStatus())
-                .user(picture.getUser())
-                .userEmail(picture.getUser().getEmail())
                 .category(picture.getCategory())
-                .createdAt(picture.getUploadedAt())
+                .filePath(picture.getFilePath())
+                .status(picture.getStatus())
+                .userId(picture.getUser().getId())
+                .userEmail(picture.getUser().getEmail())
                 .build();
     }
 }

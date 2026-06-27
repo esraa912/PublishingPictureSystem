@@ -27,11 +27,12 @@ public class PictureController {
 
     @PutMapping("/upload")
     public void uploadPictureApi(@ModelAttribute final PictureRequest pictureDto) throws IOException {
-//        UUID userId = currentUserProvider.getCurrentUserId();
 
         UUID userId = authService.getCurrentUserId();
 
         pictureService.uploadPicture(pictureDto.file(), pictureDto.description(), pictureDto.category(), userId);
+
+        log.info("Uploaded Picture Successfully!");
     }
 }
 

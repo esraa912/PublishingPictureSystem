@@ -10,14 +10,11 @@ import java.util.UUID;
 
 @Builder
 public record PictureResponse(
-        UUID id,
         String description,
         CATEGORY category,
         String filePath,
-        String fileType,
         PICTURE_STATUS status,
-        User user,
-        String userEmail,
-        Timestamp createdAt
+        UUID userId,
+        String userEmail
 ) {
 }

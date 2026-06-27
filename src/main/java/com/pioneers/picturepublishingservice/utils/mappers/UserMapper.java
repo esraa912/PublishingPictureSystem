@@ -3,6 +3,7 @@ package com.pioneers.picturepublishingservice.utils.mappers;
 import com.pioneers.picturepublishingservice.errors.exceptions.CredentialsException;
 import com.pioneers.picturepublishingservice.models.dtos.requests.UserSignup;
 import com.pioneers.picturepublishingservice.models.entities.User;
+import com.pioneers.picturepublishingservice.models.enums.ROLE;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Timestamp;
@@ -35,7 +36,7 @@ public class UserMapper {
               .email(userSignup.email())
               .password(hashedPassword)
               .isLogin(false)
-              .role("USER")
+              .role(ROLE.USER)
               .createdAt(currentTime)
               .isArchived(false)
               .build();
