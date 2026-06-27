@@ -17,16 +17,10 @@ import java.util.UUID;
 public class UserController {
     public final AuthService authService;
 
-    @GetMapping("/signup")
-    public String signupPage() {
-        return "signup";
-    }
-
-    @GetMapping("/register")
-    public String registrationApi(@ModelAttribute final UserSignup user){
+    @PostMapping("/register")
+    public void registrationApi(@RequestBody final UserSignup user){
        authService.registerUser(user);
        log.info("User registered successfully");
-       return "login";
     }
 
     @GetMapping("/login")

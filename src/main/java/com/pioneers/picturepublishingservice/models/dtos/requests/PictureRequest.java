@@ -10,15 +10,7 @@ import java.util.UUID;
 
 public record PictureRequest(
         MultipartFile file,
-        UUID id,
         String description,
-        String filePath,
-        String fileType,
-        PICTURE_STATUS status,
-        User user,
-        CATEGORY category,
-        Timestamp createdAt,
-        int width,
-        int height
+        CATEGORY category
 ) {
 }

@@ -5,7 +5,11 @@ import com.pioneers.picturepublishingservice.models.enums.PICTURE_STATUS;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
+import java.sql.SQLType;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -25,13 +29,15 @@ public class Picture {
     @Column(name = "file_type", nullable = false)
     private String fileType;
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(nullable = false, columnDefinition = "picture_status")
     private PICTURE_STATUS status;
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(nullable = false, columnDefinition = "category")
     private CATEGORY category;
     @Column(name = "uploaded_at", nullable = false)
     private Timestamp uploadedAt;

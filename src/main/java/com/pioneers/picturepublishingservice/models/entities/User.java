@@ -1,6 +1,5 @@
 package com.pioneers.picturepublishingservice.models.entities;
 
-import com.pioneers.picturepublishingservice.models.enums.ROLE;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +25,7 @@ public class User {
     @Column(name = "is_login", nullable = false)
     private boolean isLogin;
     @Column(nullable = false)
-    private ROLE role;
+    private String role;
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
     @Column(name = "is_archived", nullable = false)
@@ -53,7 +52,7 @@ public class User {
         private String email;
         private String password;
         private boolean isLogin;
-        private ROLE role;
+        private String role;
         private Timestamp createdAt;
         private boolean isArchived;
 
@@ -82,7 +81,7 @@ public class User {
             return this;
         }
 
-        public UserBuilder role(ROLE role){
+        public UserBuilder role(String role){
             this.role = role;
             return this;
         }

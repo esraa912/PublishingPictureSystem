@@ -3,6 +3,7 @@ package com.pioneers.picturepublishingservice.utils.mappers;
 import com.pioneers.picturepublishingservice.models.dtos.requests.PictureRequest;
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
 import com.pioneers.picturepublishingservice.models.entities.Picture;
+import com.pioneers.picturepublishingservice.models.enums.PICTURE_STATUS;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Timestamp;
@@ -24,16 +25,9 @@ public class PictureMapper {
         final Timestamp currentTime = currentTimestamp();
 
         Picture picture = Picture.builder()
-                .id(UUID.randomUUID())
                 .description(pictureRequest.description())
-                .filePath(pictureRequest.filePath())
-                .fileType(pictureRequest.fileType())
-                .status(pictureRequest.status())
-                .user(pictureRequest.user())
                 .category(pictureRequest.category())
                 .uploadedAt(currentTime)
-                .width(pictureRequest.width())
-                .height(pictureRequest.height())
                 .build();
 
         log.debug("{}, Mapped to new Picture with id: [{}]", methodName, picture.getId());
@@ -43,7 +37,6 @@ public class PictureMapper {
     public static PictureResponse toPictureResponse(final Picture picture){
 
         return PictureResponse.builder()
-                .id(picture.getId())
                 .description(picture.getDescription())
                 .filePath(picture.getFilePath())
                 .fileType(picture.getFileType())

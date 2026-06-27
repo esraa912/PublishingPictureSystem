@@ -88,6 +88,10 @@ public class AuthServiceImpl implements AuthService {
         return "Login successful";
     }
 
+    public UUID getCurrentUserId() {
+        return (UUID) httpSession.getAttribute("user_id");
+    }
+
     @Transactional
     @Override
     public void logoutUser(final UUID id) {

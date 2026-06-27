@@ -11,5 +11,7 @@ public interface AuthService {
 
     String loginUser(UserLogin userLogin);
 
+    UUID getCurrentUserId();
+
     void logoutUser(UUID id);
 }

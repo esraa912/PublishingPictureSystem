@@ -44,7 +44,7 @@ public class PictureServiceImpl implements PictureService{
         }
 
         String fileName = UUID.randomUUID() + "." + extension;
-        Path path = Paths.get("upload/" + fileName);
+        Path path = Paths.get("uploads/" + fileName);
         Files.write(path, file.getBytes());
 
         BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
@@ -52,7 +52,6 @@ public class PictureServiceImpl implements PictureService{
         int height = bufferedImage.getHeight();
 
         Picture picture = Picture.builder()
-                .id(UUID.randomUUID())
                 .description(description)
                 .filePath(path.toString())
                 .fileType(extension)
