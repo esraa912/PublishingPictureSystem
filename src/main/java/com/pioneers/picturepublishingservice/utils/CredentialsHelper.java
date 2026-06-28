@@ -9,8 +9,6 @@ import java.util.Base64;
 
 /**
  * Utility class for the Credentials and tokens.
- *
- * @author abdelaziz
  */
 // TODO: Create all unit tests for all methods in that class.
 public final class CredentialsHelper {

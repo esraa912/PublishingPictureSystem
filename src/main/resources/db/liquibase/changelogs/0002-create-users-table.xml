@@ -9,24 +9,31 @@
             <column name="id" type="UUID">
                 <constraints primaryKey="true"/>
             </column>
+
             <column name="name" type="VARCHAR(50)">
                 <constraints nullable="false" />
             </column>
+
             <column name="email" type="VARCHAR(50)">
                 <constraints nullable="false" unique="true"/>
             </column>
+
             <column name="password" type="VARCHAR(255)">
                 <constraints nullable="false" />
             </column>
+
             <column name="is_login" type="Boolean" defaultValue="false">
                 <constraints nullable="false"/>
             </column>
+
             <column name="role" type="ROLE">
                 <constraints nullable="false"/>
             </column>
+
             <column name="created_at" type="timestamp">
                 <constraints nullable="false"/>
             </column>
+
             <column name="is_archived" type="Boolean" defaultValue="false">
                 <constraints nullable="false"/>
             </column>

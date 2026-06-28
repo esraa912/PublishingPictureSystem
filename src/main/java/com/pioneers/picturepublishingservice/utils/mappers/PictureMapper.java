@@ -2,16 +2,17 @@ package com.pioneers.picturepublishingservice.utils.mappers;
 
 import com.pioneers.picturepublishingservice.models.dtos.requests.PictureRequest;
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
+import com.pioneers.picturepublishingservice.models.dtos.responses.PictureUrlResponse;
 import com.pioneers.picturepublishingservice.models.entities.Picture;
-import com.pioneers.picturepublishingservice.models.enums.PICTURE_STATUS;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Timestamp;
-import java.util.UUID;
 
-import static com.pioneers.picturepublishingservice.utils.CredentialsHelper.hashPassword;
 import static com.pioneers.picturepublishingservice.utils.time.TimeHelper.currentTimestamp;
 
+/**
+ * Mapper class to transform to/from Picture.
+ */
 @Slf4j
 public class PictureMapper {
 
@@ -19,6 +20,12 @@ public class PictureMapper {
         throw new AssertionError("Cannot instantiate the UserMapper");
     }
 
+    /**
+     * Transfer the PictureRequest to a Picture object.
+     *
+     * @param pictureRequest is the target request need to transform from it.
+     * @return a new picture object from the request.
+     */
     public static Picture toPicture(final PictureRequest pictureRequest){
 
         final String methodName = "toPicture()";
@@ -34,15 +41,32 @@ public class PictureMapper {
         return picture;
     }
 
+    /**
+     * Transfer the Picture to a PictureResponse object.
+     *
+     * @param picture is the target request need to transform from it.
+     * @return a new pictureResponse object from the request.
+     */
     public static PictureResponse toPictureResponse(final Picture picture){
 
         return PictureResponse.builder()
                 .description(picture.getDescription())
                 .category(picture.getCategory())
-                .filePath(picture.getFilePath())
-                .status(picture.getStatus())
-                .userId(picture.getUser().getId())
-                .userEmail(picture.getUser().getEmail())
+                .width(picture.getWidth())
+                .height(picture.getHeight())
+                .build();
+    }
+
+    /**
+     * Transfer the Picture to a PictureUrlResponse object.
+     *
+     * @param picture is the target request need to transform from it.
+     * @return a new pictureUrlResponse object from the request.
+     */
+    public static PictureUrlResponse toPictureUrlResponse(final Picture picture){
+
+        return PictureUrlResponse.builder()
+                .url(picture.getUrl())
                 .build();
     }
 }

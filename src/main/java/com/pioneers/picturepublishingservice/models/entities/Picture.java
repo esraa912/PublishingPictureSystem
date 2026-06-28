@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.SQLType;
 import java.sql.Timestamp;
@@ -46,6 +47,9 @@ public class Picture {
     @Column(nullable = false, columnDefinition = "category")
     private CATEGORY category;
 
+    @Column
+    private String url;
+
     @Column(name = "uploaded_at", nullable = false)
     private Timestamp uploadedAt;
 
@@ -63,6 +67,7 @@ public class Picture {
         this.status = pictureBuilder.status;
         this.user = pictureBuilder.user;
         this.category = pictureBuilder.category;
+        this.url = pictureBuilder.url;
         this.uploadedAt = pictureBuilder.uploadedAt;
         this.width = pictureBuilder.width;
         this.height = pictureBuilder.height;
@@ -80,6 +85,7 @@ public class Picture {
         private PICTURE_STATUS status;
         private User user;
         private CATEGORY category;
+        private String url;
         private Timestamp uploadedAt;
         private int width;
         private int height;
@@ -116,6 +122,11 @@ public class Picture {
 
         public PictureBuilder category(CATEGORY category){
             this.category = category;
+            return this;
+        }
+
+        public PictureBuilder url(String url){
+            this.url = url;
             return this;
         }
 

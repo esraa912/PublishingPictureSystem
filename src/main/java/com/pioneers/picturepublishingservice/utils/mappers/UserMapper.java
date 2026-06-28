@@ -7,11 +7,13 @@ import com.pioneers.picturepublishingservice.models.enums.ROLE;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Timestamp;
-import java.util.UUID;
 
 import static com.pioneers.picturepublishingservice.utils.CredentialsHelper.hashPassword;
 import static com.pioneers.picturepublishingservice.utils.time.TimeHelper.currentTimestamp;
 
+/**
+ * Mapper class to transform to/from User.
+ */
 @Slf4j
 public class UserMapper {
 

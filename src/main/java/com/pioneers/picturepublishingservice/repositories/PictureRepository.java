@@ -7,7 +7,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Contract to interact with the CRUD operations.
+ */
 public interface PictureRepository extends JpaRepository<Picture, UUID> {
 
+    /**
+     * Find all Picture by its status where it's PENDING, ACCEPTED or REJECTED.
+     * @param status is the state of the picture.
+     * @return all pictures by its status.
+     */
     List<Picture> findByStatus(PICTURE_STATUS status);
 }

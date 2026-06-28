@@ -14,32 +14,42 @@
             <column name="id" type="UUID">
                 <constraints primaryKey="true"/>
             </column>
+
             <column name="description" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
+
             <column name="file_path" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
+
             <column name="file_type" type="VARCHAR(20)">
                 <constraints nullable="false" checkConstraint="file_type IN ('jpg','png','gif')"/>
             </column>
+
             <column name="status" type="PICTURE_STATUS" defaultValue="PENDING">
                 <constraints nullable="false"/>
             </column>
+
             <column name="user_id" type="UUID">
                 <constraints nullable="false" referencedTableName="users" foreignKeyName="fk_pictures_users"
                              referencedColumnNames="id"/>
             </column>
+
             <column name="category" type="CATEGORY">
                 <constraints nullable="false"/>
             </column>
+
             <column name="url" type="VARCHAR(255)"/>
+
             <column name="width" type="INT">
                 <constraints nullable="false"/>
             </column>
+
             <column name="height" type="INT">
                 <constraints nullable="false"/>
             </column>
+
             <column name="uploaded_at" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>

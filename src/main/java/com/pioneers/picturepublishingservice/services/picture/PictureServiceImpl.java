@@ -1,12 +1,16 @@
-package com.pioneers.picturepublishingservice.services;
+package com.pioneers.picturepublishingservice.services.picture;
 
 import com.pioneers.picturepublishingservice.errors.exceptions.PictureExtensionException;
+import com.pioneers.picturepublishingservice.errors.exceptions.PictureNotFoundException;
 import com.pioneers.picturepublishingservice.errors.exceptions.PictureSizeException;
+import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
+import com.pioneers.picturepublishingservice.models.dtos.responses.PictureUrlResponse;
 import com.pioneers.picturepublishingservice.models.entities.Picture;
 import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
 import com.pioneers.picturepublishingservice.models.enums.PICTURE_STATUS;
 import com.pioneers.picturepublishingservice.repositories.PictureRepository;
 import com.pioneers.picturepublishingservice.repositories.UserRepository;
+import com.pioneers.picturepublishingservice.utils.mappers.PictureMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +32,7 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class PictureServiceImpl implements PictureService{
+public class PictureServiceImpl implements PictureService {
     private final PictureRepository pictureRepository;
     private final UserRepository userRepository;
 
@@ -72,5 +76,20 @@ public class PictureServiceImpl implements PictureService{
 
     private String getExtension(String filename) {
         return filename.substring(filename.lastIndexOf(".") + 1);
+    }
+
+    @Override
+    public PictureResponse displayPictureDetails(UUID id) {
+        return pictureRepository.findById(id)
+                .map(PictureMapper::toPictureResponse)
+                .orElseThrow(() -> new PictureNotFoundException("Picture not found"));
+    }
+
+    @Override
+    public List<PictureUrlResponse> displayAllAcceptedPictureUrl() {
+        return pictureRepository.findByStatus(PICTURE_STATUS.ACCEPTED)
+                .stream()
+                .map(PictureMapper::toPictureUrlResponse)
+                .toList();
     }
 }

@@ -1,4 +1,4 @@
-package com.pioneers.picturepublishingservice.services;
+package com.pioneers.picturepublishingservice.services.user;
 
 import com.pioneers.picturepublishingservice.errors.exceptions.CredentialsException;
 import com.pioneers.picturepublishingservice.errors.exceptions.LoginException;
@@ -6,13 +6,10 @@ import com.pioneers.picturepublishingservice.errors.exceptions.LogoutException;
 import com.pioneers.picturepublishingservice.errors.exceptions.RegisterException;
 import com.pioneers.picturepublishingservice.models.dtos.requests.UserLogin;
 import com.pioneers.picturepublishingservice.models.dtos.requests.UserSignup;
-import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
 import com.pioneers.picturepublishingservice.models.entities.User;
-import com.pioneers.picturepublishingservice.models.enums.PICTURE_STATUS;
 import com.pioneers.picturepublishingservice.repositories.PictureRepository;
 import com.pioneers.picturepublishingservice.repositories.UserRepository;
 import com.pioneers.picturepublishingservice.utils.CredentialsHelper;
-import com.pioneers.picturepublishingservice.utils.mappers.PictureMapper;
 import com.pioneers.picturepublishingservice.utils.mappers.UserMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -20,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -34,7 +30,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public String registerUser(UserSignup userSignup)  throws CredentialsException {
+    public String registerUser(UserSignup userSignup) {
 
         final String methodName = "registerUser()";
         userRepository.findByEmail(userSignup.email())
@@ -94,6 +90,7 @@ public class AuthServiceImpl implements AuthService {
         return "Login successful";
     }
 
+    @Override
     public UUID getCurrentUserId() {
         return (UUID) httpSession.getAttribute("user_id");
     }
@@ -114,13 +111,5 @@ public class AuthServiceImpl implements AuthService {
 
         foundUser.setLogin(false);
         userRepository.save(foundUser);
-    }
-
-    @Override
-    public List<PictureResponse> displayAllAcceptedPicture() {
-        return pictureRepository.findByStatus(PICTURE_STATUS.ACCEPTED)
-                .stream()
-                .map(PictureMapper::toPictureResponse)
-                .toList();
     }
 }
