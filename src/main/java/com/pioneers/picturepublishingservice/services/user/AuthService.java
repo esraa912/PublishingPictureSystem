@@ -14,17 +14,15 @@ public interface AuthService {
      * Sign up a user into our system.
      *
      * @param userSignup DTO that includes the information to sign up the user.
-     * @return Messages indicating the validation status or request completion.
      */
-    String registerUser(UserSignup userSignup);
+    void registerUser(UserSignup userSignup);
 
     /**
      * Log in a student into our system.
      *
      * @param userLogin DTO that includes the information to log in the user.
-     * @return Messages indicating the validation status or request completion.
      */
-    String loginUser(UserLogin userLogin);
+    void loginUser(UserLogin userLogin);
 
     /**
      * Log out a user from our system.

@@ -1,5 +1,6 @@
 package com.pioneers.picturepublishingservice.services.admin;
 
+import com.pioneers.picturepublishingservice.errors.exceptions.UserAlreadyArchivedException;
 import com.pioneers.picturepublishingservice.errors.exceptions.UserNotFoundException;
 import com.pioneers.picturepublishingservice.models.entities.User;
 import com.pioneers.picturepublishingservice.repositories.UserRepository;
@@ -20,6 +21,10 @@ public class AdminUserServiceImpl implements AdminUserService{
     public void deleteUser(UUID id) {
         final User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        if(user.isArchived()){
+            throw new UserAlreadyArchivedException("User is already archived");
+        }
 
         user.setArchived(true);
         userRepository.save(user);

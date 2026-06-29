@@ -7,8 +7,8 @@ import java.sql.Timestamp;
 
 @Getter
 public class PictureExtensionException extends  RuntimeException {
-    public static final String REGISTER_EXCEPTION_MESSAGE = "pictureExtensionException";
-    public static final int REGISTER_EXCEPTION_CODE = 1004;
+    public static final String PICTURE_EXTENSION_EXCEPTION_MESSAGE = "pictureExtensionException";
+    public static final int PICTURE_EXTENSION_EXCEPTION_CODE = 1004;
 
     private final String description;
     private final Timestamp timestamp = TimeHelper.currentTimestamp();

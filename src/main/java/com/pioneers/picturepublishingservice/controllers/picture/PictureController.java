@@ -26,7 +26,7 @@ public class PictureController {
     /**
      * Uploads new picture to the system.
      *
-     * @param pictureDto
+     * @param pictureDto DTO that includes the information of a picture.
      * @throws IOException if an error occurs while writing the file to disk
      *                     or reading the image input stream.
      */

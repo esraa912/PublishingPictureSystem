@@ -1,5 +1,6 @@
 package com.pioneers.picturepublishingservice.controllers.admin;
 
+import com.pioneers.picturepublishingservice.models.dtos.requests.UserLogin;
 import com.pioneers.picturepublishingservice.services.admin.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +16,10 @@ import java.util.UUID;
 public class AdminAuthController {
     private final AdminService adminService;
 
-//    @PostMapping("/login")
-//    public void loginApi(@RequestBody final UserLogin adminLogin){
-//        adminService.login(adminLogin);
-//    }
+    @PostMapping("/login")
+    public void loginApi(@RequestBody final UserLogin adminLogin){
+        adminService.login(adminLogin);
+    }
 
     /**
      * Logout an admin from our system.

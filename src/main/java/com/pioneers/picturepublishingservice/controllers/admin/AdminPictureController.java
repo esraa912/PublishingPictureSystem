@@ -32,7 +32,7 @@ public class AdminPictureController {
      * @param id the unique identifier of the picture.
      */
     @PutMapping("/approve")
-    public void approvePictureApi(@RequestParam final UUID id){
+    public void approvePictureApi(@RequestBody final UUID id){
         adminPictureServiceService.approvePicture(id);
     }
 
@@ -41,7 +41,7 @@ public class AdminPictureController {
      * @param id the unique identifier of the picture.
      */
     @PutMapping("/reject")
-    public void rejectPictureApi(@RequestParam final UUID id){
+    public void rejectPictureApi(@RequestBody final UUID id){
         adminPictureServiceService.rejectPicture(id);
     }
 }

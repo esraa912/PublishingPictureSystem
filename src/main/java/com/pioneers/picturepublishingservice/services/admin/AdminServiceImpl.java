@@ -1,9 +1,11 @@
 package com.pioneers.picturepublishingservice.services.admin;
 
 import com.pioneers.picturepublishingservice.errors.exceptions.*;
+import com.pioneers.picturepublishingservice.models.dtos.requests.UserLogin;
 import com.pioneers.picturepublishingservice.models.entities.User;
 
 import com.pioneers.picturepublishingservice.repositories.UserRepository;
+import com.pioneers.picturepublishingservice.utils.CredentialsHelper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,35 +20,46 @@ public class AdminServiceImpl implements AdminService {
 
     private final UserRepository userRepository;
 
-//    @Override
-//    @Transactional
-//    public void login(UserLogin adminLogin) {
-//
-//        final String methodName = "loginAdmin()";
-//        final User foundAdmin = userRepository.findByEmail(adminLogin.email())
-//                .orElseThrow( () -> new LoginException(
-//                        String.format("Admin with email %s is not found!", adminLogin.email())
-//                        )
-//                );
-//
-//        if (!adminLogin.password().matches(foundAdmin.getPassword())) {
-//            log.error("{}, {}", methodName, "Password is incorrect");
-//            throw new LoginException("Email or password incorrect");
-//        }
-//
-//        if (foundAdmin.isLogin()) {
-//            final String errorDetails = "Admin with email: " + adminLogin.email() + " is already login";
-//            final String[] loginArgsErrorLogs = new String[]{methodName, errorDetails};
-//            log.error("{}, {}", loginArgsErrorLogs);
-//
-//            throw new LoginException(errorDetails);
-//        }
-//
-//        foundAdmin.setLogin(true);
-//
-//        userRepository.save(foundAdmin);
-//        log.info("Login successfully!");
-//    }
+    @Override
+    @Transactional
+    public void login(UserLogin adminLogin) {
+
+        final String methodName = "loginAdmin()";
+        final User foundAdmin = userRepository.findByEmail(adminLogin.email())
+                .orElseThrow( () -> new LoginException(
+                        String.format("Admin with email %s is not found!", adminLogin.email())
+                        )
+                );
+
+        String hashedPassword = CredentialsHelper.hashPassword(foundAdmin.getPassword());
+
+        try {
+            final boolean isPasswordMatched =
+                    CredentialsHelper.verifyPassword(adminLogin.password(), hashedPassword);
+            log.debug(String.valueOf(isPasswordMatched));
+
+            if (!isPasswordMatched) {
+                final String[] passwordArgsErrorLogs = new String[]{methodName, "Password is incorrect"};
+                log.error("{}, {}", passwordArgsErrorLogs);
+                throw new LoginException("Email or password incorrect");
+            }
+        } catch (CredentialsException e) {
+            throw new LoginException("Cannot hash the plain text password");
+        }
+
+        if (foundAdmin.isLogin()) {
+            final String errorDetails = "Admin with email: " + adminLogin.email() + " is already login";
+            final String[] loginArgsErrorLogs = new String[]{methodName, errorDetails};
+            log.error("{}, {}", loginArgsErrorLogs);
+
+            throw new LoginException(errorDetails);
+        }
+
+        foundAdmin.setLogin(true);
+
+        userRepository.save(foundAdmin);
+        log.info("Login successfully!");
+    }
 
     @Override
     @Transactional

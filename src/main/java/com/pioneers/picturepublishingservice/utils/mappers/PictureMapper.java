@@ -21,27 +21,6 @@ public class PictureMapper {
     }
 
     /**
-     * Transfer the PictureRequest to a Picture object.
-     *
-     * @param pictureRequest is the target request need to transform from it.
-     * @return a new picture object from the request.
-     */
-    public static Picture toPicture(final PictureRequest pictureRequest){
-
-        final String methodName = "toPicture()";
-        final Timestamp currentTime = currentTimestamp();
-
-        Picture picture = Picture.builder()
-                .description(pictureRequest.description())
-                .category(pictureRequest.category())
-                .uploadedAt(currentTime)
-                .build();
-
-        log.debug("{}, Mapped to new Picture with id: [{}]", methodName, picture.getId());
-        return picture;
-    }
-
-    /**
      * Transfer the Picture to a PictureResponse object.
      *
      * @param picture is the target request need to transform from it.

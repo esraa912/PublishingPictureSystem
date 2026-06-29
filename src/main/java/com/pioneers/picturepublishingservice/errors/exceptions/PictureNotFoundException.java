@@ -7,8 +7,8 @@ import java.sql.Timestamp;
 
 @Getter
 public class PictureNotFoundException extends  RuntimeException {
-    public static final String REGISTER_EXCEPTION_MESSAGE = "pictureNotFoundException";
-    public static final int REGISTER_EXCEPTION_CODE = 1005;
+    public static final String PICTURE_NOT_FOUND_EXCEPTION_MESSAGE = "pictureNotFoundException";
+    public static final int PICTURE_NOT_FOUND_EXCEPTION_CODE = 1005;
 
     private final String description;
     private final Timestamp timestamp = TimeHelper.currentTimestamp();

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 /**
  * Handles all exceptions required for Credentials issues.
  *
- * @author abdelaziz
  */
 @RestControllerAdvice
 public class CredentialsExceptionHandler {

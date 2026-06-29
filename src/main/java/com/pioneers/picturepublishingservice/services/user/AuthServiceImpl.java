@@ -26,11 +26,10 @@ public class AuthServiceImpl implements AuthService {
 
     private final HttpSession httpSession;
     private final UserRepository userRepository;
-    private final PictureRepository pictureRepository;
 
     @Transactional
     @Override
-    public String registerUser(UserSignup userSignup) {
+    public void registerUser(UserSignup userSignup) {
 
         final String methodName = "registerUser()";
         userRepository.findByEmail(userSignup.email())
@@ -41,7 +40,6 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.save(user);
         log.debug("Successfully save user with id: {}", user.getId());
-        return "User registered successfully";
     }
 
     private static void throwRegisterException(final String methodName, final String errorMessage) {
@@ -52,7 +50,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public String loginUser(UserLogin userLogin) {
+    public void loginUser(UserLogin userLogin) {
 
         final String methodName = "loginUser()";
         final User foundUser = userRepository.findByEmail(userLogin.email())
@@ -87,7 +85,7 @@ public class AuthServiceImpl implements AuthService {
         httpSession.setAttribute("user_id", foundUser.getId());
 
         userRepository.save(foundUser);
-        return "Login successful";
+        log.info("Login successful");
     }
 
     @Override
@@ -111,5 +109,7 @@ public class AuthServiceImpl implements AuthService {
 
         foundUser.setLogin(false);
         userRepository.save(foundUser);
+
+        log.info("Logout successful");
     }
 }

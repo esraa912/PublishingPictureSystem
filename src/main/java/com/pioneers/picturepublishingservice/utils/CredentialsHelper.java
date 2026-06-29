@@ -10,7 +10,6 @@ import java.util.Base64;
 /**
  * Utility class for the Credentials and tokens.
  */
-// TODO: Create all unit tests for all methods in that class.
 public final class CredentialsHelper {
     private CredentialsHelper() {
         throw new AssertionError("Utility class");

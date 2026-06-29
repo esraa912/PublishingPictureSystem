@@ -36,7 +36,7 @@ public class UserController {
      *
      * @param userLogin DTO that includes the information to log in the user.
      */
-    @GetMapping("/login")
+    @PostMapping("/login")
     public void loginApi(@RequestBody final UserLogin userLogin){
         authService.loginUser(userLogin);
         log.info("User login successfully");

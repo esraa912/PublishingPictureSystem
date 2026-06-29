@@ -1,5 +1,7 @@
 package com.pioneers.picturepublishingservice.services.admin;
 
+import com.pioneers.picturepublishingservice.models.dtos.requests.UserLogin;
+
 import java.util.UUID;
 
 /**
@@ -7,7 +9,12 @@ import java.util.UUID;
  */
 public interface AdminService {
 
-//    void login(UserLogin adminLogin);
+    /**
+     * Log in an admin to our system.
+     *
+     * @param adminLogin is the DTO that includes the information to log in the admin.
+     */
+    void login(UserLogin adminLogin);
 
     /**
      * Log out an admin from our system.
