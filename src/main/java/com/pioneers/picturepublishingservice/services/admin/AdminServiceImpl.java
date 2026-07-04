@@ -26,12 +26,12 @@ public class AdminServiceImpl implements AdminService {
 
         final String methodName = "loginAdmin()";
         final User foundAdmin = userRepository.findByEmail(adminLogin.email())
-                .orElseThrow( () -> new LoginException(
-                        String.format("Admin with email %s is not found!", adminLogin.email())
+                .orElseThrow(() -> new LoginException(
+                                String.format("Admin with email %s is not found!", adminLogin.email())
                         )
                 );
 
-        String hashedPassword = CredentialsHelper.hashPassword(foundAdmin.getPassword());
+        final String hashedPassword = CredentialsHelper.hashPassword(foundAdmin.getPassword());
 
         try {
             final boolean isPasswordMatched =
@@ -63,14 +63,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public void logout(final UUID id){
+    public void logout(final UUID id) {
         final String methodName = "logoutAdmin()";
         User foundAdmin = userRepository.findById(id)
                 .orElseThrow(() -> new LogoutException("Admin with id: [" + id + "] is not found"));
 
-        if(!foundAdmin.isLogin()){
+        if (!foundAdmin.isLogin()) {
             final String errorDetail = "Admin with id: [" + foundAdmin.getId() + "] is not login";
-            log.error("{}, {}",  methodName, errorDetail);
+            log.error("{}, {}", methodName, errorDetail);
 
             throw new LogoutException(errorDetail);
         }

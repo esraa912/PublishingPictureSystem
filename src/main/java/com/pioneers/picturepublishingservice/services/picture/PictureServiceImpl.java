@@ -1,16 +1,16 @@
 package com.pioneers.picturepublishingservice.services.picture;
 
-import com.pioneers.picturepublishingservice.errors.exceptions.PictureExtensionException;
-import com.pioneers.picturepublishingservice.errors.exceptions.PictureNotFoundException;
-import com.pioneers.picturepublishingservice.errors.exceptions.PictureSizeException;
+import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
+import com.pioneers.picturepublishingservice.errors.exceptions.PictureStorageException;
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureUrlResponse;
 import com.pioneers.picturepublishingservice.models.entities.Picture;
 import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
-import com.pioneers.picturepublishingservice.models.enums.PICTURE_STATUS;
+import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
 import com.pioneers.picturepublishingservice.repositories.PictureRepository;
 import com.pioneers.picturepublishingservice.repositories.UserRepository;
 import com.pioneers.picturepublishingservice.utils.mappers.PictureMapper;
+import com.pioneers.picturepublishingservice.utils.time.TimeHelper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,40 +33,51 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class PictureServiceImpl implements PictureService {
+
+    private static final int MB = 1024 * 1024;
+
     private final PictureRepository pictureRepository;
     private final UserRepository userRepository;
 
-
-    @Transactional
     @Override
+    @Transactional
     public void uploadPicture(
-            MultipartFile file, String description, CATEGORY category, UUID userId) throws IOException {
+            final MultipartFile file,
+            final String description,
+            final CATEGORY category,
+            final UUID userId
+    ) throws IOException {
 
-        if (file.getSize() > 2 * 1024 * 1024){
-            throw new PictureSizeException("File size exceeds 2MB limit");
+        if (file.getSize() > 2 * MB) {
+            throw new PictureException("File size exceeds 2MB limit");
         }
 
-        String extension = getExtension(Objects.requireNonNull(file.getOriginalFilename()));
-        if(!List.of("jpg", "png", "gif").contains(extension.toLowerCase())){
-            throw new PictureExtensionException("Only jpg, png, gif are allowed");
+        final String extension = getExtension(Objects.requireNonNull(file.getOriginalFilename()));
+
+        if (!List.of("jpg", "png", "gif").contains(extension.toLowerCase())) {
+            throw new PictureException("Only jpg, png, gif are allowed");
         }
 
-        String fileName = UUID.randomUUID() + "." + extension;
-        Path path = Paths.get("uploads/" + fileName);
-        Files.write(path, file.getBytes());
+        final Path path = createPath(extension);
 
-        BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
-        int width = bufferedImage.getWidth();
-        int height = bufferedImage.getHeight();
+        try {
+            Files.write(path, file.getBytes());
+        } catch (IOException e) {
+            throw new PictureStorageException("Failed to save picture file to uploads folder", e);
+        }
 
-        Picture picture = Picture.builder()
+        final BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
+        final int width = bufferedImage.getWidth();
+        final int height = bufferedImage.getHeight();
+
+        final Picture picture = Picture.builder()
                 .description(description)
                 .filePath(path.toString())
                 .fileType(extension)
-                .status(PICTURE_STATUS.PENDING)
-                .user(userRepository.findById(userId).orElseThrow())
+                .status(PictureStatus.PENDING)
+                .userId(userId)
                 .category(category)
-                .uploadedAt(Timestamp.from(Instant.now()))
+                .uploadedAt(TimeHelper.currentTimestamp())
                 .width(width)
                 .height(height)
                 .build();
@@ -74,20 +85,25 @@ public class PictureServiceImpl implements PictureService {
         pictureRepository.save(picture);
     }
 
-    private String getExtension(String filename) {
+    private static Path createPath(final String extension){
+        final String fileName = UUID.randomUUID() + "." + extension;
+        return Paths.get("uploads/" + fileName);
+    }
+
+    private static String getExtension(final String filename) {
         return filename.substring(filename.lastIndexOf(".") + 1);
     }
 
     @Override
-    public PictureResponse displayPictureDetails(UUID id) {
+    public PictureResponse displayPictureDetails(final UUID id) {
         return pictureRepository.findById(id)
                 .map(PictureMapper::toPictureResponse)
-                .orElseThrow(() -> new PictureNotFoundException("Picture not found"));
+                .orElseThrow(() -> new PictureException("Picture not found"));
     }
 
     @Override
     public List<PictureUrlResponse> displayAllAcceptedPictureUrl() {
-        return pictureRepository.findByStatus(PICTURE_STATUS.ACCEPTED)
+        return pictureRepository.findByStatus(PictureStatus.ACCEPTED)
                 .stream()
                 .map(PictureMapper::toPictureUrlResponse)
                 .toList();

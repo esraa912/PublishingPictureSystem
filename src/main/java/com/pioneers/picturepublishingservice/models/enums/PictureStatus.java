@@ -1,6 +1,6 @@
 package com.pioneers.picturepublishingservice.models.enums;
 
-public enum PICTURE_STATUS {
+public enum PictureStatus {
     PENDING,
     ACCEPTED,
     REJECTED

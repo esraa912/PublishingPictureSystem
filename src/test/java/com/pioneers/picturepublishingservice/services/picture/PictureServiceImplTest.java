@@ -1,11 +1,10 @@
 package com.pioneers.picturepublishingservice.services.picture;
 
-import com.pioneers.picturepublishingservice.errors.exceptions.PictureExtensionException;
-import com.pioneers.picturepublishingservice.errors.exceptions.PictureSizeException;
+import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
 import com.pioneers.picturepublishingservice.models.entities.Picture;
 import com.pioneers.picturepublishingservice.models.entities.User;
 import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
-import com.pioneers.picturepublishingservice.models.enums.PICTURE_STATUS;
+import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
 import com.pioneers.picturepublishingservice.repositories.PictureRepository;
 import com.pioneers.picturepublishingservice.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -57,7 +56,7 @@ public class PictureServiceImplTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
-        //Act
+        //Ack
         pictureService.uploadPicture(file, "description", CATEGORY.NATURE, userId);
 
         //Assert
@@ -68,8 +67,7 @@ public class PictureServiceImplTest {
         assertEquals("description", savedPicture.getDescription());
         assertEquals("jpg", savedPicture.getFileType());
         assertEquals(CATEGORY.NATURE, savedPicture.getCategory());
-        assertEquals(user, savedPicture.getUser());
-        assertEquals(PICTURE_STATUS.PENDING, savedPicture.getStatus());
+        assertEquals(PictureStatus.PENDING, savedPicture.getStatus());
         assertNotNull(savedPicture.getUploadedAt());
         assertTrue(savedPicture.getWidth() > 0);
         assertTrue(savedPicture.getHeight() > 0);
@@ -87,8 +85,8 @@ public class PictureServiceImplTest {
                 "file", "large.jpg", "image/jpeg", largeFileContent
         );
 
-        //Act & Assert
-        PictureSizeException ex = assertThrows(PictureSizeException.class,
+        //Ack & Assert
+        PictureException ex = assertThrows(PictureException.class,
                 () -> pictureService.uploadPicture(file, "description", CATEGORY.NATURE, userId));
 
         assertEquals("File size exceeds 2MB limit", ex.getMessage());
@@ -97,7 +95,7 @@ public class PictureServiceImplTest {
 
     @Test
     void testUploadPicture_WhenFileExtensionIsInvalid_ThenThrowPictureExtensionException(){
-        // Arrange
+        //Arrange
         final UUID userId = UUID.randomUUID();
 
         byte[] fileContent = "test-image".getBytes();
@@ -105,8 +103,8 @@ public class PictureServiceImplTest {
                 "file", "test.txt", "text/plain", fileContent
         );
 
-        // Act & Assert
-        assertThrows(PictureExtensionException.class,
+        //Ack & Assert
+        assertThrows(PictureException.class,
                 () -> pictureService.uploadPicture(file, "description", CATEGORY.NATURE, userId));
 
         verify(pictureRepository, never()).save(any());

@@ -15,7 +15,7 @@ public class PictureMapperTest {
 
     @Test
     void testToPictureResponse_WhenPictureIsValid_ThenReturnCorrectResponse() {
-        // Arrange
+        //Arrange
         Picture picture = Picture.builder()
                 .description("Sunset")
                 .category(CATEGORY.NATURE)
@@ -23,10 +23,10 @@ public class PictureMapperTest {
                 .height(600)
                 .build();
 
-        // Act
+        //Ack
         PictureResponse response = PictureMapper.toPictureResponse(picture);
 
-        // Assert
+        //Assert
         assertEquals("Sunset", response.description());
         assertEquals(CATEGORY.NATURE, response.category());
         assertEquals(800, response.width());
@@ -35,13 +35,13 @@ public class PictureMapperTest {
 
     @Test
     void testToPictureUrlResponse_WhenPictureIsValid_ThenReturnCorrectResponse() {
-        // Arrange
+        //Arrange
         Picture picture = Picture.builder().url("upload/img.png").build();
 
-        // Act
+        //Ack
         PictureUrlResponse response = PictureMapper.toPictureUrlResponse(picture);
 
-        // Assert
+        //Assert
         assertEquals("upload/img.png", response.url());
     }
 }

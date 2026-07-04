@@ -9,7 +9,6 @@ public record PictureResponse(
         String description,
         CATEGORY category,
         int width,
-        int height,
-        MultipartFile file
+        int height
 ) {
 }

@@ -33,7 +33,7 @@ public class AuthServiceImplTest {
 
         when(userRepository.findByEmail(userSignup.email())).thenReturn(Optional.empty());
 
-        //Act
+        //Ack
         authService.registerUser(userSignup);
 
         //Assert
@@ -55,7 +55,7 @@ public class AuthServiceImplTest {
 
         when(userRepository.findByEmail(userSignup.email())).thenReturn(Optional.of(foundUser));
 
-        //Act & Assert
+        //Ack & Assert
         RegisterException ex = assertThrows(RegisterException.class, () -> authService.registerUser(userSignup));
         assertEquals("Email is already used in system", ex.getMessage());
         verify(userRepository, times(1)).findByEmail(userSignup.email());

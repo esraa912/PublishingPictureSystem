@@ -16,7 +16,7 @@ import static com.pioneers.picturepublishingservice.utils.time.TimeHelper.curren
 @Slf4j
 public class PictureMapper {
 
-    private PictureMapper(){
+    private PictureMapper() {
         throw new AssertionError("Cannot instantiate the UserMapper");
     }
 
@@ -26,8 +26,7 @@ public class PictureMapper {
      * @param picture is the target request need to transform from it.
      * @return a new pictureResponse object from the request.
      */
-    public static PictureResponse toPictureResponse(final Picture picture){
-
+    public static PictureResponse toPictureResponse(final Picture picture) {
         return PictureResponse.builder()
                 .description(picture.getDescription())
                 .category(picture.getCategory())
@@ -42,8 +41,7 @@ public class PictureMapper {
      * @param picture is the target request need to transform from it.
      * @return a new pictureUrlResponse object from the request.
      */
-    public static PictureUrlResponse toPictureUrlResponse(final Picture picture){
-
+    public static PictureUrlResponse toPictureUrlResponse(final Picture picture) {
         return PictureUrlResponse.builder()
                 .url(picture.getUrl())
                 .build();

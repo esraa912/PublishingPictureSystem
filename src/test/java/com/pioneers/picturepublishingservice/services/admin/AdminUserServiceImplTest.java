@@ -36,7 +36,7 @@ public class AdminUserServiceImplTest {
 
         when(userRepository.findById(id)).thenReturn(Optional.of(foundUser));
 
-        //Act
+        //Ack
         adminUserService.deleteUser(id);
 
         //Assert
@@ -52,7 +52,7 @@ public class AdminUserServiceImplTest {
 
         when(userRepository.findById(id)).thenReturn(Optional.empty());
 
-        //Act & Assert
+        //Ack & Assert
         UserNotFoundException ex = assertThrows(UserNotFoundException.class, () -> adminUserService.deleteUser(id));
         assertEquals("User not found", ex.getMessage());
         verify(userRepository, times(1)).findById(id);
@@ -70,7 +70,7 @@ public class AdminUserServiceImplTest {
 
         when(userRepository.findById(id)).thenReturn(Optional.of(foundUser));
 
-        //Act & Assert
+        //Ack & Assert
         UserAlreadyArchivedException ex = assertThrows(UserAlreadyArchivedException.class,
                 () -> adminUserService.deleteUser(id));
 

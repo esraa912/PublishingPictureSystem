@@ -42,7 +42,7 @@ public class AdminServiceImplTest {
 
         when(userRepository.findByEmail(adminLogin.email())).thenReturn(Optional.of(foundAdmin));
 
-        //Act
+        //Ack
         adminService.login(adminLogin);
 
         //Assert
@@ -58,7 +58,7 @@ public class AdminServiceImplTest {
 
         when(userRepository.findByEmail(adminLogin.email())).thenReturn(Optional.empty());
 
-        //Act & Assert
+        //Ack & Assert
         assertThrows(LoginException.class, () -> adminService.login(adminLogin));
         verify(userRepository, times(1)).findByEmail(adminLogin.email());
         verify(userRepository, times(0)).save(any());
@@ -77,7 +77,7 @@ public class AdminServiceImplTest {
 
         when(userRepository.findByEmail(adminLogin.email())).thenReturn(Optional.of(foundAdmin));
 
-        //Act & Assert
+        //Ack & Assert
         LoginException ex = assertThrows(LoginException.class, () -> adminService.login(adminLogin));
         assertEquals("Email or password incorrect", ex.getMessage());
         assertFalse(foundAdmin.isLogin());
@@ -98,7 +98,7 @@ public class AdminServiceImplTest {
 
         when(userRepository.findByEmail(adminLogin.email())).thenReturn(Optional.of(foundAdmin));
 
-        //Act & Assert
+        //Ack & Assert
         LoginException ex = assertThrows(LoginException.class, () -> adminService.login(adminLogin));
         assertTrue(ex.getMessage().contains("Admin with email:"));
         assertTrue(foundAdmin.isLogin());
@@ -108,7 +108,7 @@ public class AdminServiceImplTest {
 
     @Test
     void testLoginAdmin_WhenCredentialsHelperThrowsException_ThenThrowLoginException() {
-        // Arrange
+        //Arrange
         final UserLogin adminLogin = new UserLogin("esraa.foad@gmail.com", "Esraa123@");
 
         final User foundAdmin = User.builder()
@@ -123,7 +123,7 @@ public class AdminServiceImplTest {
             mockedHelper.when(() -> CredentialsHelper.hashPassword(anyString()))
                     .thenThrow(new LoginException("Cannot hash the plain text password"));
 
-            // Act & Assert
+            //Ack & Assert
             LoginException ex = assertThrows(LoginException.class, () -> adminService.login(adminLogin));
             assertEquals("Cannot hash the plain text password", ex.getMessage());
 
@@ -143,7 +143,7 @@ public class AdminServiceImplTest {
 
         when(userRepository.findById(id)).thenReturn(Optional.of(foundAdmin));
 
-        //Act
+        //Ack
         adminService.logout(id);
 
         //Assert
@@ -159,7 +159,7 @@ public class AdminServiceImplTest {
 
         when(userRepository.findById(id)).thenReturn(Optional.empty());
 
-        //Act & Assert
+        //Ack & Assert
         assertThrows(LogoutException.class, () -> adminService.logout(id));
         verify(userRepository, times(1)).findById(id);
         verify(userRepository, times(0)).save(any());
@@ -176,7 +176,7 @@ public class AdminServiceImplTest {
 
         when(userRepository.findById(id)).thenReturn(Optional.of(foundAdmin));
 
-        //Act & Assert
+        //Ack & Assert
         assertThrows(LogoutException.class, () -> adminService.logout(id));
         assertFalse(foundAdmin.isLogin());
         verify(userRepository, times(1)).findById(id);

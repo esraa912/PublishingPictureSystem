@@ -1,10 +1,11 @@
 package com.pioneers.picturepublishingservice.services.admin;
 
-import com.pioneers.picturepublishingservice.errors.exceptions.PictureNotFoundException;
+import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
+import com.pioneers.picturepublishingservice.errors.exceptions.PictureStorageException;
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
 import com.pioneers.picturepublishingservice.models.entities.Picture;
 import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
-import com.pioneers.picturepublishingservice.models.enums.PICTURE_STATUS;
+import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
 import com.pioneers.picturepublishingservice.repositories.PictureRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -37,34 +39,34 @@ public class AdminPictureServiceImplTest {
         //Arrange
         Picture picture = Picture.builder()
                 .category(CATEGORY.MACHINE)
-                .status(PICTURE_STATUS.PENDING)
+                .status(PictureStatus.PENDING)
                 .build();
 
-        when(pictureRepository.findByStatus(PICTURE_STATUS.PENDING))
+        when(pictureRepository.findByStatus(PictureStatus.PENDING))
                 .thenReturn(List.of(picture));
 
-        //Act
+        //Ack
         List<PictureResponse> result = adminPictureService.getPendingPictures();
 
         //Assert
         assertNotNull(result);
-        assertEquals(picture.getCategory(),result.getFirst().category());
-        verify(pictureRepository, times(1)).findByStatus(PICTURE_STATUS.PENDING);
+        assertEquals(picture.getCategory(), result.getFirst().category());
+        verify(pictureRepository, times(1)).findByStatus(PictureStatus.PENDING);
     }
 
     @Test
     void testGetPendingPictures_WhenNoPendingPictures_thenReturnEmptyList(){
         //Arrange
-        when(pictureRepository.findByStatus(PICTURE_STATUS.PENDING))
+        when(pictureRepository.findByStatus(PictureStatus.PENDING))
                 .thenReturn(Collections.emptyList());
 
-        //Act
+        //Ack
         List<PictureResponse> result = adminPictureService.getPendingPictures();
 
         //Assert
         assertNotNull(result);
         assertTrue(result.isEmpty());
-        verify(pictureRepository, times(1)).findByStatus(PICTURE_STATUS.PENDING);
+        verify(pictureRepository, times(1)).findByStatus(PictureStatus.PENDING);
     }
 
     @Test
@@ -75,18 +77,18 @@ public class AdminPictureServiceImplTest {
                 .id(id)
                 .category(CATEGORY.MACHINE)
                 .filePath("uploads/nature.png")
-                .status(PICTURE_STATUS.PENDING)
+                .status(PictureStatus.PENDING)
                 .build();
 
         when(pictureRepository.findById(id)).thenReturn(Optional.of(picture));
 
-        //Act
+        //Ack
         adminPictureService.approvePicture(id);
 
         //Assert
-        assertEquals(PICTURE_STATUS.ACCEPTED, picture.getStatus());
+        assertEquals(PictureStatus.ACCEPTED, picture.getStatus());
         assertEquals(CATEGORY.MACHINE, picture.getCategory());
-        assertEquals("C:\\Users\\DELL\\Desktop\\wave8\\picturePublishingService\\uploads\\nature.png",picture.getUrl());
+        assertThat(picture.getUrl()).contains("nature.png");
         verify(pictureRepository, times(1)).findById(id);
         verify(pictureRepository, times(1)).save(picture);
     }
@@ -97,8 +99,8 @@ public class AdminPictureServiceImplTest {
         UUID id = UUID.randomUUID();
         when(pictureRepository.findById(id)).thenReturn(Optional.empty());
 
-        //Act & Assert
-        assertThrows(PictureNotFoundException.class, () -> adminPictureService.approvePicture(id));
+        //Ack & Assert
+        assertThrows(PictureException.class, () -> adminPictureService.approvePicture(id));
         verify(pictureRepository, times(1)).findById(id);
         verify(pictureRepository, times(0)).save(any());
     }
@@ -113,16 +115,16 @@ public class AdminPictureServiceImplTest {
                 .id(id)
                 .category(CATEGORY.MACHINE)
                 .filePath(path.toString())
-                .status(PICTURE_STATUS.PENDING)
+                .status(PictureStatus.PENDING)
                 .build();
 
         when(pictureRepository.findById(id)).thenReturn(Optional.of(picture));
 
-        //Act
+        //Ack
         adminPictureService.rejectPicture(id);
 
         //Assert
-        assertEquals(PICTURE_STATUS.REJECTED, picture.getStatus());
+        assertEquals(PictureStatus.REJECTED, picture.getStatus());
         assertEquals(CATEGORY.MACHINE, picture.getCategory());
         assertFalse(Files.exists(path));
         verify(pictureRepository, times(1)).findById(id);
@@ -137,14 +139,14 @@ public class AdminPictureServiceImplTest {
         Picture picture = Picture.builder()
                 .id(id)
                 .filePath("h:uploads/nature.png")
-                .status(PICTURE_STATUS.PENDING)
+                .status(PictureStatus.PENDING)
                 .build();
 
         when(pictureRepository.findById(id)).thenReturn(Optional.of(picture));
 
-        //Act & Assert
-        RuntimeException ex = assertThrows(RuntimeException.class, () -> adminPictureService.rejectPicture(id));
-        assertTrue(ex.getMessage().contains("Could not delete file:"));
+        //Ack & Assert
+        RuntimeException ex = assertThrows(PictureStorageException.class, () -> adminPictureService.rejectPicture(id));
+        assertThat(ex.getMessage()).contains("Could not delete file:");
         verify(pictureRepository, times(1)).findById(id);
         verify(pictureRepository, times(0)).save(picture);
     }
@@ -156,14 +158,14 @@ public class AdminPictureServiceImplTest {
 
         Picture picture = Picture.builder()
                 .id(id)
-                .status(PICTURE_STATUS.PENDING)
+                .status(PictureStatus.PENDING)
                 .build();
 
         when(pictureRepository.findById(id)).thenReturn(Optional.empty());
 
-        //Act & Assert
-        assertEquals(PICTURE_STATUS.PENDING, picture.getStatus());
-        assertThrows(PictureNotFoundException.class, () -> adminPictureService.rejectPicture(id));
+        //Ack & Assert
+        assertEquals(PictureStatus.PENDING, picture.getStatus());
+        assertThrows(PictureException.class, () -> adminPictureService.rejectPicture(id));
         verify(pictureRepository, times(1)).findById(id);
         verify(pictureRepository, times(0)).save(picture);
     }

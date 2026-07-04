@@ -13,6 +13,8 @@ import java.sql.SQLException;
 
 /**
  * Contains APIs for managing Liquibase rollback operations.
+ *
+ * @author esraa
  */
 @Slf4j
 @RestController
@@ -24,6 +26,13 @@ public class LiquibaseController {
 
     private final LiquibaseHandler liquibaseHandler;
 
+    /**
+     * Executes a Liquibase rollback operation for a given number of changes.
+     *
+     * @param changes: the number of changesets to rollback.
+     * @throws SQLException: if a database access error occurs during rollback.
+     * @throws LiquibaseException: if Liquibase fails to perform the rollback.
+     */
     @PostMapping("rollback/{changes}")
     public void rollbackApi(@PathVariable final int changes) throws SQLException, LiquibaseException {
         final String methodName = CLASS_NAME + ".rollback()";

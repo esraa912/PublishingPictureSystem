@@ -6,14 +6,14 @@ import lombok.Getter;
 import java.sql.Timestamp;
 
 @Getter
-public class PictureNotFoundException extends  RuntimeException {
-    public static final String PICTURE_NOT_FOUND_EXCEPTION_MESSAGE = "pictureNotFoundException";
-    public static final int PICTURE_NOT_FOUND_EXCEPTION_CODE = 1005;
+public class LiquibaseException extends  RuntimeException {
+    public static final String LIQUIBASE_EXCEPTION_MESSAGE = "liquibaseException";
+    public static final int LIQUIBASE_EXCEPTION_CODE = 1009;
 
     private final String description;
     private final Timestamp timestamp = TimeHelper.currentTimestamp();
 
-    public PictureNotFoundException(String description) {
+    public LiquibaseException(String description) {
         super(description);
         this.description = description;
     }

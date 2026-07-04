@@ -1,16 +1,13 @@
 package com.pioneers.picturepublishingservice.models.entities;
 
 import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
-import com.pioneers.picturepublishingservice.models.enums.PICTURE_STATUS;
+import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.SQLType;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -36,11 +33,10 @@ public class Picture {
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(nullable = false, columnDefinition = "picture_status")
-    private PICTURE_STATUS status;
+    private PictureStatus status;
 
-    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private UUID userId;
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
@@ -65,7 +61,7 @@ public class Picture {
         this.filePath = pictureBuilder.filePath;
         this.fileType = pictureBuilder.fileType;
         this.status = pictureBuilder.status;
-        this.user = pictureBuilder.user;
+        this.userId = pictureBuilder.userId;
         this.category = pictureBuilder.category;
         this.url = pictureBuilder.url;
         this.uploadedAt = pictureBuilder.uploadedAt;
@@ -82,8 +78,8 @@ public class Picture {
         private String description;
         private String filePath;
         private String fileType;
-        private PICTURE_STATUS status;
-        private User user;
+        private PictureStatus status;
+        private UUID userId;
         private CATEGORY category;
         private String url;
         private Timestamp uploadedAt;
@@ -110,13 +106,13 @@ public class Picture {
             return this;
         }
 
-        public PictureBuilder status(PICTURE_STATUS status){
+        public PictureBuilder status(PictureStatus status){
             this.status = status;
             return this;
         }
 
-        public PictureBuilder user(User user){
-            this.user = user;
+        public PictureBuilder userId(UUID userId){
+            this.userId = userId;
             return this;
         }
 

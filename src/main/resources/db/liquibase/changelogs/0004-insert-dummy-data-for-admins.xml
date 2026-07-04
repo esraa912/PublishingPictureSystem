@@ -8,7 +8,7 @@
             <column name="id" value="3d8cb291-2dfc-4ff4-8449-ce3176bd72f1"/>
             <column name="name" value="Esraa Foad"/>
             <column name="email" value="esraa.foad@gmail.com"/>
-            <column name="password" value="admin123"/>
+            <column name="password" value="JAvlGPq9JyTdtvBO6x2llnRI1+gxwIyPqCKAn3THIKk="/>
             <column name="is_login" value="false"/>
             <column name="role" value="ADMIN"/>
             <column name="created_at" value="2026-06-26 20:52:20.000000"/>

@@ -11,20 +11,23 @@ import java.util.UUID;
 
 /**
  * Contains APIs for managing administrative operations for users in our system.
+ *
+ * @author esraa
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("adminUser")
+@RequestMapping("admin")
 public class AdminUserController {
 
-    private AdminUserService adminUserService;
+    private final AdminUserService adminUserService;
 
     /**
      * Delete user by its unique identifier
+     *
      * @param id the unique identifier of the user.
      */
     @DeleteMapping("/delete-user")
-    public void deleteUserApi(@RequestBody final UUID id){
+    public void deleteUserApi(@RequestBody final UUID id) {
         adminUserService.deleteUser(id);
     }
 }

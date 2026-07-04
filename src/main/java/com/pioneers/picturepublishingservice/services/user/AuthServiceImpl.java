@@ -7,7 +7,6 @@ import com.pioneers.picturepublishingservice.errors.exceptions.RegisterException
 import com.pioneers.picturepublishingservice.models.dtos.requests.UserLogin;
 import com.pioneers.picturepublishingservice.models.dtos.requests.UserSignup;
 import com.pioneers.picturepublishingservice.models.entities.User;
-import com.pioneers.picturepublishingservice.repositories.PictureRepository;
 import com.pioneers.picturepublishingservice.repositories.UserRepository;
 import com.pioneers.picturepublishingservice.utils.CredentialsHelper;
 import com.pioneers.picturepublishingservice.utils.mappers.UserMapper;
