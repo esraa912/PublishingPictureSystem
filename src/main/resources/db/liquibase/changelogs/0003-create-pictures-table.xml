@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1781788630760-1" author="esraa.foad">
+        <sql>
+            CREATE TYPE CATEGORY AS ENUM ('NATURE', 'MACHINE', 'LIVING_THING');
+
+            CREATE TYPE PICTURE_STATUS AS ENUM ('PENDING','ACCEPTED','REJECTED');
+        </sql>
+        <createTable tableName="pictures">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true"/>
+            </column>
+
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="file_path" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="file_type" type="VARCHAR(20)">
+                <constraints nullable="false" checkConstraint="file_type IN ('jpg','png','gif')"/>
+            </column>
+
+            <column name="status" type="PICTURE_STATUS" defaultValue="PENDING">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="user_id" type="UUID">
+                <constraints nullable="false" referencedTableName="users" foreignKeyName="fk_pictures_users"
+                             referencedColumnNames="id"/>
+            </column>
+
+            <column name="category" type="CATEGORY">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="url" type="VARCHAR(255)"/>
+
+            <column name="width" type="INT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="height" type="INT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="uploaded_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable tableName="pictures"/>
+            <sql>DROP TYPE CATEGORY;</sql>
+            <sql>DROP TYPE picture_status;</sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
