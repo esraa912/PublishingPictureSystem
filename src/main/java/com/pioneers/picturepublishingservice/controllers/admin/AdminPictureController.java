@@ -3,6 +3,7 @@ package com.pioneers.picturepublishingservice.controllers.admin;
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
 import com.pioneers.picturepublishingservice.services.admin.AdminPictureService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.UUID;
  *
  * @author esraa
  */
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("admin")
@@ -27,7 +29,11 @@ public class AdminPictureController {
      */
     @GetMapping("/show-pending-pictures")
     public List<PictureResponse> showPendingPicturesApi() {
-        return adminPictureServiceService.getPendingPictures();
+        log.info("Fetching all pending pictures...");
+        List<PictureResponse> pendingPictures = adminPictureServiceService.getPendingPictures();
+        log.info("Found {} pending pictures", pendingPictures.size());
+
+        return pendingPictures;
     }
 
     /**
@@ -37,7 +43,9 @@ public class AdminPictureController {
      */
     @PutMapping("/approve-picture")
     public void approvePictureApi(@RequestBody final UUID id) {
+        log.info("Approving picture with ID: {}", id);
         adminPictureServiceService.approvePicture(id);
+        log.info("Picture {} approved successfully", id);
     }
 
     /**
@@ -47,6 +55,8 @@ public class AdminPictureController {
      */
     @PutMapping("/reject-picture")
     public void rejectPictureApi(@RequestBody final UUID id) {
+        log.info("Rejecting picture with ID: {}", id);
         adminPictureServiceService.rejectPicture(id);
+        log.info("Picture {} rejected successfully", id);
     }
 }

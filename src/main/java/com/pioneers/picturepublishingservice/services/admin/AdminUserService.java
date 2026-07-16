@@ -4,6 +4,8 @@ import java.util.UUID;
 
 /**
  * Include the contracts for all admin operations services on users.
+ *
+ * @author esraa
  */
 public interface AdminUserService {
 

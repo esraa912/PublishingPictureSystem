@@ -38,12 +38,11 @@ public class AdminPictureServiceImpl implements AdminPictureService {
     @Transactional
     public void approvePicture(final UUID pictureId) {
         final Picture picture = pictureRepository.findById(pictureId)
-                .orElseThrow(() -> new PictureException("Picture with id [" + pictureId + "] is not found"));
+                .orElseThrow(() -> new PictureException("Picture is not found"));
 
         picture.setStatus(PictureStatus.ACCEPTED);
 
-        final String url = "uploads/"
-                + Paths.get(picture.getFilePath()).getFileName().toString();
+        final String url = buildPictureUrl(picture);
 
         log.info("Picture's url is {}", url);
 
@@ -52,11 +51,15 @@ public class AdminPictureServiceImpl implements AdminPictureService {
         pictureRepository.save(picture);
     }
 
+    private static String buildPictureUrl(Picture picture) {
+        return "uploads/" + Paths.get(picture.getFilePath()).getFileName().toString();
+    }
+
     @Override
     @Transactional
     public void rejectPicture(final UUID id) {
         final Picture picture = pictureRepository.findById(id)
-                .orElseThrow(() -> new PictureException("Picture not found with id: " + id));
+                .orElseThrow(() -> new PictureException("Picture is not found"));
 
         picture.setStatus(PictureStatus.REJECTED);
 

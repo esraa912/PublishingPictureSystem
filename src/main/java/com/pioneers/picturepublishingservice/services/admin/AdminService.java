@@ -6,6 +6,8 @@ import java.util.UUID;
 
 /**
  * Include the contracts for all authentication services.
+ *
+ * @author esraa
  */
 public interface AdminService {
 

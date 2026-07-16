@@ -10,6 +10,11 @@ import org.hibernate.type.SqlTypes;
 import java.sql.Timestamp;
 import java.util.UUID;
 
+/**
+ * Entity class representing a user in the system.
+ *
+ * @author esraa
+ */
 @Data
 @Entity
 @NoArgsConstructor

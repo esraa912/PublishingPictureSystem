@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 /**
  * Handles all exceptions required for Picture Extension issues.
  *
+ * @author esraa
  */
 @RestControllerAdvice
 public class PictureExceptionHandler {

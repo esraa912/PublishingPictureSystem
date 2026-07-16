@@ -7,6 +7,8 @@ import java.util.UUID;
 
 /**
  *  Include the contracts for all picture's operations services.
+ *
+ *  @author esraa
  */
 public interface AdminPictureService {
 

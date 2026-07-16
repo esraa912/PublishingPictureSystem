@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 /**
  * Handles all exceptions required for Register issues.
  *
+ * @author esraa
  */
 @RestControllerAdvice
 public class UserNotFoundExceptionHandler {

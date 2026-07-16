@@ -5,16 +5,23 @@ import lombok.Getter;
 
 import java.sql.Timestamp;
 
+/**
+ * Custom runtime exception used to represent Liquibase-related errors
+ * during database migration or rollback operations.
+ *
+ * @author esraa
+ */
 @Getter
 public class LiquibaseException extends  RuntimeException {
     public static final String LIQUIBASE_EXCEPTION_MESSAGE = "liquibaseException";
     public static final int LIQUIBASE_EXCEPTION_CODE = 1009;
 
     private final String description;
-    private final Timestamp timestamp = TimeHelper.currentTimestamp();
+    private final Timestamp timestamp;
 
     public LiquibaseException(String description) {
         super(description);
         this.description = description;
+        this.timestamp = TimeHelper.currentTimestamp();
     }
 }

@@ -36,11 +36,9 @@ public class PictureController {
      */
     @PutMapping("/upload")
     public void uploadApi(@ModelAttribute final PictureRequest pictureDto) throws IOException {
-
         final UUID userId = authService.getCurrentUserId();
 
         pictureService.uploadPicture(pictureDto.file(), pictureDto.description(), pictureDto.category(), userId);
-
         log.info("Uploaded Picture Successfully!");
     }
 
@@ -52,7 +50,10 @@ public class PictureController {
      */
     @GetMapping("/details")
     public PictureResponse displayDetailsApi(@RequestBody final UUID id) {
-        return pictureService.displayPictureDetails(id);
+        log.info("Fetching details for picture with ID: {}", id);
+        PictureResponse pictureResponse = pictureService.displayPictureDetails(id);
+        log.info("Details retrieved successfully for picture {}", id);
+        return pictureResponse;
     }
 
     /**
@@ -62,6 +63,9 @@ public class PictureController {
      */
     @GetMapping("/display-all")
     public List<PictureUrlResponse> displayAllAcceptedPicturesUrlApi() {
-        return pictureService.displayAllAcceptedPictureUrl();
+        log.info("Fetching all accepted picture URLs...");
+        List<PictureUrlResponse> pictureUrlResponses = pictureService.displayAllAcceptedPictureUrl();
+        log.info("Found {} accepted picture URLs", pictureUrlResponses.size());
+        return pictureUrlResponses;
     }
 }

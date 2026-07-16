@@ -9,6 +9,8 @@ import java.util.UUID;
 
 /**
  * Contract to interact with the CRUD operations.
+ *
+ * @author esraa
  */
 public interface PictureRepository extends JpaRepository<Picture, UUID> {
 

@@ -31,7 +31,7 @@ public class AuthController {
     @PostMapping("/register")
     public void registrationApi(@Valid @RequestBody final UserSignup userSignup) {
         authService.registerUser(userSignup);
-        log.info("User registered successfully");
+        log.info("User [{}] registered successfully", userSignup.email());
     }
 
     /**
@@ -42,7 +42,7 @@ public class AuthController {
     @PostMapping("/login")
     public void loginApi(@RequestBody final UserLogin userLogin) {
         authService.loginUser(userLogin);
-        log.info("User login successfully");
+        log.info("User [{}] login successfully", userLogin.email());
     }
 
     /**
@@ -53,6 +53,6 @@ public class AuthController {
     @PostMapping("/logout")
     public void logoutApi(@RequestParam final UUID id) {
         authService.logoutUser(id);
-        log.info("User logout successfully");
+        log.info("User [{}] logout successfully", id);
     }
 }

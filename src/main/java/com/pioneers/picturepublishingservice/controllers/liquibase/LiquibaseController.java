@@ -22,8 +22,6 @@ import java.sql.SQLException;
 @RequestMapping("liquibase")
 public class LiquibaseController {
 
-    private static final String CLASS_NAME = LiquibaseController.class.getSimpleName();
-
     private final LiquibaseHandler liquibaseHandler;
 
     /**
@@ -35,8 +33,7 @@ public class LiquibaseController {
      */
     @PostMapping("rollback/{changes}")
     public void rollbackApi(@PathVariable final int changes) throws SQLException, LiquibaseException {
-        final String methodName = CLASS_NAME + ".rollback()";
         liquibaseHandler.rollback(changes);
-        log.info("{}, Rollback successfully finished for changes {}", methodName, changes);
+        log.info("Rollback successfully finished for changes {}", changes);
     }
 }

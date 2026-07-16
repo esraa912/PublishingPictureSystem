@@ -8,6 +8,8 @@ import java.util.UUID;
 
 /**
  * Contract to interact with the CRUD operations.
+ *
+ * @author esraa
  */
 public interface UserRepository extends JpaRepository<User, UUID> {
 
