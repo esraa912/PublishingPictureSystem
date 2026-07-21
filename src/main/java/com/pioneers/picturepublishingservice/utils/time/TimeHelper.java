@@ -5,6 +5,11 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+/**
+ * Utility class providing helper methods for working with time and timestamps.
+ *
+ * @author esraa
+ */
 public final class TimeHelper {
 
     private TimeHelper() {

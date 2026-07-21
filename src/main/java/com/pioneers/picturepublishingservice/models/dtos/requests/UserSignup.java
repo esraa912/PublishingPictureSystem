@@ -4,6 +4,14 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
+/**
+ * Represents a sign-up request payload containing user registration details.
+ *
+ * @param email    The user's email address, validated with {@link jakarta.validation.constraints.Email}.
+ * @param name     The user's full name, validated with {@link jakarta.validation.constraints.NotBlank}.
+ * @param password The user's password, validated with {@link jakarta.validation.constraints.Pattern}.
+ * @author esraa
+ */
 public record UserSignup(
         @Email(message = "Email must be valid")
         String email,
@@ -12,6 +20,5 @@ public record UserSignup(
         @Pattern(
                 regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z\\d]).{8,}$",
                 message = "Password doesn't meet our criteria")
-        String password)
-{
+        String password) {
 }

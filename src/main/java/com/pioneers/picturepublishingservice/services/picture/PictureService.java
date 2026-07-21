@@ -1,16 +1,19 @@
 package com.pioneers.picturepublishingservice.services.picture;
 
-import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
-import com.pioneers.picturepublishingservice.models.dtos.responses.PictureUrlResponse;
-import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
+import com.pioneers.picturepublishingservice.models.dtos.responses.PictureUrlResponse;
+import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
+
 /**
  * Include the contracts for all picture's operations services.
+ *
+ * @author esraa
  */
 public interface PictureService {
 

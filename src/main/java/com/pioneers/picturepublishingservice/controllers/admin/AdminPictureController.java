@@ -1,18 +1,26 @@
 package com.pioneers.picturepublishingservice.controllers.admin;
 
-import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
-import com.pioneers.picturepublishingservice.services.admin.AdminPictureService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.UUID;
+
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
+import com.pioneers.picturepublishingservice.services.admin.AdminPictureService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Contains APIs for managing administrative operations for pictures in our system.
  *
  * @author esraa
  */
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("admin")
@@ -27,7 +35,13 @@ public class AdminPictureController {
      */
     @GetMapping("/show-pending-pictures")
     public List<PictureResponse> showPendingPicturesApi() {
-        return adminPictureServiceService.getPendingPictures();
+        final String methodName = "showPendingPicturesApi()";
+        log.debug("{} - Fetching all pending pictures...", methodName);
+
+        List<PictureResponse> pendingPictures = adminPictureServiceService.getPendingPictures();
+
+        log.info("{} - Found {} pending pictures", methodName, pendingPictures.size());
+        return pendingPictures;
     }
 
     /**
@@ -37,7 +51,12 @@ public class AdminPictureController {
      */
     @PutMapping("/approve-picture")
     public void approvePictureApi(@RequestBody final UUID id) {
+        final String methodName = "approvePictureApi()";
+        log.debug("{} - Approving picture with id: {}", methodName, id);
+
         adminPictureServiceService.approvePicture(id);
+
+        log.info("{} - Picture approved successfully with id: {}", methodName, id);
     }
 
     /**
@@ -47,6 +66,11 @@ public class AdminPictureController {
      */
     @PutMapping("/reject-picture")
     public void rejectPictureApi(@RequestBody final UUID id) {
+        final String methodName = "rejectPictureApi()";
+        log.debug("{} - Rejecting picture with id: {}", methodName, id);
+
         adminPictureServiceService.rejectPicture(id);
+
+        log.info("{} - Picture rejected successfully with id: {}", methodName, id);
     }
 }

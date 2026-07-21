@@ -1,14 +1,15 @@
 package com.pioneers.picturepublishingservice.utils.mappers;
 
-import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
-import com.pioneers.picturepublishingservice.models.dtos.responses.PictureUrlResponse;
-import com.pioneers.picturepublishingservice.models.entities.Picture;
-import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
+import com.pioneers.picturepublishingservice.models.dtos.responses.PictureUrlResponse;
+import com.pioneers.picturepublishingservice.models.entities.Picture;
+import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
 
 @ExtendWith(MockitoExtension.class)
 public class PictureMapperTest {

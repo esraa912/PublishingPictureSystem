@@ -1,14 +1,17 @@
 package com.pioneers.picturepublishingservice.repositories;
 
-import com.pioneers.picturepublishingservice.models.entities.Picture;
-import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.pioneers.picturepublishingservice.models.entities.Picture;
+import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
+
 /**
  * Contract to interact with the CRUD operations.
+ *
+ * @author esraa
  */
 public interface PictureRepository extends JpaRepository<Picture, UUID> {
 

@@ -1,12 +1,14 @@
 package com.pioneers.picturepublishingservice.services.admin;
 
-import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
-
 import java.util.List;
 import java.util.UUID;
 
+import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
+
 /**
  *  Include the contracts for all picture's operations services.
+ *
+ * @author esraa
  */
 public interface AdminPictureService {
 

@@ -1,20 +1,18 @@
 package com.pioneers.picturepublishingservice.utils.mappers;
 
-import com.pioneers.picturepublishingservice.models.dtos.requests.PictureRequest;
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureUrlResponse;
 import com.pioneers.picturepublishingservice.models.entities.Picture;
+
 import lombok.extern.slf4j.Slf4j;
-
-import java.sql.Timestamp;
-
-import static com.pioneers.picturepublishingservice.utils.time.TimeHelper.currentTimestamp;
 
 /**
  * Mapper class to transform to/from Picture.
+ *
+ * @author esraa
  */
 @Slf4j
-public class PictureMapper {
+public final class PictureMapper {
 
     private PictureMapper() {
         throw new AssertionError("Cannot instantiate the UserMapper");

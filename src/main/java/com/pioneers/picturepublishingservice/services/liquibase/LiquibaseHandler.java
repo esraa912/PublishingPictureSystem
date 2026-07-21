@@ -1,5 +1,11 @@
 package com.pioneers.picturepublishingservice.services.liquibase;
 
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
+import org.springframework.stereotype.Service;
+
 import liquibase.Contexts;
 import liquibase.Liquibase;
 import liquibase.database.Database;
@@ -8,15 +14,15 @@ import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import javax.sql.DataSource;
-import java.sql.SQLException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Provides functionality to rollback a specified number of changesets
  * applied to the database using Liquibase.
+ *
+ * @author esraa
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LiquibaseHandler {
@@ -31,6 +37,8 @@ public class LiquibaseHandler {
      * @throws LiquibaseException if Liquibase fails to perform the rollback.
      */
     public void rollback(final int changes) throws SQLException, LiquibaseException {
+        final String methodName = "rollback()";
+        log.debug("{} - Starting rollback for changes: {}", methodName, changes);
 
         final Liquibase liquibase;
 
@@ -38,16 +46,19 @@ public class LiquibaseHandler {
             final Database database = DatabaseFactory.getInstance()
                     .findCorrectDatabaseImplementation(new JdbcConnection(dataSource.getConnection()));
 
-            liquibase
-                    = new Liquibase("db/liquibase/changelog-master.xml", new ClassLoaderResourceAccessor(), database);
+            liquibase = new Liquibase("db/liquibase/changelog-master.xml", new ClassLoaderResourceAccessor(), database);
+            log.debug("{} - Liquibase initialized successfully", methodName);
         } catch (SQLException e) {
+            log.error("{} - Failed to initialize Liquibase database connection", methodName);
             throw new LiquibaseException("Failed to initialize Liquibase database connection", e);
         }
 
         try {
             liquibase.rollback(changes, String.valueOf(new Contexts()));
+            log.info("{} - Rollback successfully finished for changes: {}", methodName, changes);
         } catch (LiquibaseException e) {
-            throw new LiquibaseException("Rollback failed for " + changes + " changes", e);
+            log.error("{} - Rollback failed for changes: {}", methodName, changes);
+            throw new LiquibaseException("Rollback failed for " + changes + " changes");
         }
     }
 }
