@@ -5,11 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 /**
- * A request DTO representing user signup (registration) data.
+ * Represents a sign-up request payload containing user registration details.
  *
- * @param email the user's email address (must be valid format).
- * @param name the user's full name (must not be blank).
- * @param password the user's password (must meet complexity requirements).
+ * @param email    The user's email address, validated with {@link jakarta.validation.constraints.Email}.
+ * @param name     The user's full name, validated with {@link jakarta.validation.constraints.NotBlank}.
+ * @param password The user's password, validated with {@link jakarta.validation.constraints.Pattern}.
+ * @author esraa
  */
 public record UserSignup(
         @Email(message = "Email must be valid")
@@ -19,6 +20,5 @@ public record UserSignup(
         @Pattern(
                 regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z\\d]).{8,}$",
                 message = "Password doesn't meet our criteria")
-        String password)
-{
+        String password) {
 }

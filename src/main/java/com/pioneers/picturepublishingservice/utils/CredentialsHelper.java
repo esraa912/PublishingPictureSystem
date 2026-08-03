@@ -1,14 +1,17 @@
 package com.pioneers.picturepublishingservice.utils;
 
-import com.pioneers.picturepublishingservice.errors.exceptions.CredentialsException;
-import lombok.NonNull;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
+import com.pioneers.picturepublishingservice.errors.exceptions.CredentialsException;
+
+import lombok.NonNull;
+
 /**
  * Utility class for the Credentials and tokens.
+ *
+ * @author esraa
  */
 public final class CredentialsHelper {
     private CredentialsHelper() {

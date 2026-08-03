@@ -1,12 +1,14 @@
 package com.pioneers.picturepublishingservice.errors.exceptions;
 
-import com.pioneers.picturepublishingservice.utils.time.TimeHelper;
-import lombok.Getter;
-
 import java.sql.Timestamp;
 
+import com.pioneers.picturepublishingservice.utils.time.TimeHelper;
+
+import lombok.Getter;
+
 /**
- * Custom runtime exception used to indicate credential-related errors in the system.
+ * Custom runtime exception used to indicate credential-related errors
+ * during authentication or password verification processes.
  *
  * @author esraa
  */

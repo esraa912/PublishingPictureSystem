@@ -1,5 +1,6 @@
 package com.pioneers.picturepublishingservice;
 
+import com.pioneers.picturepublishingservice.utils.CredentialsHelper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

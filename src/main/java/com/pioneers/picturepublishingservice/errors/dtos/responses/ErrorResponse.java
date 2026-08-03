@@ -1,10 +1,11 @@
 package com.pioneers.picturepublishingservice.errors.dtos.responses;
 
 /**
- * A standardized error response object used across the system.
+ * Represents a standardized error response returned by the API.
  *
- * @param message the short summary of the error.
- * @param description the detailed explanation of the error.
+ * @param message     A short summary of the error
+ * @param description A detailed explanation of the error cause
+ * @author esraa
  */
 public record ErrorResponse(String message, String description) {
 }

@@ -1,17 +1,26 @@
 package com.pioneers.picturepublishingservice.models.entities;
 
-import com.pioneers.picturepublishingservice.models.enums.ROLE;
-import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-
 import java.sql.Timestamp;
 import java.util.UUID;
 
+import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import com.pioneers.picturepublishingservice.models.enums.ROLE;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
- * Entity class representing a user in the system.
+ * Entity class representing a picture stored in the system.
  *
  * @author esraa
  */
@@ -28,7 +37,7 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique=true)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -48,7 +57,7 @@ public class User {
     @Column(name = "is_archived", nullable = false)
     private boolean isArchived;
 
-    public User(UserBuilder userBuilder){
+    public User(UserBuilder userBuilder) {
         this.id = userBuilder.id;
         this.name = userBuilder.name;
         this.email = userBuilder.email;
@@ -59,11 +68,11 @@ public class User {
         this.isArchived = userBuilder.isArchived;
     }
 
-    public static UserBuilder builder(){
+    public static UserBuilder builder() {
         return new UserBuilder();
     }
 
-    public static class UserBuilder{
+    public static class UserBuilder {
         private UUID id;
         private String name;
         private String email;
@@ -73,47 +82,47 @@ public class User {
         private Timestamp createdAt;
         private boolean isArchived;
 
-        public UserBuilder id(UUID id){
+        public UserBuilder id(UUID id) {
             this.id = id;
             return this;
         }
 
-        public UserBuilder name(String name){
+        public UserBuilder name(String name) {
             this.name = name;
             return this;
         }
 
-        public UserBuilder email(String email){
+        public UserBuilder email(String email) {
             this.email = email;
             return this;
         }
 
-        public UserBuilder password(String password){
+        public UserBuilder password(String password) {
             this.password = password;
             return this;
         }
 
-        public UserBuilder isLogin(Boolean isLogin){
+        public UserBuilder isLogin(Boolean isLogin) {
             this.isLogin = isLogin;
             return this;
         }
 
-        public UserBuilder role(ROLE role){
+        public UserBuilder role(ROLE role) {
             this.role = role;
             return this;
         }
 
-        public UserBuilder createdAt(Timestamp createdAt){
+        public UserBuilder createdAt(Timestamp createdAt) {
             this.createdAt = createdAt;
             return this;
         }
 
-        public UserBuilder isArchived(boolean isArchived){
+        public UserBuilder isArchived(boolean isArchived) {
             this.isArchived = isArchived;
             return this;
         }
 
-        public User build(){
+        public User build() {
             return new User(this);
         }
     }

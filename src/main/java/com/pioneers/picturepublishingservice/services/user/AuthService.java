@@ -1,12 +1,14 @@
 package com.pioneers.picturepublishingservice.services.user;
 
+import java.util.UUID;
+
 import com.pioneers.picturepublishingservice.models.dtos.requests.UserLogin;
 import com.pioneers.picturepublishingservice.models.dtos.requests.UserSignup;
 
-import java.util.UUID;
-
 /**
  * Include the contracts for all authentication services.
+ *
+ * @author esraa
  */
 public interface AuthService {
 

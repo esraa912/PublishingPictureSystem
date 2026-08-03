@@ -1,18 +1,20 @@
 package com.pioneers.picturepublishingservice.errors.exceptions;
 
-import com.pioneers.picturepublishingservice.utils.time.TimeHelper;
-import lombok.Getter;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 
+import com.pioneers.picturepublishingservice.utils.time.TimeHelper;
+
+import lombok.Getter;
+
 /**
- * Custom runtime exception used to represent errors that occur during picture storage operations.
+ * Custom runtime exception used to indicate errors related to picture storage operations,
+ * such as saving, reading, or writing image files.
  *
  * @author esraa
  */
 @Getter
-public class PictureStorageException extends  RuntimeException {
+public class PictureStorageException extends RuntimeException {
     public static final String PICTURE_STORAGE_EXCEPTION_MESSAGE = "pictureStorageException";
     public static final int PICTURE_STORAGE_EXCEPTION_CODE = 1005;
 

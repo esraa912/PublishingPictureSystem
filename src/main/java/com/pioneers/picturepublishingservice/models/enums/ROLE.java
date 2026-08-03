@@ -1,7 +1,7 @@
 package com.pioneers.picturepublishingservice.models.enums;
 
 /**
- * Enumeration representing the role of a user in the system.
+ * Enum representing the different roles a user can have in the system.
  *
  * @author esraa
  */

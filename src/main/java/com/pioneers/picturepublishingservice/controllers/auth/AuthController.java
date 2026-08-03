@@ -1,14 +1,21 @@
 package com.pioneers.picturepublishingservice.controllers.auth;
 
+import java.util.UUID;
+
+import jakarta.validation.Valid;
+
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import com.pioneers.picturepublishingservice.models.dtos.requests.UserLogin;
 import com.pioneers.picturepublishingservice.models.dtos.requests.UserSignup;
 import com.pioneers.picturepublishingservice.services.user.AuthService;
-import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 /**
  * Contains APIs for Authentications for all users in our system.
@@ -30,8 +37,12 @@ public class AuthController {
      */
     @PostMapping("/register")
     public void registrationApi(@Valid @RequestBody final UserSignup userSignup) {
+        final String methodName = "registrationApi()";
+        log.debug("{} - Registering user with email= {}", methodName, userSignup.email());
+
         authService.registerUser(userSignup);
-        log.info("User [{}] registered successfully", userSignup.email());
+
+        log.info("{} - User registered successfully with email= {}", methodName, userSignup.email());
     }
 
     /**
@@ -41,8 +52,12 @@ public class AuthController {
      */
     @PostMapping("/login")
     public void loginApi(@RequestBody final UserLogin userLogin) {
+        final String methodName = "loginApi()";
+        log.debug("{} - Attempting login for user: {}", methodName, userLogin.email());
+
         authService.loginUser(userLogin);
-        log.info("User [{}] login successfully", userLogin.email());
+
+        log.info("{} - User login successfully with username: {}", methodName, userLogin.email());
     }
 
     /**
@@ -52,7 +67,11 @@ public class AuthController {
      */
     @PostMapping("/logout")
     public void logoutApi(@RequestParam final UUID id) {
+        final String methodName = "logoutApi()";
+        log.debug("{} - Logging out user with id: {}", methodName, id);
+
         authService.logoutUser(id);
-        log.info("User [{}] logout successfully", id);
+
+        log.info("{} - User logout successfully with id: {}", methodName, id);
     }
 }

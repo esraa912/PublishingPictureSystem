@@ -4,13 +4,13 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="1781788607128-1" author="esraa.foad">
+    <changeSet id="1784582934764-1" author="esraa.foad">
         <sql>
-            CREATE TYPE role AS ENUM ('ADMIN', 'USER');
+            CREATE TYPE CATEGORY AS ENUM ('NATURE', 'MACHINE', 'LIVING_THING');
         </sql>
 
         <rollback>
-            <sql>DROP TYPE role;</sql>
+            <sql>DROP TYPE CATEGORY;</sql>
         </rollback>
     </changeSet>
 </databaseChangeLog>

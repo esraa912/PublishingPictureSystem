@@ -1,12 +1,20 @@
 package com.pioneers.picturepublishingservice.services.picture;
 
-import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
-import com.pioneers.picturepublishingservice.models.entities.Picture;
-import com.pioneers.picturepublishingservice.models.entities.User;
-import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
-import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
-import com.pioneers.picturepublishingservice.repositories.PictureRepository;
-import com.pioneers.picturepublishingservice.repositories.UserRepository;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.never;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -16,18 +24,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
+import com.pioneers.picturepublishingservice.models.entities.Picture;
+import com.pioneers.picturepublishingservice.models.entities.User;
+import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
+import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
+import com.pioneers.picturepublishingservice.repositories.PictureRepository;
+import com.pioneers.picturepublishingservice.repositories.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
-public class PictureServiceImplTest {
+class PictureServiceImplTest {
 
     @Mock
     private PictureRepository pictureRepository;
@@ -53,8 +59,6 @@ public class PictureServiceImplTest {
         MultipartFile file = new MockMultipartFile(
                 "file", "test.jpg", "image/jpeg", fileContent
         );
-
-        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
         //Ack
         pictureService.uploadPicture(file, "description", CATEGORY.NATURE, userId);

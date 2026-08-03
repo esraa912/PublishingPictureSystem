@@ -3,12 +3,13 @@ package com.pioneers.picturepublishingservice.errors.dtos.responses;
 import java.sql.Timestamp;
 
 /**
- * A generic response wrapper used to standardize API responses across the system.
+ * Represents a generic API response wrapper.
  *
- * @param code the status or error code associated with the response.
- * @param timestamp the timestamp indicating when the response was generated.
- * @param body the generic payload containing the response data.
- * @param <T> the type of the response body.
+ * @param code      The status code indicating success or failure of the request
+ * @param timestamp The timestamp when the response was created
+ * @param body      The response payload of type {@code T}
+ * @param <T>       The type of the response body
+ * @author esraa
  */
 public record GenericResponse<T>(int code, Timestamp timestamp, T body) {
 }

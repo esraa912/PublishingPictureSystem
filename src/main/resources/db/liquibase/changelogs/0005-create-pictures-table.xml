@@ -5,11 +5,6 @@
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <changeSet id="1781788630760-1" author="esraa.foad">
-        <sql>
-            CREATE TYPE CATEGORY AS ENUM ('NATURE', 'MACHINE', 'LIVING_THING');
-
-            CREATE TYPE PICTURE_STATUS AS ENUM ('PENDING','ACCEPTED','REJECTED');
-        </sql>
         <createTable tableName="pictures">
             <column name="id" type="UUID">
                 <constraints primaryKey="true"/>
@@ -57,8 +52,6 @@
 
         <rollback>
             <dropTable tableName="pictures"/>
-            <sql>DROP TYPE CATEGORY;</sql>
-            <sql>DROP TYPE picture_status;</sql>
         </rollback>
     </changeSet>
 </databaseChangeLog>

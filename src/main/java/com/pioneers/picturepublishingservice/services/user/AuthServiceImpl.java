@@ -29,16 +29,17 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     @Override
     public void registerUser(UserSignup userSignup) {
-
         final String methodName = "registerUser()";
+        log.debug("{} - Attempting to register user with email: {}", methodName, userSignup.email());
+
         userRepository.findByEmail(userSignup.email())
                 .ifPresent(user -> throwRegisterException(methodName, "Email is already used in system"));
 
         final User user = UserMapper.toNewUser(userSignup);
-        log.debug("Converted userSignup to User entity");
+        log.debug("{} - Converted userSignup to User entity", methodName);
 
         userRepository.save(user);
-        log.debug("Successfully save user with id: {}", user.getId());
+        log.debug("{} - User registered successfully with email: {}", methodName, user.getEmail());
     }
 
     private static void throwRegisterException(final String methodName, final String errorMessage) {
@@ -50,17 +51,19 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     @Override
     public void loginUser(UserLogin userLogin) {
-
         final String methodName = "loginUser()";
+        log.debug("{} - Attempting to login user with email: {}", methodName, userLogin.email());
+
         final User foundUser = userRepository.findByEmail(userLogin.email())
-                .orElseThrow(() -> new LoginException(
-                        String.format("User with email %s is not found",userLogin.email()))
-    );
+                .orElseThrow(() -> {
+                    log.error("{} - User not found with email: {}", methodName, userLogin.email());
+                    return new LoginException(String.format("User with email %s is not found", userLogin.email()));
+                });
 
         try {
             final boolean isPasswordMatched =
                     CredentialsHelper.verifyPassword(userLogin.password(), foundUser.getPassword());
-            log.debug(String.valueOf(isPasswordMatched));
+            log.debug("{} - Password matched: {}", methodName, isPasswordMatched);
 
             if (!isPasswordMatched) {
                 final String[] passwordArgsErrorLogs = new String[]{methodName, "Password is incorrect"};
@@ -68,6 +71,7 @@ public class AuthServiceImpl implements AuthService {
                 throw new LoginException("Email or password incorrect");
             }
         } catch (CredentialsException e) {
+            log.error("{} - Cannot hash/verify password for email: {}", methodName, userLogin.email());
             throw new LoginException("Cannot hash the plain text password");
         }
 
@@ -80,11 +84,10 @@ public class AuthServiceImpl implements AuthService {
         }
 
         foundUser.setLogin(true);
-
         httpSession.setAttribute("user_id", foundUser.getId());
-
         userRepository.save(foundUser);
-        log.info("Login successful");
+
+        log.info("{} - User login successful with email: {}", methodName, userLogin.email());
     }
 
     @Override
@@ -96,12 +99,14 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void logoutUser(final UUID id) {
         final String methodName = "logoutUser()";
+        log.debug("{} - Attempting to logout user", methodName);
+
         User foundUser = userRepository.findById(id)
                 .orElseThrow(() -> new LogoutException("User with id: [" + id + "is not found"));
 
         if (!foundUser.isLogin()) {
             final String errorDetail = "User with id: [" + foundUser.getId() + "] is not login";
-            log.error("{}, {}",  methodName, errorDetail);
+            log.error("{}, {}", methodName, errorDetail);
 
             throw new LogoutException(errorDetail);
         }
@@ -109,6 +114,6 @@ public class AuthServiceImpl implements AuthService {
         foundUser.setLogin(false);
         userRepository.save(foundUser);
 
-        log.info("Logout successful");
+        log.info("{} - User logout successful{}", methodName);
     }
 }

@@ -1,7 +1,7 @@
 package com.pioneers.picturepublishingservice.models.enums;
 
 /**
- * Enumeration representing the category classification of a picture.
+ * Enum representing the different categories a picture can belong to.
  *
  * @author esraa
  */

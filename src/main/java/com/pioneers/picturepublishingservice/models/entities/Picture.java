@@ -1,15 +1,26 @@
 package com.pioneers.picturepublishingservice.models.entities;
 
-import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
-import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
-import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.sql.Timestamp;
+import java.util.UUID;
+
+import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.sql.Timestamp;
-import java.util.UUID;
+import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
+import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Entity class representing a picture stored in the system.
@@ -29,7 +40,7 @@ public class Picture {
     @Column(nullable = false)
     private String description;
 
-    @Column(name = "file_path",nullable = false)
+    @Column(name = "file_path", nullable = false)
     private String filePath;
 
     @Column(name = "file_type", nullable = false)
@@ -60,7 +71,7 @@ public class Picture {
     @Column(nullable = false)
     private int height;
 
-    public Picture(PictureBuilder pictureBuilder){
+    public Picture(PictureBuilder pictureBuilder) {
         this.id = pictureBuilder.id;
         this.description = pictureBuilder.description;
         this.filePath = pictureBuilder.filePath;
@@ -74,11 +85,11 @@ public class Picture {
         this.height = pictureBuilder.height;
     }
 
-    public static PictureBuilder builder(){
+    public static PictureBuilder builder() {
         return new PictureBuilder();
     }
 
-    public static class PictureBuilder{
+    public static class PictureBuilder {
         private UUID id;
         private String description;
         private String filePath;
@@ -91,62 +102,62 @@ public class Picture {
         private int width;
         private int height;
 
-        public PictureBuilder id(UUID id){
+        public PictureBuilder id(UUID id) {
             this.id = id;
             return this;
         }
 
-        public PictureBuilder description(String description){
+        public PictureBuilder description(String description) {
             this.description = description;
             return this;
         }
 
-        public PictureBuilder filePath(String filePath){
+        public PictureBuilder filePath(String filePath) {
             this.filePath = filePath;
             return this;
         }
 
-        public PictureBuilder fileType(String fileType){
+        public PictureBuilder fileType(String fileType) {
             this.fileType = fileType;
             return this;
         }
 
-        public PictureBuilder status(PictureStatus status){
+        public PictureBuilder status(PictureStatus status) {
             this.status = status;
             return this;
         }
 
-        public PictureBuilder userId(UUID userId){
+        public PictureBuilder userId(UUID userId) {
             this.userId = userId;
             return this;
         }
 
-        public PictureBuilder category(CATEGORY category){
+        public PictureBuilder category(CATEGORY category) {
             this.category = category;
             return this;
         }
 
-        public PictureBuilder url(String url){
+        public PictureBuilder url(String url) {
             this.url = url;
             return this;
         }
 
-        public PictureBuilder uploadedAt(Timestamp uploadedAt){
+        public PictureBuilder uploadedAt(Timestamp uploadedAt) {
             this.uploadedAt = uploadedAt;
             return this;
         }
 
-        public PictureBuilder width(int width){
+        public PictureBuilder width(int width) {
             this.width = width;
             return this;
         }
 
-        public PictureBuilder height(int height){
+        public PictureBuilder height(int height) {
             this.height = height;
             return this;
         }
 
-        public Picture build(){
+        public Picture build() {
             return new Picture(this);
         }
     }

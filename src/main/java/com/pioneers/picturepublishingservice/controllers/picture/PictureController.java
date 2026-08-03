@@ -1,17 +1,24 @@
 package com.pioneers.picturepublishingservice.controllers.picture;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
 import com.pioneers.picturepublishingservice.models.dtos.requests.PictureRequest;
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureUrlResponse;
 import com.pioneers.picturepublishingservice.services.picture.PictureService;
 import com.pioneers.picturepublishingservice.services.user.AuthService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * Contains APIs for managing picture operations.
@@ -36,10 +43,15 @@ public class PictureController {
      */
     @PutMapping("/upload")
     public void uploadApi(@ModelAttribute final PictureRequest pictureDto) throws IOException {
+        final String methodName = "uploadApi()";
         final UUID userId = authService.getCurrentUserId();
 
+        log.debug("{} - Uploading picture for userId: {} with category: {}",
+                methodName, userId, pictureDto.category());
+
         pictureService.uploadPicture(pictureDto.file(), pictureDto.description(), pictureDto.category(), userId);
-        log.info("Uploaded Picture Successfully!");
+
+        log.info("{} - Uploaded picture successfully with category: {}", methodName, pictureDto.category());
     }
 
     /**
@@ -50,10 +62,13 @@ public class PictureController {
      */
     @GetMapping("/details")
     public PictureResponse displayDetailsApi(@RequestBody final UUID id) {
-        log.info("Fetching details for picture with ID: {}", id);
-        PictureResponse pictureResponse = pictureService.displayPictureDetails(id);
-        log.info("Details retrieved successfully for picture {}", id);
-        return pictureResponse;
+        final String methodName = "displayDetailsApi()";
+        log.debug("{} - Fetching details for picture Id: {}", methodName, id);
+
+        final PictureResponse response = pictureService.displayPictureDetails(id);
+
+        log.info("{} - Retrieved details successfully for picture Id: {}", methodName, id);
+        return response;
     }
 
     /**
@@ -63,9 +78,12 @@ public class PictureController {
      */
     @GetMapping("/display-all")
     public List<PictureUrlResponse> displayAllAcceptedPicturesUrlApi() {
-        log.info("Fetching all accepted picture URLs...");
-        List<PictureUrlResponse> pictureUrlResponses = pictureService.displayAllAcceptedPictureUrl();
-        log.info("Found {} accepted picture URLs", pictureUrlResponses.size());
-        return pictureUrlResponses;
+        final String methodName = "displayAllAcceptedPicturesUrlApi()";
+        log.debug("{} - Fetching all accepted picture URLs", methodName);
+
+        final List<PictureUrlResponse> urls = pictureService.displayAllAcceptedPictureUrl();
+
+        log.info("{} - Returning {} accepted picture URLs", methodName, urls.size());
+        return urls;
     }
 }

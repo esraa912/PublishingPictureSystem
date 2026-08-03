@@ -2,13 +2,15 @@ package com.pioneers.picturepublishingservice.models.dtos.requests;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
+
 import lombok.Builder;
 
 /**
- * A request DTO representing user login credentials.
+ * Represents a login request payload containing user credentials.
  *
- * @param email the user's email address (must be valid format).
- * @param password the user's password (must meet complexity requirements).
+ * @param email    The user's email address, validated with {@link jakarta.validation.constraints.Email}.
+ * @param password The user's password, validated with {@link jakarta.validation.constraints.Pattern}.
+ * @author esraa
  */
 @Builder
 public record UserLogin(

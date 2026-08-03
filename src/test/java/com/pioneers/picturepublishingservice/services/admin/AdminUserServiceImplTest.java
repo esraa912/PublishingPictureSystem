@@ -1,23 +1,29 @@
 package com.pioneers.picturepublishingservice.services.admin;
 
-import com.pioneers.picturepublishingservice.errors.exceptions.UserAlreadyArchivedException;
-import com.pioneers.picturepublishingservice.errors.exceptions.UserNotFoundException;
-import com.pioneers.picturepublishingservice.models.entities.User;
-import com.pioneers.picturepublishingservice.repositories.UserRepository;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+
+import java.util.Optional;
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import com.pioneers.picturepublishingservice.errors.exceptions.UserAlreadyArchivedException;
+import com.pioneers.picturepublishingservice.errors.exceptions.UserNotFoundException;
+import com.pioneers.picturepublishingservice.models.entities.User;
+import com.pioneers.picturepublishingservice.repositories.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
-public class AdminUserServiceImplTest {
+class AdminUserServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
