@@ -24,7 +24,6 @@ import com.pioneers.picturepublishingservice.models.entities.Picture;
 import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
 import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
 import com.pioneers.picturepublishingservice.repositories.PictureRepository;
-import com.pioneers.picturepublishingservice.repositories.UserRepository;
 import com.pioneers.picturepublishingservice.utils.mappers.PictureMapper;
 import com.pioneers.picturepublishingservice.utils.time.TimeHelper;
 
@@ -39,7 +38,6 @@ public class PictureServiceImpl implements PictureService {
     private static final int MB = 1024 * 1024;
 
     private final PictureRepository pictureRepository;
-    private final UserRepository userRepository;
 
     @Override
     @Transactional
@@ -52,18 +50,18 @@ public class PictureServiceImpl implements PictureService {
         final String methodName = "uploadPicture()";
         log.debug("{} - Uploading picture for user Id: {} with category={}", methodName, userId, category);
 
-        if (file.getSize() > 2 * MB) {
+        if (isFileSizeExceeded(file)) {
             log.error("{} - File size exceeds 2MB limit", methodName);
             throw new PictureException("File size exceeds 2MB limit");
         }
 
         final String extension = getExtension(Objects.requireNonNull(file.getOriginalFilename()));
-        if (!List.of("jpg", "png", "gif").contains(extension.toLowerCase())) {
+        if (!isExtensionAllowed(extension)) {
             log.error("{} - Invalid file type: {}", methodName, extension);
             throw new PictureException("Only jpg, png, gif are allowed");
         }
 
-        final Path path = createPath(extension);
+        final Path path = createPath("uploads", extension);
 
         try {
             Files.write(path, file.getBytes());
@@ -94,13 +92,21 @@ public class PictureServiceImpl implements PictureService {
         log.info("{} - Picture uploaded successfully at path: {}", methodName, path);
     }
 
-    private static Path createPath(final String extension) {
+    private static Path createPath(final String basePath, final String extension) {
         final String fileName = UUID.randomUUID() + "." + extension;
-        return Paths.get("uploads/" + fileName);
+        return Paths.get(basePath, fileName);
     }
 
     private static String getExtension(final String filename) {
         return filename.substring(filename.lastIndexOf(".") + 1);
+    }
+
+    private static boolean isFileSizeExceeded(final MultipartFile file) {
+        return file.getSize() > 2 * MB;
+    }
+
+    private static boolean isExtensionAllowed(final String extension) {
+        return List.of("jpg", "png", "gif").contains(extension.toLowerCase());
     }
 
     @Override

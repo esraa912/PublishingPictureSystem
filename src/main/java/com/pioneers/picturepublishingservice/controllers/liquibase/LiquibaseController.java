@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pioneers.picturepublishingservice.services.liquibase.LiquibaseHandler;
+import com.pioneers.picturepublishingservice.services.liquibase.RollbackHandler;
 import liquibase.exception.LiquibaseException;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("liquibase")
 public class LiquibaseController {
 
-    private final LiquibaseHandler liquibaseHandler;
+    private final RollbackHandler liquibaseHandler;
 
     /**
      * Executes a Liquibase rollback operation for a given number of changes.

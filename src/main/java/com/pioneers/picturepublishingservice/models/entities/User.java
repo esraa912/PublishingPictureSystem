@@ -57,6 +57,20 @@ public class User {
     @Column(name = "is_archived", nullable = false)
     private boolean isArchived;
 
+    public void logout() {
+        if (isLogin) {
+            this.isLogin = false;
+        }
+    }
+
+    public void markAsArchived() {
+        this.isArchived = true;
+    }
+
+    public void login() {
+            this.isLogin = true;
+    }
+
     public User(UserBuilder userBuilder) {
         this.id = userBuilder.id;
         this.name = userBuilder.name;

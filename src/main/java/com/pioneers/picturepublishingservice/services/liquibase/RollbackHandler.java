@@ -6,6 +6,8 @@ import javax.sql.DataSource;
 
 import org.springframework.stereotype.Service;
 
+import com.pioneers.picturepublishingservice.errors.exceptions.LiquibaseRollbackException;
+
 import liquibase.Contexts;
 import liquibase.Liquibase;
 import liquibase.database.Database;
@@ -25,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class LiquibaseHandler {
+public class RollbackHandler {
 
     private final DataSource dataSource;
 
@@ -33,10 +35,9 @@ public class LiquibaseHandler {
      * Rolls back the last applied Liquibase changesets.
      *
      * @param changes is the number of changesets to rollback.
-     * @throws SQLException       if a database access error occurs.
      * @throws LiquibaseException if Liquibase fails to perform the rollback.
      */
-    public void rollback(final int changes) throws SQLException, LiquibaseException {
+    public void rollback(final int changes) throws LiquibaseException {
         final String methodName = "rollback()";
         log.debug("{} - Starting rollback for changes: {}", methodName, changes);
 
@@ -58,7 +59,7 @@ public class LiquibaseHandler {
             log.info("{} - Rollback successfully finished for changes: {}", methodName, changes);
         } catch (LiquibaseException e) {
             log.error("{} - Rollback failed for changes: {}", methodName, changes);
-            throw new LiquibaseException("Rollback failed for " + changes + " changes");
+            throw new LiquibaseRollbackException("Rollback failed for " + changes + " changes");
         }
     }
 }

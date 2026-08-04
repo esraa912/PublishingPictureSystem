@@ -71,6 +71,18 @@ public class Picture {
     @Column(nullable = false)
     private int height;
 
+    public void acceptStatus() {
+        this.status = PictureStatus.ACCEPTED;
+    }
+
+    public void rejectStatus() {
+        this.status = PictureStatus.REJECTED;
+    }
+
+    public void assignUrl(String url) {
+        this.url = url;
+    }
+
     public Picture(PictureBuilder pictureBuilder) {
         this.id = pictureBuilder.id;
         this.description = pictureBuilder.description;

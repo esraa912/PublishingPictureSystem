@@ -35,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
         userRepository.findByEmail(userSignup.email())
                 .ifPresent(user -> throwRegisterException(methodName, "Email is already used in system"));
 
-        final User user = UserMapper.toNewUser(userSignup);
+        final User user = UserMapper.toUser(userSignup);
         log.debug("{} - Converted userSignup to User entity", methodName);
 
         userRepository.save(user);
@@ -43,8 +43,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private static void throwRegisterException(final String methodName, final String errorMessage) {
-        Object[] args = new Object[]{methodName, errorMessage};
-        log.error("{}, {}", args);
+        log.error("{}, {}", methodName, errorMessage);
         throw new RegisterException(errorMessage);
     }
 
@@ -77,13 +76,12 @@ public class AuthServiceImpl implements AuthService {
 
         if (foundUser.isLogin()) {
             final String errorDetails = "User with email: " + userLogin.email() + " is already login";
-            final String[] loginArgsErrorLogs = new String[]{methodName, errorDetails};
-            log.error("{}, {}", loginArgsErrorLogs);
+            log.error("{}, {}", methodName, errorDetails);
 
             throw new LoginException(errorDetails);
         }
 
-        foundUser.setLogin(true);
+        foundUser.login();
         httpSession.setAttribute("user_id", foundUser.getId());
         userRepository.save(foundUser);
 
@@ -111,7 +109,7 @@ public class AuthServiceImpl implements AuthService {
             throw new LogoutException(errorDetail);
         }
 
-        foundUser.setLogin(false);
+        foundUser.logout();
         userRepository.save(foundUser);
 
         log.info("{} - User logout successful{}", methodName);

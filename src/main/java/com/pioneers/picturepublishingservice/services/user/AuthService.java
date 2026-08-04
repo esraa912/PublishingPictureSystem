@@ -35,6 +35,7 @@ public interface AuthService {
 
     /**
      * Retrieve the id of the current user.
+     *
      * @return id of the current user.
      */
     UUID getCurrentUserId();

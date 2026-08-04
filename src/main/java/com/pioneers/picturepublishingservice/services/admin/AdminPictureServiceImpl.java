@@ -12,7 +12,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
-import com.pioneers.picturepublishingservice.errors.exceptions.PictureStorageException;
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
 import com.pioneers.picturepublishingservice.models.entities.Picture;
 import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
@@ -39,7 +38,7 @@ public class AdminPictureServiceImpl implements AdminPictureService {
 
     @Override
     @Transactional
-    public void approvePicture(final UUID id) {
+    public void approvePicture(final UUID id) throws PictureException {
         final String methodName = "approvePicture()";
         final Picture picture = pictureRepository.findById(id)
                 .orElseThrow(() -> {
@@ -47,25 +46,25 @@ public class AdminPictureServiceImpl implements AdminPictureService {
                     return new PictureException("Picture is not found");
                 });
 
-        picture.setStatus(PictureStatus.ACCEPTED);
+        picture.acceptStatus();
 
-        final String url = createUrl(picture);
+        final String url = createUrl("uploads", picture.getFilePath());
 
         log.info("Picture's url is {}", url);
 
-        picture.setUrl(url);
+        picture.assignUrl(url);
 
         pictureRepository.save(picture);
         log.info("{} - Picture approved successfully", methodName);
     }
 
-    private static String createUrl(final Picture picture) {
-        return "uploads/" + Paths.get(picture.getFilePath()).getFileName().toString();
+    private static String createUrl(final String baseFile, final String filePath) {
+        return Paths.get(baseFile, filePath).getFileName().toString();
     }
 
     @Override
     @Transactional
-    public void rejectPicture(final UUID id) {
+    public void rejectPicture(final UUID id) throws PictureException {
         final String methodName = "rejectPicture()";
         final Picture picture = pictureRepository.findById(id)
                 .orElseThrow(() -> {
@@ -73,18 +72,26 @@ public class AdminPictureServiceImpl implements AdminPictureService {
                     return new PictureException("Picture is not found");
                 });
 
-        picture.setStatus(PictureStatus.REJECTED);
+        picture.rejectStatus();
 
-        try {
-            Path path = Paths.get(picture.getFilePath());
-            Files.deleteIfExists(path);
-            log.debug("{} - Deleted file at path: {}", methodName, picture.getFilePath());
-        } catch (IOException e) {
-            log.error("{} - Could not delete file at path: {}", methodName, picture.getFilePath());
-            throw new PictureStorageException("Could not delete file: " + picture.getFilePath(), e);
-        }
+        deleteFileIfExists(picture.getFilePath());
+        log.debug("{} - Deleted file at path: {}", methodName, picture.getFilePath());
 
         pictureRepository.save(picture);
         log.info("{} - Picture rejected successfully", methodName);
+    }
+
+    private static boolean deleteFileIfExists(String filePath) {
+        final String methodName = "deleteFileIfExists()";
+        if (filePath == null || filePath.isBlank()) {
+            return false;
+        }
+        try {
+            Path path = Paths.get(filePath);
+            return Files.deleteIfExists(path);
+        } catch (IOException e) {
+            log.error("{} - Failed to delete file at path: {}", methodName, filePath, e);
+            return false;
+        }
     }
 }

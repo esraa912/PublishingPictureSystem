@@ -31,7 +31,7 @@ public final class UserMapper {
      * @return a new user object from the request.
      * @throws CredentialsException is the returned exception during the hashing password process
      */
-    public static User toNewUser(final UserSignup userSignup) throws CredentialsException {
+    public static User toUser(final UserSignup userSignup) throws CredentialsException {
         final String methodName = "toNewUser()";
         final String hashedPassword = hashPassword(userSignup.password());
         final Timestamp currentTime = currentTimestamp();

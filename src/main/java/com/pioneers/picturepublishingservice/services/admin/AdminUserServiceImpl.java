@@ -39,11 +39,11 @@ public class AdminUserServiceImpl implements AdminUserService {
         }
 
         if (user.isLogin()) {
-            log.debug("{} - User with id: {} is currently logged in", methodName, id);
-            user.setLogin(false);
+            user.logout();
+            log.debug("{} - User with id: {} is currently logged out", methodName, id);
         }
 
-        user.setArchived(true);
+        user.markAsArchived();
         userRepository.save(user);
         log.info("{} - User archived successfully with id: {}", methodName, id);
     }

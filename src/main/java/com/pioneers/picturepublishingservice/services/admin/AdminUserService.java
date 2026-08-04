@@ -11,6 +11,7 @@ public interface AdminUserService {
 
     /**
      * Delete a specific user from our system by its id.
+     *
      * @param id is the unique identifier of the user.
      */
     void deleteUser(UUID id);
