@@ -26,7 +26,7 @@ public class AdminUserController {
     private final AdminUserService adminUserService;
 
     /**
-     * Delete user by its unique identifier
+     * Delete user by its unique identifier.
      *
      * @param id the unique identifier of the user.
      */

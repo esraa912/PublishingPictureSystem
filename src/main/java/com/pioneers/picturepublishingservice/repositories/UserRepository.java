@@ -1,10 +1,11 @@
 package com.pioneers.picturepublishingservice.repositories;
 
-import com.pioneers.picturepublishingservice.models.entities.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.Optional;
 import java.util.UUID;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.pioneers.picturepublishingservice.models.entities.User;
 
 /**
  * Contract to interact with the CRUD operations.

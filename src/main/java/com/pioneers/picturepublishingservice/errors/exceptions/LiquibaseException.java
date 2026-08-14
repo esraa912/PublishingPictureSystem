@@ -14,11 +14,16 @@ import lombok.Getter;
 @Getter
 public class LiquibaseException extends RuntimeException {
     public static final String LIQUIBASE_EXCEPTION_MESSAGE = "liquibaseException";
-    public static final int LIQUIBASE_EXCEPTION_CODE = 1009;
+    public static final int LIQUIBASE_EXCEPTION_CODE = 1011;
 
     private final String description;
     private final Timestamp timestamp;
 
+    /**
+     * Constructs a new {@code LiquibaseException} with the specified description.
+     *
+     * @param description a detailed explanation of the Liquibase error
+     */
     public LiquibaseException(String description) {
         super(description);
         this.description = description;

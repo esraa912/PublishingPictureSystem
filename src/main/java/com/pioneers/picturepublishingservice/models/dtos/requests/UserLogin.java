@@ -8,9 +8,9 @@ import lombok.Builder;
 /**
  * Represents a login request payload containing user credentials.
  *
+ * @author esraa
  * @param email    The user's email address, validated with {@link jakarta.validation.constraints.Email}.
  * @param password The user's password, validated with {@link jakarta.validation.constraints.Pattern}.
- * @author esraa
  */
 @Builder
 public record UserLogin(

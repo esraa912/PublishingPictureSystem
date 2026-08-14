@@ -1,15 +1,15 @@
 package com.pioneers.picturepublishingservice.services.admin;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,11 +25,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.pioneers.picturepublishingservice.errors.exceptions.FileException;
 import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
-import com.pioneers.picturepublishingservice.errors.exceptions.PictureStorageException;
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
 import com.pioneers.picturepublishingservice.models.entities.Picture;
-import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
+import com.pioneers.picturepublishingservice.models.enums.Category;
 import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
 import com.pioneers.picturepublishingservice.repositories.PictureRepository;
 
@@ -43,10 +43,10 @@ class AdminPictureServiceImplTest {
     private AdminPictureServiceImpl adminPictureService;
 
     @Test
-    void testGetPendingPictures_WhenPictureStatusIsPending_thenReturnListOfPictureResponses(){
+    void testGetPendingPicturesWhenPictureStatusIsPendingThenReturnListOfPictureResponses() {
         //Arrange
         Picture picture = Picture.builder()
-                .category(CATEGORY.MACHINE)
+                .category(Category.MACHINE)
                 .status(PictureStatus.PENDING)
                 .build();
 
@@ -63,7 +63,7 @@ class AdminPictureServiceImplTest {
     }
 
     @Test
-    void testGetPendingPictures_WhenNoPendingPictures_thenReturnEmptyList(){
+    void testGetPendingPicturesWhenNoPendingPicturesThenReturnEmptyList() {
         //Arrange
         when(pictureRepository.findByStatus(PictureStatus.PENDING))
                 .thenReturn(Collections.emptyList());
@@ -78,12 +78,12 @@ class AdminPictureServiceImplTest {
     }
 
     @Test
-    void testApprovePicture_WhenPictureExists_ThenChangeStatusToAccepted(){
+    void testApprovePictureWhenPictureExistsThenChangeStatusToAccepted() {
         //Arrange
         UUID id = UUID.randomUUID();
         Picture picture = Picture.builder()
                 .id(id)
-                .category(CATEGORY.MACHINE)
+                .category(Category.MACHINE)
                 .filePath("uploads/nature.png")
                 .status(PictureStatus.PENDING)
                 .build();
@@ -95,14 +95,14 @@ class AdminPictureServiceImplTest {
 
         //Assert
         assertEquals(PictureStatus.ACCEPTED, picture.getStatus());
-        assertEquals(CATEGORY.MACHINE, picture.getCategory());
+        assertEquals(Category.MACHINE, picture.getCategory());
         assertThat(picture.getUrl()).contains("nature.png");
         verify(pictureRepository, times(1)).findById(id);
         verify(pictureRepository, times(1)).save(picture);
     }
 
     @Test
-    void testApprovePicture_WhenPictureIsNotExist_ThenThrowPictureNotFoundException(){
+    void testApprovePictureWhenPictureIsNotExistThenThrowPictureNotFoundException() {
         //Arrange
         UUID id = UUID.randomUUID();
         when(pictureRepository.findById(id)).thenReturn(Optional.empty());
@@ -114,14 +114,14 @@ class AdminPictureServiceImplTest {
     }
 
     @Test
-    void testRejectPicture_WhenPictureAndFileExist_ThenChangeStatusToRejectedAndDeleteFile() throws IOException {
+    void testRejectPictureWhenPictureAndFileExistThenChangeStatusToRejectedAndDeleteFile() throws IOException {
         //Arrange
         UUID id = UUID.randomUUID();
         Path path = Files.createTempFile("nature", ".png");
 
         Picture picture = Picture.builder()
                 .id(id)
-                .category(CATEGORY.MACHINE)
+                .category(Category.MACHINE)
                 .filePath(path.toString())
                 .status(PictureStatus.PENDING)
                 .build();
@@ -133,14 +133,14 @@ class AdminPictureServiceImplTest {
 
         //Assert
         assertEquals(PictureStatus.REJECTED, picture.getStatus());
-        assertEquals(CATEGORY.MACHINE, picture.getCategory());
+        assertEquals(Category.MACHINE, picture.getCategory());
         assertFalse(Files.exists(path));
         verify(pictureRepository, times(1)).findById(id);
         verify(pictureRepository, times(1)).save(picture);
     }
 
     @Test
-    void testRejectPicture_WhenPictureExistsAndDeletingFileFailed_ThenThrowRuntimeException() throws IOException {
+    void testRejectPictureWhenPictureExistsAndFilePathIsWrongAndDeletingFileFailedThenThrowFileException() {
         //Arrange
         UUID id = UUID.randomUUID();
 
@@ -153,14 +153,34 @@ class AdminPictureServiceImplTest {
         when(pictureRepository.findById(id)).thenReturn(Optional.of(picture));
 
         //Ack & Assert
-        RuntimeException ex = assertThrows(PictureStorageException.class, () -> adminPictureService.rejectPicture(id));
-        assertThat(ex.getMessage()).contains("Could not delete file:");
+        RuntimeException ex = assertThrows(FileException.class, () -> adminPictureService.rejectPicture(id));
+        assertTrue(ex.getMessage().contains("Failed to delete file at path:"));
         verify(pictureRepository, times(1)).findById(id);
         verify(pictureRepository, times(0)).save(picture);
     }
 
     @Test
-    void testRejectPicture_WhenPictureNotFound_ThenThrowPictureNotFoundException() {
+    void testRejectPictureWhenPictureExistsAndFilePathIsBlankAndDeletingFileFailedThenThrowFileException() {
+        //Arrange
+        UUID id = UUID.randomUUID();
+
+        Picture picture = Picture.builder()
+                .id(id)
+                .filePath("")
+                .status(PictureStatus.PENDING)
+                .build();
+
+        when(pictureRepository.findById(id)).thenReturn(Optional.of(picture));
+
+        //Ack & Assert
+        RuntimeException ex = assertThrows(FileException.class, () -> adminPictureService.rejectPicture(id));
+        assertEquals("File path is null or blank", ex.getMessage());
+        verify(pictureRepository, times(1)).findById(id);
+        verify(pictureRepository, times(0)).save(picture);
+    }
+
+    @Test
+    void testRejectPictureWhenPictureNotFoundThenThrowPictureException() {
         //Arrange
         UUID id = UUID.randomUUID();
 

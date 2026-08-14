@@ -20,11 +20,23 @@ public class CredentialsException extends RuntimeException {
     private final String description;
     private final Timestamp timestamp;
 
+    /**
+     * Constructs a new {@code CredentialsException} with the given description.
+     *
+     * @param description a detailed explanation of the credential error
+     */
     public CredentialsException(String description) {
         this.description = description;
         this.timestamp = TimeHelper.currentTimestamp();
     }
 
+    /**
+     * Constructs a new {@code CredentialsException} with the given description
+     * and underlying cause.
+     *
+     * @param description a detailed explanation of the credential error
+     * @param e           the underlying exception that caused this error
+     */
     public CredentialsException(String description, Throwable e) {
         super(description, e);
         this.description = description;

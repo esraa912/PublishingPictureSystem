@@ -1,5 +1,12 @@
 package com.pioneers.picturepublishingservice.services.user;
 
+import java.util.UUID;
+
+import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
+
 import com.pioneers.picturepublishingservice.errors.exceptions.CredentialsException;
 import com.pioneers.picturepublishingservice.errors.exceptions.LoginException;
 import com.pioneers.picturepublishingservice.errors.exceptions.LogoutException;
@@ -10,14 +17,16 @@ import com.pioneers.picturepublishingservice.models.entities.User;
 import com.pioneers.picturepublishingservice.repositories.UserRepository;
 import com.pioneers.picturepublishingservice.utils.CredentialsHelper;
 import com.pioneers.picturepublishingservice.utils.mappers.UserMapper;
-import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
+/**
+ * Implementation of {@link AuthService} that provides authentication
+ * operations for user management.
+ *
+ * @author esraa
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor

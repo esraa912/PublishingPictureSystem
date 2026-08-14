@@ -15,6 +15,12 @@ import com.pioneers.picturepublishingservice.errors.exceptions.LogoutException;
 @RestControllerAdvice
 public class LogoutExceptionHandler {
 
+    /**
+     * Handles {@link LogoutException} thrown during user logout operations.
+     *
+     * @param e the {@link LogoutException} containing error description and timestamp
+     * @return a {@link GenericResponse} containing the logout error code, timestamp, and detailed error response
+     */
     @ExceptionHandler(LogoutException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final LogoutException e) {
         final ErrorResponse error =

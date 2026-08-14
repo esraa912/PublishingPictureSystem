@@ -14,6 +14,12 @@ import com.pioneers.picturepublishingservice.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Implementation of {@link AdminUserService} that provides
+ * administrative operations for managing users.
+ *
+ * @author esraa
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor

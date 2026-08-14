@@ -1,10 +1,11 @@
 package com.pioneers.picturepublishingservice.errors.handlers;
 
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
 import com.pioneers.picturepublishingservice.errors.dtos.responses.ErrorResponse;
 import com.pioneers.picturepublishingservice.errors.dtos.responses.GenericResponse;
 import com.pioneers.picturepublishingservice.errors.exceptions.LiquibaseRollbackException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * Handles all exceptions required for Register issues.
@@ -14,6 +15,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class LiquibaseRollbackExceptionHandler {
 
+    /**
+     * Handles {@link LiquibaseRollbackException} thrown during Liquibase rollback operations.
+     *
+     * @param e the {@link LiquibaseRollbackException} containing error description and timestamp
+     * @return a {@link GenericResponse} containing the rollback error code, timestamp, and detailed error response
+     */
     @ExceptionHandler(LiquibaseRollbackException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final LiquibaseRollbackException e) {
         final ErrorResponse error =

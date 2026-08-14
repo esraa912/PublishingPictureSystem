@@ -7,10 +7,10 @@ import jakarta.validation.constraints.Pattern;
 /**
  * Represents a sign-up request payload containing user registration details.
  *
+ * @author esraa
  * @param email    The user's email address, validated with {@link jakarta.validation.constraints.Email}.
  * @param name     The user's full name, validated with {@link jakarta.validation.constraints.NotBlank}.
  * @param password The user's password, validated with {@link jakarta.validation.constraints.Pattern}.
- * @author esraa
  */
 public record UserSignup(
         @Email(message = "Email must be valid")

@@ -3,11 +3,11 @@ package com.pioneers.picturepublishingservice.controllers.admin;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
 import com.pioneers.picturepublishingservice.services.admin.AdminPictureService;
@@ -45,7 +45,7 @@ public class AdminPictureController {
     }
 
     /**
-     * Approves a picture by its unique identifier
+     * Approves a picture by its unique identifier.
      *
      * @param id the unique identifier of the picture.
      */
@@ -60,7 +60,7 @@ public class AdminPictureController {
     }
 
     /**
-     * Rejects a picture by its unique identifier
+     * Rejects a picture by its unique identifier.
      *
      * @param id the unique identifier of the picture.
      */

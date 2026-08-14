@@ -1,9 +1,8 @@
 package com.pioneers.picturepublishingservice.services.admin;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import static com.pioneers.picturepublishingservice.utils.file.FileHelper.buildUrl;
+import static com.pioneers.picturepublishingservice.utils.file.FileHelper.deleteFile;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +20,12 @@ import com.pioneers.picturepublishingservice.utils.mappers.PictureMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Implementation of {@link AdminPictureService} that provides
+ * administrative operations for managing pictures.
+ *
+ * @author esraa
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -48,7 +53,7 @@ public class AdminPictureServiceImpl implements AdminPictureService {
 
         picture.acceptStatus();
 
-        final String url = createUrl("uploads", picture.getFilePath());
+        final String url = buildUrl("uploads", picture.getFilePath());
 
         log.info("Picture's url is {}", url);
 
@@ -56,10 +61,6 @@ public class AdminPictureServiceImpl implements AdminPictureService {
 
         pictureRepository.save(picture);
         log.info("{} - Picture approved successfully", methodName);
-    }
-
-    private static String createUrl(final String baseFile, final String filePath) {
-        return Paths.get(baseFile, filePath).getFileName().toString();
     }
 
     @Override
@@ -74,24 +75,10 @@ public class AdminPictureServiceImpl implements AdminPictureService {
 
         picture.rejectStatus();
 
-        deleteFileIfExists(picture.getFilePath());
+        deleteFile(picture.getFilePath());
         log.debug("{} - Deleted file at path: {}", methodName, picture.getFilePath());
 
         pictureRepository.save(picture);
         log.info("{} - Picture rejected successfully", methodName);
-    }
-
-    private static boolean deleteFileIfExists(String filePath) {
-        final String methodName = "deleteFileIfExists()";
-        if (filePath == null || filePath.isBlank()) {
-            return false;
-        }
-        try {
-            Path path = Paths.get(filePath);
-            return Files.deleteIfExists(path);
-        } catch (IOException e) {
-            log.error("{} - Failed to delete file at path: {}", methodName, filePath, e);
-            return false;
-        }
     }
 }

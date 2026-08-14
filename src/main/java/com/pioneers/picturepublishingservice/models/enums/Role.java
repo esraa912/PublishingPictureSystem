@@ -5,7 +5,7 @@ package com.pioneers.picturepublishingservice.models.enums;
  *
  * @author esraa
  */
-public enum ROLE {
+public enum Role {
     ADMIN,
     USER
 }

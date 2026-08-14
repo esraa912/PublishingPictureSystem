@@ -19,6 +19,11 @@ public class RegisterException extends RuntimeException {
     private final String description;
     private final Timestamp timestamp;
 
+    /**
+     * Constructs a new {@code RegisterException} with the specified description.
+     *
+     * @param description a detailed explanation of the Register error
+     */
     public RegisterException(String description) {
         super(description);
         this.description = description;

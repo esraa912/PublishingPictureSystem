@@ -9,19 +9,27 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureUrlResponse;
 import com.pioneers.picturepublishingservice.models.entities.Picture;
-import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
+import com.pioneers.picturepublishingservice.models.enums.Category;
 
+/**
+ * Unit tests for {@link PictureMapper}.
+ *
+ * @author esraa
+ */
 @ExtendWith(MockitoExtension.class)
 public class PictureMapperTest {
 
+    private static final int DEFAULT_WIDTH = 800;
+    private static final int DEFAULT_HEIGHT = 600;
+
     @Test
-    void testToPictureResponse_WhenPictureIsValid_ThenReturnCorrectResponse() {
+    void testToPictureResponseWhenPictureIsValidThenReturnCorrectResponse() {
         //Arrange
         Picture picture = Picture.builder()
                 .description("Sunset")
-                .category(CATEGORY.NATURE)
-                .width(800)
-                .height(600)
+                .category(Category.NATURE)
+                .width(DEFAULT_WIDTH)
+                .height(DEFAULT_HEIGHT)
                 .build();
 
         //Ack
@@ -29,13 +37,13 @@ public class PictureMapperTest {
 
         //Assert
         assertEquals("Sunset", response.description());
-        assertEquals(CATEGORY.NATURE, response.category());
-        assertEquals(800, response.width());
-        assertEquals(600, response.height());
+        assertEquals(Category.NATURE, response.category());
+        assertEquals(DEFAULT_WIDTH, response.width());
+        assertEquals(DEFAULT_HEIGHT, response.height());
     }
 
     @Test
-    void testToPictureUrlResponse_WhenPictureIsValid_ThenReturnCorrectResponse() {
+    void testToPictureUrlResponseWhenPictureIsValidThenReturnCorrectResponse() {
         //Arrange
         Picture picture = Picture.builder().url("upload/img.png").build();
 

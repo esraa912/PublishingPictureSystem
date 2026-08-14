@@ -15,6 +15,12 @@ import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
 @RestControllerAdvice
 public class PictureExceptionHandler {
 
+    /**
+     * Handles {@link PictureException} thrown during picture-related operations.
+     *
+     * @param e the {@link PictureException} containing error description and timestamp
+     * @return a {@link GenericResponse} containing the picture error code, timestamp, and detailed error response
+     */
     @ExceptionHandler(PictureException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final PictureException e) {
         final ErrorResponse error =

@@ -1,19 +1,20 @@
 package com.pioneers.picturepublishingservice.services.picture;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.never;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.UUID;
+
+import javax.imageio.ImageIO;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,31 +27,29 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
 import com.pioneers.picturepublishingservice.models.entities.Picture;
-import com.pioneers.picturepublishingservice.models.entities.User;
-import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
+import com.pioneers.picturepublishingservice.models.enums.Category;
 import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
 import com.pioneers.picturepublishingservice.repositories.PictureRepository;
-import com.pioneers.picturepublishingservice.repositories.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
 class PictureServiceImplTest {
 
-    @Mock
-    private PictureRepository pictureRepository;
+    private static final int DEFAULT_WIDTH = 10;
+    private static final int DEFAULT_HEIGHT = 10;
+    private static final int THREE_MB = 3 * 1024 * 1024;
 
     @Mock
-    private UserRepository userRepository;
+    private PictureRepository pictureRepository;
 
     @InjectMocks
     private PictureServiceImpl pictureService;
 
     @Test
-    void testUploadPicture_WhenFileIsValid_ThenPictureSavedSuccessfully() throws IOException {
+    void testUploadPictureWhenFileIsValidThenPictureSavedSuccessfully() throws IOException {
         //Arrange
         final UUID userId = UUID.randomUUID();
-        final User user = User.builder().id(userId).build();
 
-        BufferedImage img = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
+        BufferedImage img = new BufferedImage(DEFAULT_WIDTH, DEFAULT_HEIGHT, BufferedImage.TYPE_INT_RGB);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ImageIO.write(img, "jpg", outputStream);
 
@@ -61,7 +60,7 @@ class PictureServiceImplTest {
         );
 
         //Ack
-        pictureService.uploadPicture(file, "description", CATEGORY.NATURE, userId);
+        pictureService.uploadPicture(file, "description", Category.NATURE, userId);
 
         //Assert
         ArgumentCaptor<Picture> captor = ArgumentCaptor.forClass(Picture.class);
@@ -70,7 +69,7 @@ class PictureServiceImplTest {
         Picture savedPicture = captor.getValue();
         assertEquals("description", savedPicture.getDescription());
         assertEquals("jpg", savedPicture.getFileType());
-        assertEquals(CATEGORY.NATURE, savedPicture.getCategory());
+        assertEquals(Category.NATURE, savedPicture.getCategory());
         assertEquals(PictureStatus.PENDING, savedPicture.getStatus());
         assertNotNull(savedPicture.getUploadedAt());
         assertTrue(savedPicture.getWidth() > 0);
@@ -80,25 +79,25 @@ class PictureServiceImplTest {
     }
 
     @Test
-    void testUploadPicture_WhenFileSizeExceedsLimit_ThenThrowPictureSizeException() {
+    void testUploadPictureWhenFileSizeExceedsLimitThenThrowPictureSizeException() {
         //Arrange
         final UUID userId = UUID.randomUUID();
 
-        byte[] largeFileContent = new byte[3 * 1024 * 1024];
+        byte[] largeFileContent = new byte[THREE_MB];
         MultipartFile file = new MockMultipartFile(
                 "file", "large.jpg", "image/jpeg", largeFileContent
         );
 
         //Ack & Assert
         PictureException ex = assertThrows(PictureException.class,
-                () -> pictureService.uploadPicture(file, "description", CATEGORY.NATURE, userId));
+                () -> pictureService.uploadPicture(file, "description", Category.NATURE, userId));
 
         assertEquals("File size exceeds 2MB limit", ex.getMessage());
         verify(pictureRepository, never()).save(any());
     }
 
     @Test
-    void testUploadPicture_WhenFileExtensionIsInvalid_ThenThrowPictureExtensionException(){
+    void testUploadPictureWhenFileExtensionIsInvalidThenThrowPictureExtensionException() {
         //Arrange
         final UUID userId = UUID.randomUUID();
 
@@ -109,7 +108,7 @@ class PictureServiceImplTest {
 
         //Ack & Assert
         assertThrows(PictureException.class,
-                () -> pictureService.uploadPicture(file, "description", CATEGORY.NATURE, userId));
+                () -> pictureService.uploadPicture(file, "description", Category.NATURE, userId));
 
         verify(pictureRepository, never()).save(any());
     }

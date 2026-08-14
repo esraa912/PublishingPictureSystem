@@ -15,6 +15,12 @@ import com.pioneers.picturepublishingservice.errors.exceptions.CredentialsExcept
 @RestControllerAdvice
 public class CredentialsExceptionHandler {
 
+    /**
+     * Handles {@link CredentialsException} thrown during authentication or credential validation processes.
+     *
+     * @param e the {@link CredentialsException} containing error description and timestamp
+     * @return a {@link GenericResponse} containing the error code, timestamp, and detailed error response
+     */
     @ExceptionHandler(CredentialsException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final CredentialsException e) {
         final ErrorResponse error =

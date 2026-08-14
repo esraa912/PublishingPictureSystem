@@ -15,6 +15,13 @@ import com.pioneers.picturepublishingservice.errors.exceptions.UserAlreadyArchiv
 @RestControllerAdvice
 public class UserAlreadyArchivedExceptionHandler {
 
+    /**
+     * Handles {@link UserAlreadyArchivedException} thrown when an operation
+     * is attempted on a user that has already been archived in the system.
+     *
+     * @param e the {@link UserAlreadyArchivedException} containing error description and timestamp
+     * @return a {@link GenericResponse} containing the archival error code, timestamp, and detailed error response
+     */
     @ExceptionHandler(UserAlreadyArchivedException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final UserAlreadyArchivedException e) {
         final ErrorResponse error =

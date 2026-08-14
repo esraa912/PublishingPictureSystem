@@ -15,6 +15,14 @@ import com.pioneers.picturepublishingservice.errors.exceptions.UserNotFoundExcep
 @RestControllerAdvice
 public class UserNotFoundExceptionHandler {
 
+    /**
+     * Handles {@link UserNotFoundException} thrown when an operation
+     * fails because the user could not be found in the system.
+     *
+     * @param e the {@link UserNotFoundException} containing error description and timestamp
+     * @return a {@link GenericResponse} containing the user-not-found error code,
+     * timestamp, and detailed error response
+     */
     @ExceptionHandler(UserNotFoundException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final UserNotFoundException e) {
         final ErrorResponse error =

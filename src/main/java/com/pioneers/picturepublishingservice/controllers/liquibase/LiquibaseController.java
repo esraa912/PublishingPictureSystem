@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pioneers.picturepublishingservice.services.liquibase.RollbackHandler;
-import liquibase.exception.LiquibaseException;
 
+import liquibase.exception.LiquibaseException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

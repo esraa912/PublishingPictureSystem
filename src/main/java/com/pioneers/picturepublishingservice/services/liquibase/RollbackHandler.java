@@ -34,8 +34,9 @@ public class RollbackHandler {
     /**
      * Rolls back the last applied Liquibase changesets.
      *
-     * @param changes is the number of changesets to rollback.
-     * @throws LiquibaseException if Liquibase fails to perform the rollback.
+     * @param changes is the number of changesets to rollback
+     * @throws LiquibaseException if Liquibase fails to perform the rollback
+     * @throws LiquibaseRollbackException if rollback fails
      */
     public void rollback(final int changes) throws LiquibaseException {
         final String methodName = "rollback()";

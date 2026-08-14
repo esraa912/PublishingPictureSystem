@@ -5,7 +5,7 @@ package com.pioneers.picturepublishingservice.models.enums;
  *
  * @author esraa
  */
-public enum CATEGORY {
+public enum Category {
     NATURE,
     MACHINE,
     LIVING_THING

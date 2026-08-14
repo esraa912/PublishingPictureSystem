@@ -20,6 +20,11 @@ public class UserAlreadyArchivedException extends RuntimeException {
     private final String description;
     private final Timestamp timestamp;
 
+    /**
+     * Constructs a new {@code UserAlreadyArchivedException} with the specified description.
+     *
+     * @param description a detailed explanation of the archival error
+     */
     public UserAlreadyArchivedException(String description) {
         super(description);
         this.description = description;

@@ -14,6 +14,11 @@ public final class TimeHelper {
         throw new AssertionError("Utility class");
     }
 
+    /**
+     * Returns the current system timestamp.
+     *
+     * @return the current {@link Timestamp} representing the system time
+     */
     public static Timestamp currentTimestamp() {
         return Timestamp.from(Instant.now());
     }

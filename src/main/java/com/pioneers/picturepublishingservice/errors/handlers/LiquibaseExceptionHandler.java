@@ -15,6 +15,12 @@ import com.pioneers.picturepublishingservice.errors.exceptions.LiquibaseExceptio
 @RestControllerAdvice
 public class LiquibaseExceptionHandler {
 
+    /**
+     * Handles {@link LiquibaseException} thrown during Liquibase-related operations.
+     *
+     * @param e the {@link LiquibaseException} containing error description and timestamp
+     * @return a {@link GenericResponse} containing the error code, timestamp, and detailed error response
+     */
     @ExceptionHandler(LiquibaseException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final LiquibaseException e) {
         final ErrorResponse error =

@@ -15,6 +15,12 @@ import com.pioneers.picturepublishingservice.errors.exceptions.RegisterException
 @RestControllerAdvice
 public class RegisterExceptionHandler {
 
+    /**
+     * Handles {@link RegisterException} thrown during user registration operations.
+     *
+     * @param e the {@link RegisterException} containing error description and timestamp
+     * @return a {@link GenericResponse} containing the registration error code, timestamp, and detailed error response
+     */
     @ExceptionHandler(RegisterException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final RegisterException e) {
         final ErrorResponse error =

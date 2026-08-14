@@ -19,6 +19,11 @@ public class LoginException extends RuntimeException {
     private final String description;
     private final Timestamp timestamp;
 
+    /**
+     * Constructs a new {@code LoginException} with the specified description.
+     *
+     * @param description a detailed explanation of the Login error
+     */
     public LoginException(String description) {
         super(description);
         this.description = description;

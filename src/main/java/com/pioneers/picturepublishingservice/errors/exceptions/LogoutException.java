@@ -19,6 +19,11 @@ public class LogoutException extends RuntimeException {
     private final String description;
     private final Timestamp timestamp;
 
+    /**
+     * Constructs a new {@code LogoutException} with the specified description.
+     *
+     * @param description a detailed explanation of the Logout error
+     */
     public LogoutException(String description) {
         super(description);
         this.description = description;

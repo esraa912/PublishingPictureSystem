@@ -1,13 +1,13 @@
 package com.pioneers.picturepublishingservice.services.user;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -38,6 +38,7 @@ class AuthServiceImplTest {
 
     @Mock
     private HttpSession httpSession;
+
     @Mock
     private UserRepository userRepository;
 
@@ -45,7 +46,7 @@ class AuthServiceImplTest {
     private AuthServiceImpl authService;
 
     @Test
-    void testLoginUser_WhenEmailExistAndUserNotLoggedInAndPasswordAligned_ThenLoginSuccessfully() {
+    void testLoginUserWhenEmailExistAndUserNotLoggedInAndPasswordAlignedThenLoginSuccessfully() {
         //Arrange
         final UserLogin userLogin = new UserLogin("esraa.foad@gmail.com", "Esraa123@");
 
@@ -69,7 +70,7 @@ class AuthServiceImplTest {
     }
 
     @Test
-    void testLoginUser_WhenEmailIsNotExist_ThenThrowLoginException() {
+    void testLoginUserWhenEmailIsNotExistThenThrowLoginException() {
         //Arrange
         final UserLogin userLogin = new UserLogin("esraa.foad@gmail.com", "Esraa123@");
 
@@ -82,7 +83,7 @@ class AuthServiceImplTest {
     }
 
     @Test
-    void testLoginUser_WhenEmailExistAndUserNotLoggedInAndPasswordNotAligned_ThenThrowLoginException() {
+    void testLoginUserWhenEmailExistAndUserNotLoggedInAndPasswordNotAlignedThenThrowLoginException() {
         //Arrange
         final UserLogin userLogin = new UserLogin("esraa.foad@gmail.com", "Esraa123@");
 
@@ -103,7 +104,7 @@ class AuthServiceImplTest {
     }
 
     @Test
-    void testLoginUser_WhenUserExistAndLoggedInAndPasswordAligned_ThenThrowLoginException() {
+    void testLoginUserWhenUserExistAndLoggedInAndPasswordAlignedThenThrowLoginException() {
         //Arrange
         final UserLogin userLogin = new UserLogin("esraa.foad@gmail.com", "Esraa123@");
 
@@ -119,13 +120,14 @@ class AuthServiceImplTest {
 
         //Ack & Assert
         LoginException ex = assertThrows(LoginException.class, () -> authService.loginUser(userLogin));
+        assertTrue(ex.getMessage().contains("User with email:"));
         assertTrue(foundUser.isLogin());
         verify(userRepository, times(1)).findByEmail(userLogin.email());
         verify(userRepository, times(0)).save(foundUser);
     }
 
     @Test
-    void testLoginUser_WhenCredentialsHelperThrowsException_ThenThrowCredentialsException() {
+    void testLoginUserWhenCredentialsHelperThrowsExceptionThenThrowCredentialsException() {
         //Arrange
         final UserLogin userLogin = new UserLogin("esraa.foad@gmail.com", "Esraa123@");
 
@@ -153,7 +155,7 @@ class AuthServiceImplTest {
     }
 
     @Test
-    void testRegisterUser_WhenEmailNotExist_ThenUserRegisterSuccessfully(){
+    void testRegisterUserWhenEmailNotExistThenUserRegisterSuccessfully() {
         //Arrange
         final UserSignup userSignup =
                 new UserSignup("salma.mohamed@gmail.com", "salma mohamed", "Salma123@");
@@ -169,7 +171,7 @@ class AuthServiceImplTest {
     }
 
     @Test
-    void testRegisterUser_WhenEmailExist_ThenThrowRegisterException(){
+    void testRegisterUserWhenEmailExistThenThrowRegisterException() {
         //Arrange
         final UserSignup userSignup =
                 new UserSignup("salma.mohamed@gmail.com", "salma mohamed", "Salma123@");
@@ -190,7 +192,7 @@ class AuthServiceImplTest {
     }
 
     @Test
-    void testLogoutUser_WhenIdIsFound_ThenLogoutSuccessfully(){
+    void testLogoutUserWhenIdIsFoundThenLogoutSuccessfully() {
         //Arrange
         UUID id = UUID.randomUUID();
         final User foundUser = User.builder()
@@ -210,7 +212,7 @@ class AuthServiceImplTest {
     }
 
     @Test
-    void testLogoutUser_WhenIdIsNotFound_ThenThrowLogoutException(){
+    void testLogoutUserWhenIdIsNotFoundThenThrowLogoutException() {
         //Arrange
         UUID id = UUID.randomUUID();
 
@@ -223,7 +225,7 @@ class AuthServiceImplTest {
     }
 
     @Test
-    void testLogoutUser_WhenIdIsFoundAndUserIsNotLogin_ThenThrowLogoutException(){
+    void testLogoutUserWhenIdIsFoundAndUserIsNotLoginThenThrowLogoutException() {
         //Arrange
         UUID id = UUID.randomUUID();
         final User foundUser = User.builder()

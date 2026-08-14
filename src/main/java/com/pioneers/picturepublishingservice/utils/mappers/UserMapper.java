@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import com.pioneers.picturepublishingservice.errors.exceptions.CredentialsException;
 import com.pioneers.picturepublishingservice.models.dtos.requests.UserSignup;
 import com.pioneers.picturepublishingservice.models.entities.User;
-import com.pioneers.picturepublishingservice.models.enums.ROLE;
+import com.pioneers.picturepublishingservice.models.enums.Role;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,7 +41,7 @@ public final class UserMapper {
                 .email(userSignup.email())
                 .password(hashedPassword)
                 .isLogin(false)
-                .role(ROLE.USER)
+                .role(Role.USER)
                 .createdAt(currentTime)
                 .isArchived(false)
                 .build();

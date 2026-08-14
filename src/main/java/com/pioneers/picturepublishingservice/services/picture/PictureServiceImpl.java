@@ -1,10 +1,13 @@
 package com.pioneers.picturepublishingservice.services.picture;
 
+import static com.pioneers.picturepublishingservice.utils.file.FileHelper.createPath;
+import static com.pioneers.picturepublishingservice.utils.file.FileHelper.fetchExtension;
+import static com.pioneers.picturepublishingservice.utils.file.FileHelper.isExtensionAllowed;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -17,25 +20,29 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
-import com.pioneers.picturepublishingservice.errors.exceptions.PictureStorageException;
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureUrlResponse;
 import com.pioneers.picturepublishingservice.models.entities.Picture;
-import com.pioneers.picturepublishingservice.models.enums.CATEGORY;
+import com.pioneers.picturepublishingservice.models.enums.Category;
 import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
 import com.pioneers.picturepublishingservice.repositories.PictureRepository;
+import com.pioneers.picturepublishingservice.utils.file.FileHelper;
 import com.pioneers.picturepublishingservice.utils.mappers.PictureMapper;
 import com.pioneers.picturepublishingservice.utils.time.TimeHelper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Implementation of {@link PictureService} that provides core operations
+ * for managing pictures in the system.
+ *
+ * @author esraa
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class PictureServiceImpl implements PictureService {
-
-    private static final int MB = 1024 * 1024;
 
     private final PictureRepository pictureRepository;
 
@@ -44,18 +51,18 @@ public class PictureServiceImpl implements PictureService {
     public void uploadPicture(
             final MultipartFile file,
             final String description,
-            final CATEGORY category,
+            final Category category,
             final UUID userId
     ) throws IOException {
         final String methodName = "uploadPicture()";
         log.debug("{} - Uploading picture for user Id: {} with category={}", methodName, userId, category);
 
-        if (isFileSizeExceeded(file)) {
+        if (FileHelper.isSizeExceeded(file.getSize())) {
             log.error("{} - File size exceeds 2MB limit", methodName);
             throw new PictureException("File size exceeds 2MB limit");
         }
 
-        final String extension = getExtension(Objects.requireNonNull(file.getOriginalFilename()));
+        final String extension = fetchExtension(Objects.requireNonNull(file.getOriginalFilename()));
         if (!isExtensionAllowed(extension)) {
             log.error("{} - Invalid file type: {}", methodName, extension);
             throw new PictureException("Only jpg, png, gif are allowed");
@@ -63,12 +70,13 @@ public class PictureServiceImpl implements PictureService {
 
         final Path path = createPath("uploads", extension);
 
+        // TODO: Create writeIn() method.
         try {
             Files.write(path, file.getBytes());
             log.debug("{} - File written successfully at path={}", methodName, path);
         } catch (IOException e) {
             log.error("{} - Failed to save picture file at path: {}", methodName, path);
-            throw new PictureStorageException("Failed to save picture file to uploads folder", e);
+            throw new PictureException("Failed to save picture file to uploads folder");
         }
 
         final BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
@@ -90,23 +98,6 @@ public class PictureServiceImpl implements PictureService {
 
         pictureRepository.save(picture);
         log.info("{} - Picture uploaded successfully at path: {}", methodName, path);
-    }
-
-    private static Path createPath(final String basePath, final String extension) {
-        final String fileName = UUID.randomUUID() + "." + extension;
-        return Paths.get(basePath, fileName);
-    }
-
-    private static String getExtension(final String filename) {
-        return filename.substring(filename.lastIndexOf(".") + 1);
-    }
-
-    private static boolean isFileSizeExceeded(final MultipartFile file) {
-        return file.getSize() > 2 * MB;
-    }
-
-    private static boolean isExtensionAllowed(final String extension) {
-        return List.of("jpg", "png", "gif").contains(extension.toLowerCase());
     }
 
     @Override

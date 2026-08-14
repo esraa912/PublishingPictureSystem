@@ -20,6 +20,11 @@ public class PictureException extends RuntimeException {
     private final String description;
     private final Timestamp timestamp;
 
+    /**
+     * Constructs a new {@code PictureException} with the specified description.
+     *
+     * @param description a detailed explanation of the Picture error
+     */
     public PictureException(String description) {
         super(description);
         this.description = description;

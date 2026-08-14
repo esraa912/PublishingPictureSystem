@@ -15,6 +15,12 @@ import com.pioneers.picturepublishingservice.errors.exceptions.LoginException;
 @RestControllerAdvice
 public class LoginExceptionHandler {
 
+    /**
+     * Handles {@link LoginException} thrown during user login operations.
+     *
+     * @param e the {@link LoginException} containing error description and timestamp
+     * @return a {@link GenericResponse} containing the login error code, timestamp, and detailed error response
+     */
     @ExceptionHandler(LoginException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final LoginException e) {
         final ErrorResponse error =

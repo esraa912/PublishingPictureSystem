@@ -1,12 +1,12 @@
 package com.pioneers.picturepublishingservice.services.admin;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -32,7 +32,7 @@ class AdminUserServiceImplTest {
     private AdminUserServiceImpl adminUserService;
 
     @Test
-    void testDeleteUser_WhenIdIsFound_ThenDeleteTheUser(){
+    void testDeleteUserWhenIdIsFoundThenDeleteTheUser() {
         //Arrange
         UUID id = UUID.randomUUID();
         final User foundUser = User.builder()
@@ -52,7 +52,7 @@ class AdminUserServiceImplTest {
     }
 
     @Test
-    void testDeleteUser_WhenIdIsNotFound_ThenThrowUserNotFoundException(){
+    void testDeleteUserWhenIdIsNotFoundThenThrowUserNotFoundException() {
         //Arrange
         UUID id = UUID.randomUUID();
 
@@ -66,7 +66,7 @@ class AdminUserServiceImplTest {
     }
 
     @Test
-    void testDeleteUser_WhenIdIsFoundAndIsArchived_ThenThrowUserAlreadyArchivedException(){
+    void testDeleteUserWhenIdIsFoundAndIsArchivedThenThrowUserAlreadyArchivedException() {
         //Arrange
         UUID id = UUID.randomUUID();
         final User foundUser = User.builder()

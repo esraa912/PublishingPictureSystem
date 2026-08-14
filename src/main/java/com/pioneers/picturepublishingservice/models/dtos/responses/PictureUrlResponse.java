@@ -5,8 +5,8 @@ import lombok.Builder;
 /**
  * Represents a response payload containing the URL of a stored or accessible picture.
  *
- * @param url The direct URL pointing to the stored picture resource.
  * @author esraa
+ * @param url The direct URL pointing to the stored picture resource.
  */
 @Builder
 public record PictureUrlResponse(String url) {
