@@ -25,7 +25,7 @@ public class PictureMapperTest {
     @Test
     void testToPictureResponseWhenPictureIsValidThenReturnCorrectResponse() {
         //Arrange
-        Picture picture = Picture.builder()
+        final Picture picture = Picture.builder()
                 .description("Sunset")
                 .category(Category.NATURE)
                 .width(DEFAULT_WIDTH)
@@ -45,7 +45,7 @@ public class PictureMapperTest {
     @Test
     void testToPictureUrlResponseWhenPictureIsValidThenReturnCorrectResponse() {
         //Arrange
-        Picture picture = Picture.builder().url("upload/img.png").build();
+        final Picture picture = Picture.builder().url("upload/img.png").build();
 
         //Ack
         PictureUrlResponse response = PictureMapper.toPictureUrlResponse(picture);

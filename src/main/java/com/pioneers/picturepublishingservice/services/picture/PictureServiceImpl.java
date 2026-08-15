@@ -6,7 +6,6 @@ import static com.pioneers.picturepublishingservice.utils.file.FileHelper.isExte
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
@@ -70,19 +69,12 @@ public class PictureServiceImpl implements PictureService {
 
         final Path path = createPath("uploads", extension);
 
-        // TODO: Create writeIn() method.
-        try {
-            Files.write(path, file.getBytes());
-            log.debug("{} - File written successfully at path={}", methodName, path);
-        } catch (IOException e) {
-            log.error("{} - Failed to save picture file at path: {}", methodName, path);
-            throw new PictureException("Failed to save picture file to uploads folder");
-        }
+        FileHelper.writeIn(path, file.getBytes());
 
         final BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
-        final int width = bufferedImage.getWidth();
-        final int height = bufferedImage.getHeight();
-        log.debug("{} - Picture dimensions width: {}, height: {}", methodName, width, height);
+        final int[] imageDimensions = FileHelper.getImageDimensions(bufferedImage);
+        log.debug("{} - Picture dimensions widthPixels: {}, heightPixels: {}",
+                methodName, imageDimensions[0], imageDimensions[1]);
 
         final Picture picture = Picture.builder()
                 .description(description)
@@ -92,8 +84,8 @@ public class PictureServiceImpl implements PictureService {
                 .userId(userId)
                 .category(category)
                 .uploadedAt(TimeHelper.currentTimestamp())
-                .width(width)
-                .height(height)
+                .width(imageDimensions[0])
+                .height(imageDimensions[1])
                 .build();
 
         pictureRepository.save(picture);

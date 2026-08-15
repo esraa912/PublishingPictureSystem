@@ -2,14 +2,16 @@ package com.pioneers.picturepublishingservice.utils.file;
 
 import static com.pioneers.picturepublishingservice.utils.StringUtils.isNullOrBlank;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.UUID;
 
 import com.pioneers.picturepublishingservice.errors.exceptions.FileException;
+import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
+import com.pioneers.picturepublishingservice.models.enums.FileType;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -99,8 +101,37 @@ public final class FileHelper {
      * @param extension the file extension to validate
      * @return true if the extension is allowed, false otherwise
      */
-    // TODO: Create Enum for the extensions.
     public static boolean isExtensionAllowed(final String extension) {
-        return List.of("jpg", "png", "gif").contains(extension.toLowerCase());
+        return FileType.isExtensionAllowed(extension);
+    }
+
+    /**
+     * Writes the given byte content into a file at the specified path.
+     *
+     * @param filePath the path where the file should be written
+     * @param content  the byte array content to write into the file
+     * @throws PictureException if the file cannot be saved to the uploads folder
+     */
+    public static void writeIn(final Path filePath, final byte[] content) throws PictureException {
+        final String methodName = "writeIn()";
+        try {
+            Files.write(filePath, content);
+            log.debug("{} - File written successfully at path={}", methodName, filePath);
+        } catch (IOException e) {
+            log.error("{} - Failed to save picture file at path: {}", methodName, filePath);
+            throw new PictureException("Failed to save picture file to uploads folder");
+        }
+    }
+
+    /**
+     * Extracts the dimensions (width and height) of a given {@link BufferedImage}.
+     *
+     * @param bufferedImage the image object to analyze
+     * @return an int array containing width at index 0 and height at index 1
+     */
+    public static int[] getImageDimensions(final BufferedImage bufferedImage) {
+        final int widthPixels = bufferedImage.getWidth();
+        final int heightPixels = bufferedImage.getHeight();
+        return new int[]{widthPixels, heightPixels};
     }
 }
