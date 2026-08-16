@@ -14,13 +14,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import com.pioneers.picturepublishingservice.errors.exceptions.FileException;
-import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
 
 /**
  * Unit tests for the {@link FileHelper} utility class.
@@ -28,7 +26,7 @@ import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
  * @author esraa
  */
 @ExtendWith(MockitoExtension.class)
-public class FileHelperTest {
+class FileHelperTest {
 
     private static final int DEFAULT_WIDTH = 100;
     private static final int DEFAULT_HEIGHT = 50;
@@ -51,7 +49,7 @@ public class FileHelperTest {
     @Test
     void testDeleteFileWhenFilePathIsBlankThenThrowsFileException() {
         // Act
-        FileException ex = assertThrows(FileException.class,
+        FileHelper.PictureException ex = assertThrows(FileHelper.PictureException.class,
                 () -> FileHelper.deleteFile(""));
 
         // Assert
@@ -70,7 +68,7 @@ public class FileHelperTest {
             mockedFiles.when(() -> Files.deleteIfExists(mockPath)).thenThrow(new IOException("Disk error"));
 
             // Act
-            FileException ex = assertThrows(FileException.class,
+            FileHelper.PictureException ex = assertThrows(FileHelper.PictureException.class,
                     () -> FileHelper.deleteFile("Z:/invalid/path/file.txt"));
 
             // Assert

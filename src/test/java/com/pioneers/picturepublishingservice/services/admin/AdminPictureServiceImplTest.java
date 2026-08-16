@@ -19,19 +19,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.pioneers.picturepublishingservice.errors.exceptions.FileException;
-import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
 import com.pioneers.picturepublishingservice.models.entities.Picture;
 import com.pioneers.picturepublishingservice.models.enums.Category;
 import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
 import com.pioneers.picturepublishingservice.repositories.PictureRepository;
+import com.pioneers.picturepublishingservice.utils.file.FileHelper;
 
 @ExtendWith(MockitoExtension.class)
 class AdminPictureServiceImplTest {
@@ -152,8 +152,10 @@ class AdminPictureServiceImplTest {
 
         when(pictureRepository.findById(id)).thenReturn(Optional.of(picture));
 
-        //Ack & Assert
-        RuntimeException ex = assertThrows(FileException.class, () -> adminPictureService.rejectPicture(id));
+        //Ack
+        RuntimeException ex = assertThrows(FileHelper.PictureException.class, () -> adminPictureService.rejectPicture(id));
+
+        // Assert
         assertTrue(ex.getMessage().contains("Failed to delete file at path:"));
         verify(pictureRepository, times(1)).findById(id);
         verify(pictureRepository, times(0)).save(picture);
@@ -173,7 +175,7 @@ class AdminPictureServiceImplTest {
         when(pictureRepository.findById(id)).thenReturn(Optional.of(picture));
 
         //Ack & Assert
-        RuntimeException ex = assertThrows(FileException.class, () -> adminPictureService.rejectPicture(id));
+        RuntimeException ex = assertThrows(FileHelper.PictureException.class, () -> adminPictureService.rejectPicture(id));
         assertEquals("File path is null or blank", ex.getMessage());
         verify(pictureRepository, times(1)).findById(id);
         verify(pictureRepository, times(0)).save(picture);

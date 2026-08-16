@@ -7,12 +7,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.UUID;
 
-import com.pioneers.picturepublishingservice.errors.exceptions.FileException;
-import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
 import com.pioneers.picturepublishingservice.models.enums.FileType;
+import com.pioneers.picturepublishingservice.utils.time.TimeHelper;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -33,12 +34,12 @@ public final class FileHelper {
      * Deletes a file at the given path if it exists.
      *
      * @param filePath the path of the file to delete
-     * @throws FileException if the file path is null/blank or if deletion fails
+     * @throws PictureException if the file path is null/blank or if deletion fails
      */
-    public static void deleteFile(final String filePath) throws FileException {
+    public static void deleteFile(final String filePath) throws PictureException {
         final String methodName = "deleteFileIfExists()";
         if (isNullOrBlank(filePath)) {
-            throw new FileException("File path is null or blank");
+            throw new PictureException("File path is null or blank");
         }
 
         try {
@@ -46,7 +47,7 @@ public final class FileHelper {
             Files.deleteIfExists(path);
         } catch (final IOException e) {
             log.error("{} - Failed to delete file at path: [{}] due to [{}]", methodName, filePath, e.getMessage());
-            throw new FileException("Failed to delete file at path: " + filePath);
+            throw new PictureException("Failed to delete file at path: " + filePath);
         }
     }
 
@@ -59,8 +60,7 @@ public final class FileHelper {
      * @return a {@link Path} pointing to the generated file
      */
     public static Path createPath(final String basePath, final String extension) {
-        final String fileName = UUID.randomUUID()
-                + "." + extension;
+        final String fileName = UUID.randomUUID() + "." + extension;
         return Paths.get(basePath, fileName);
     }
 
@@ -110,16 +110,16 @@ public final class FileHelper {
      *
      * @param filePath the path where the file should be written
      * @param content  the byte array content to write into the file
-     * @throws PictureException if the file cannot be saved to the uploads folder
+     * @throws com.pioneers.picturepublishingservice.errors.exceptions.PictureException if the file cannot be saved to the uploads folder
      */
-    public static void writeIn(final Path filePath, final byte[] content) throws PictureException {
+    public static void writeIn(final Path filePath, final byte[] content) throws com.pioneers.picturepublishingservice.errors.exceptions.PictureException {
         final String methodName = "writeIn()";
         try {
             Files.write(filePath, content);
             log.debug("{} - File written successfully at path={}", methodName, filePath);
         } catch (IOException e) {
             log.error("{} - Failed to save picture file at path: {}", methodName, filePath);
-            throw new PictureException("Failed to save picture file to uploads folder");
+            throw new com.pioneers.picturepublishingservice.errors.exceptions.PictureException("Failed to save picture file to uploads folder");
         }
     }
 
@@ -133,5 +133,30 @@ public final class FileHelper {
         final int widthPixels = bufferedImage.getWidth();
         final int heightPixels = bufferedImage.getHeight();
         return new int[]{widthPixels, heightPixels};
+    }
+
+    /**
+     * Custom runtime exception thrown when a file deletion operation fails.
+     *
+     * @author esraa
+     */
+    @Getter
+    public static class PictureException extends RuntimeException {
+        public static final String PICTURE_EXCEPTION_MESSAGE = "fileDeletionException";
+        public static final int PICTURE_EXCEPTION_CODE = 1012;
+
+        private final String description;
+        private final Timestamp timestamp;
+
+        /**
+         * Constructs a new {@code FileException} with the specified description.
+         *
+         * @param description a detailed explanation of the file error
+         */
+        public PictureException(String description) {
+            super(description);
+            this.description = description;
+            this.timestamp = TimeHelper.currentTimestamp();
+        }
     }
 }

@@ -75,7 +75,7 @@ public class AuthServiceImpl implements AuthService {
 
             if (!isPasswordMatched) {
                 final String[] passwordArgsErrorLogs = new String[]{methodName, "Password is incorrect"};
-                log.error("{}, {}", passwordArgsErrorLogs);
+                log.error("{}, {}", methodName, passwordArgsErrorLogs);
                 throw new LoginException("Email or password incorrect");
             }
         } catch (CredentialsException e) {

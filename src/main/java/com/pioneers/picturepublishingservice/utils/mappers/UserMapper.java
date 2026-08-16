@@ -45,6 +45,7 @@ public final class UserMapper {
                 .createdAt(currentTime)
                 .isArchived(false)
                 .build();
+
         log.debug("{}, Mapped to new student with email: [{}]", methodName, user.getEmail());
         return user;
     }
