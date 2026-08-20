@@ -1,7 +1,7 @@
 package com.pioneers.picturepublishingservice.services.admin;
 
-import static com.pioneers.picturepublishingservice.utils.image.ImageHelper.buildUrl;
-import static com.pioneers.picturepublishingservice.utils.image.ImageHelper.deleteFile;
+import static com.pioneers.picturepublishingservice.utils.image.FileHelper.buildPath;
+import static com.pioneers.picturepublishingservice.utils.image.FileHelper.deleteFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -45,21 +45,20 @@ public class AdminPictureServiceImpl implements AdminPictureService {
     @Transactional
     public void approvePicture(final UUID id) throws PictureException {
         final String methodName = "approvePicture()";
+
+        log.debug("{} - Trying to approve picture with id={}", methodName, id);
+
         final Picture picture = pictureRepository.findById(id)
-                .orElseThrow(() -> {
-                    log.error("{} - Picture is not found", methodName);
-                    return new PictureException("Picture is not found");
-                });
+                .orElseThrow(() -> new PictureException("Picture is not found"));
 
         picture.acceptStatus();
 
-        final String url = buildUrl("uploads", picture.getFilePath());
-
-        log.info("Picture's url is {}", url);
+        final String url = buildPath("uploads", picture.getFilePath());
+        log.debug("{} - Generated URL={}", methodName, url);
 
         picture.assignUrl(url);
-
         pictureRepository.save(picture);
+
         log.info("{} - Picture approved successfully", methodName);
     }
 
@@ -67,11 +66,11 @@ public class AdminPictureServiceImpl implements AdminPictureService {
     @Transactional
     public void rejectPicture(final UUID id) throws PictureException {
         final String methodName = "rejectPicture()";
+
+        log.debug("{} - Trying to reject picture with id={}", methodName, id);
+
         final Picture picture = pictureRepository.findById(id)
-                .orElseThrow(() -> {
-                    log.error("{} - Picture is not found", methodName);
-                    return new PictureException("Picture is not found");
-                });
+                .orElseThrow(() -> new PictureException("Picture is not found"));
 
         picture.rejectStatus();
 

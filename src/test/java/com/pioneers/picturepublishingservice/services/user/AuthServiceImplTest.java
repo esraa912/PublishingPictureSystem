@@ -30,6 +30,7 @@ import com.pioneers.picturepublishingservice.errors.exceptions.RegisterException
 import com.pioneers.picturepublishingservice.models.dtos.requests.UserLogin;
 import com.pioneers.picturepublishingservice.models.dtos.requests.UserSignup;
 import com.pioneers.picturepublishingservice.models.entities.User;
+import com.pioneers.picturepublishingservice.models.enums.Role;
 import com.pioneers.picturepublishingservice.repositories.UserRepository;
 import com.pioneers.picturepublishingservice.utils.CredentialsHelper;
 
@@ -158,7 +159,7 @@ class AuthServiceImplTest {
     void testRegisterUserWhenEmailNotExistThenUserRegisterSuccessfully() {
         //Arrange
         final UserSignup userSignup =
-                new UserSignup("salma.mohamed@gmail.com", "salma mohamed", "Salma123@");
+                new UserSignup("salma.mohamed@gmail.com", "salma mohamed", "Salma123@", Role.USER);
 
         when(userRepository.findByEmail(userSignup.email())).thenReturn(Optional.empty());
 
@@ -174,19 +175,20 @@ class AuthServiceImplTest {
     void testRegisterUserWhenEmailExistThenThrowRegisterException() {
         //Arrange
         final UserSignup userSignup =
-                new UserSignup("salma.mohamed@gmail.com", "salma mohamed", "Salma123@");
+                new UserSignup("salma.mohamed@gmail.com", "salma mohamed", "Salma123@", Role.USER);
 
         final User foundUser = User.builder()
                 .email(userSignup.email())
                 .name(userSignup.name())
                 .password(userSignup.password())
+                .role(userSignup.role())
                 .build();
 
         when(userRepository.findByEmail(userSignup.email())).thenReturn(Optional.of(foundUser));
 
         //Ack & Assert
         RegisterException ex = assertThrows(RegisterException.class, () -> authService.registerUser(userSignup));
-        assertEquals("Email is already used in system", ex.getMessage());
+        assertEquals("Email is already used in the system", ex.getMessage());
         verify(userRepository, times(1)).findByEmail(userSignup.email());
         verify(userRepository, times(0)).save(foundUser);
     }

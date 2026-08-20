@@ -1,9 +1,9 @@
 package com.pioneers.picturepublishingservice.services.picture;
 
-import static com.pioneers.picturepublishingservice.utils.image.ImageHelper.createPath;
-import static com.pioneers.picturepublishingservice.utils.image.ImageHelper.fetchExtension;
-import static com.pioneers.picturepublishingservice.utils.image.ImageHelper.validateExtension;
-import static com.pioneers.picturepublishingservice.utils.image.ImageHelper.validateSize;
+import static com.pioneers.picturepublishingservice.utils.image.FileHelper.createPath;
+import static com.pioneers.picturepublishingservice.utils.image.FileHelper.fetchExtension;
+import static com.pioneers.picturepublishingservice.utils.image.ImageFileHelper.validateExtension;
+import static com.pioneers.picturepublishingservice.utils.image.ImageFileHelper.validateSize;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -27,7 +27,7 @@ import com.pioneers.picturepublishingservice.models.enums.Category;
 import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
 import com.pioneers.picturepublishingservice.models.valueobjects.ImageDimensions;
 import com.pioneers.picturepublishingservice.repositories.PictureRepository;
-import com.pioneers.picturepublishingservice.utils.image.ImageHelper;
+import com.pioneers.picturepublishingservice.utils.image.ImageFileHelper;
 import com.pioneers.picturepublishingservice.utils.mappers.PictureMapper;
 import com.pioneers.picturepublishingservice.utils.time.TimeHelper;
 
@@ -65,10 +65,10 @@ public class PictureServiceImpl implements PictureService {
 
         final Path path = createPath("uploads", extension);
 
-        ImageHelper.writeIn(path, file.getBytes());
+        ImageFileHelper.writeIn(path, file.getBytes());
 
         final BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
-        final ImageDimensions imageDimensions = ImageHelper.createImageDimensions(bufferedImage.getWidth(),
+        final ImageDimensions imageDimensions = ImageFileHelper.createImageDimensions(bufferedImage.getWidth(),
                 bufferedImage.getHeight()
         );
         log.debug("{} - Picture dimensions widthPixels: {}, heightPixels: {}",
@@ -101,7 +101,7 @@ public class PictureServiceImpl implements PictureService {
     public List<PictureUrlResponse> displayAllAcceptedPictureUrl() {
         return pictureRepository.findByStatus(PictureStatus.ACCEPTED)
                 .stream()
-                .map(PictureMapper::toPictureUrlResponse)
+                .map(picture -> PictureMapper.toPictureUrlResponse(picture.getUrl()))
                 .toList();
     }
 }

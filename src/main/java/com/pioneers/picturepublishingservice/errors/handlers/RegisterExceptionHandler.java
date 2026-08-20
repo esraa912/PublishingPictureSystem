@@ -7,11 +7,14 @@ import com.pioneers.picturepublishingservice.errors.dtos.responses.ErrorResponse
 import com.pioneers.picturepublishingservice.errors.dtos.responses.GenericResponse;
 import com.pioneers.picturepublishingservice.errors.exceptions.RegisterException;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Handles all exceptions required for Register issues.
  *
  * @author esraa
  */
+@Slf4j
 @RestControllerAdvice
 public class RegisterExceptionHandler {
 
@@ -23,6 +26,8 @@ public class RegisterExceptionHandler {
      */
     @ExceptionHandler(RegisterException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final RegisterException e) {
+        log.error(e.getMessage());
+
         final ErrorResponse error =
                 new ErrorResponse(RegisterException.REGISTER_EXCEPTION_MESSAGE, e.getDescription());
 

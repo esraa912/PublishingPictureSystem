@@ -51,7 +51,6 @@ public class RollbackHandler {
             liquibase = new Liquibase("db/liquibase/changelog-master.xml", new ClassLoaderResourceAccessor(), database);
             log.debug("{} - Liquibase initialized successfully", methodName);
         } catch (SQLException e) {
-            log.error("{} - Failed to initialize Liquibase database connection", methodName);
             throw new LiquibaseException("Failed to initialize Liquibase database connection", e);
         }
 
@@ -59,7 +58,6 @@ public class RollbackHandler {
             liquibase.rollback(changes, String.valueOf(new Contexts()));
             log.info("{} - Rollback successfully finished for changes: {}", methodName, changes);
         } catch (LiquibaseException e) {
-            log.error("{} - Rollback failed for changes: {}", methodName, changes);
             throw new LiquibaseRollbackException("Rollback failed for " + changes + " changes");
         }
     }

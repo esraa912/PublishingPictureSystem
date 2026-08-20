@@ -48,7 +48,7 @@ public class PictureMapperTest {
         final Picture picture = Picture.builder().url("upload/img.png").build();
 
         //Ack
-        PictureUrlResponse response = PictureMapper.toPictureUrlResponse(picture);
+        PictureUrlResponse response = PictureMapper.toPictureUrlResponse(picture.getUrl());
 
         //Assert
         assertEquals("upload/img.png", response.url());

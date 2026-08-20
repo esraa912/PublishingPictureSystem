@@ -77,7 +77,7 @@ public class Picture {
      *
      * @param pictureBuilder the builder containing picture properties
      */
-    public Picture(PictureBuilder pictureBuilder) {
+    public Picture(final PictureBuilder pictureBuilder) {
         this.id = pictureBuilder.id;
         this.description = pictureBuilder.description;
         this.filePath = pictureBuilder.filePath;
@@ -116,7 +116,7 @@ public class Picture {
      *
      * @param url the URL to assign to the picture
      */
-    public void assignUrl(String url) {
+    public void assignUrl(final String url) {
         this.url = url;
     }
 
@@ -153,7 +153,7 @@ public class Picture {
          * @param id the UUID of the picture
          * @return the current {@code PictureBuilder} instance
          */
-        public PictureBuilder id(UUID id) {
+        public PictureBuilder id(final UUID id) {
             this.id = id;
             return this;
         }
@@ -164,7 +164,7 @@ public class Picture {
          * @param description a textual description of the picture
          * @return the current {@code PictureBuilder} instance
          */
-        public PictureBuilder description(String description) {
+        public PictureBuilder description(final String description) {
             this.description = description;
             return this;
         }
@@ -175,7 +175,7 @@ public class Picture {
          * @param filePath the path where the picture is stored
          * @return the current {@code PictureBuilder} instance
          */
-        public PictureBuilder filePath(String filePath) {
+        public PictureBuilder filePath(final String filePath) {
             this.filePath = filePath;
             return this;
         }
@@ -186,7 +186,7 @@ public class Picture {
          * @param fileType the type of the picture file
          * @return the current {@code PictureBuilder} instance
          */
-        public PictureBuilder fileType(String fileType) {
+        public PictureBuilder fileType(final String fileType) {
             this.fileType = fileType;
             return this;
         }
@@ -197,7 +197,7 @@ public class Picture {
          * @param status the {@link PictureStatus} of the picture
          * @return the current {@code PictureBuilder} instance
          */
-        public PictureBuilder status(PictureStatus status) {
+        public PictureBuilder status(final PictureStatus status) {
             this.status = status;
             return this;
         }
@@ -208,7 +208,7 @@ public class Picture {
          * @param userId the UUID of the user
          * @return the current {@code PictureBuilder} instance
          */
-        public PictureBuilder userId(UUID userId) {
+        public PictureBuilder userId(final UUID userId) {
             this.userId = userId;
             return this;
         }
@@ -219,7 +219,7 @@ public class Picture {
          * @param category the {@link Category} of the picture
          * @return the current {@code PictureBuilder} instance
          */
-        public PictureBuilder category(Category category) {
+        public PictureBuilder category(final Category category) {
             this.category = category;
             return this;
         }
@@ -230,7 +230,7 @@ public class Picture {
          * @param url the URL pointing to the picture
          * @return the current {@code PictureBuilder} instance
          */
-        public PictureBuilder url(String url) {
+        public PictureBuilder url(final String url) {
             this.url = url;
             return this;
         }
@@ -241,7 +241,7 @@ public class Picture {
          * @param uploadedAt the upload timestamp
          * @return the current {@code PictureBuilder} instance
          */
-        public PictureBuilder uploadedAt(Timestamp uploadedAt) {
+        public PictureBuilder uploadedAt(final Timestamp uploadedAt) {
             this.uploadedAt = uploadedAt;
             return this;
         }
@@ -252,7 +252,7 @@ public class Picture {
          * @param width the width in pixels
          * @return the current {@code PictureBuilder} instance
          */
-        public PictureBuilder width(int width) {
+        public PictureBuilder width(final int width) {
             this.width = width;
             return this;
         }
@@ -263,7 +263,7 @@ public class Picture {
          * @param height the height in pixels
          * @return the current {@code PictureBuilder} instance
          */
-        public PictureBuilder height(int height) {
+        public PictureBuilder height(final int height) {
             this.height = height;
             return this;
         }

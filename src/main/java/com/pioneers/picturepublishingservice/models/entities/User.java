@@ -63,7 +63,7 @@ public class User {
      *
      * @param userBuilder the builder containing user properties
      */
-    public User(UserBuilder userBuilder) {
+    public User(final UserBuilder userBuilder) {
         this.id = userBuilder.id;
         this.name = userBuilder.name;
         this.email = userBuilder.email;
@@ -94,7 +94,9 @@ public class User {
      * Logs in the user by setting {@code isLogin} to true.
      */
     public void login() {
+        if (!isLogin) {
             this.isLogin = true;
+        }
     }
 
     /**
@@ -125,7 +127,7 @@ public class User {
          * @param id the UUID of the user
          * @return the current {@code UserBuilder} instance
          */
-        public UserBuilder id(UUID id) {
+        public UserBuilder id(final UUID id) {
             this.id = id;
             return this;
         }
@@ -136,7 +138,7 @@ public class User {
          * @param name the user's name
          * @return the current {@code UserBuilder} instance
          */
-        public UserBuilder name(String name) {
+        public UserBuilder name(final String name) {
             this.name = name;
             return this;
         }
@@ -147,7 +149,7 @@ public class User {
          * @param email the user's email address
          * @return the current {@code UserBuilder} instance
          */
-        public UserBuilder email(String email) {
+        public UserBuilder email(final String email) {
             this.email = email;
             return this;
         }
@@ -158,7 +160,7 @@ public class User {
          * @param password the user's password
          * @return the current {@code UserBuilder} instance
          */
-        public UserBuilder password(String password) {
+        public UserBuilder password(final String password) {
             this.password = password;
             return this;
         }
@@ -169,7 +171,7 @@ public class User {
          * @param isLogin true if the user is logged in, false otherwise
          * @return the current {@code UserBuilder} instance
          */
-        public UserBuilder isLogin(Boolean isLogin) {
+        public UserBuilder isLogin(final Boolean isLogin) {
             this.isLogin = isLogin;
             return this;
         }
@@ -180,7 +182,7 @@ public class User {
          * @param role the {@link Role} assigned to the user
          * @return the current {@code UserBuilder} instance
          */
-        public UserBuilder role(Role role) {
+        public UserBuilder role(final Role role) {
             this.role = role;
             return this;
         }
@@ -191,7 +193,7 @@ public class User {
          * @param createdAt the timestamp when the user was created
          * @return the current {@code UserBuilder} instance
          */
-        public UserBuilder createdAt(Timestamp createdAt) {
+        public UserBuilder createdAt(final Timestamp createdAt) {
             this.createdAt = createdAt;
             return this;
         }
@@ -202,7 +204,7 @@ public class User {
          * @param isArchived true if the user is archived, false otherwise
          * @return the current {@code UserBuilder} instance
          */
-        public UserBuilder isArchived(boolean isArchived) {
+        public UserBuilder isArchived(final boolean isArchived) {
             this.isArchived = isArchived;
             return this;
         }

@@ -7,11 +7,14 @@ import com.pioneers.picturepublishingservice.errors.dtos.responses.ErrorResponse
 import com.pioneers.picturepublishingservice.errors.dtos.responses.GenericResponse;
 import com.pioneers.picturepublishingservice.errors.exceptions.CredentialsException;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Handles all exceptions required for Credentials issues.
  *
  * @author esraa
  */
+@Slf4j
 @RestControllerAdvice
 public class CredentialsExceptionHandler {
 
@@ -23,6 +26,8 @@ public class CredentialsExceptionHandler {
      */
     @ExceptionHandler(CredentialsException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final CredentialsException e) {
+        log.error(e.getMessage());
+
         final ErrorResponse error =
                 new ErrorResponse(CredentialsException.CREDENTIALS_EXCEPTION_MESSAGE, e.getDescription());
 

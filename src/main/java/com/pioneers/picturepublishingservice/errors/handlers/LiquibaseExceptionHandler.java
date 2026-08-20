@@ -7,11 +7,14 @@ import com.pioneers.picturepublishingservice.errors.dtos.responses.ErrorResponse
 import com.pioneers.picturepublishingservice.errors.dtos.responses.GenericResponse;
 import com.pioneers.picturepublishingservice.errors.exceptions.LiquibaseException;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Handles all exceptions required for Register issues.
  *
  * @author esraa
  */
+@Slf4j
 @RestControllerAdvice
 public class LiquibaseExceptionHandler {
 
@@ -23,6 +26,8 @@ public class LiquibaseExceptionHandler {
      */
     @ExceptionHandler(LiquibaseException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final LiquibaseException e) {
+        log.error(e.getMessage());
+
         final ErrorResponse error =
                 new ErrorResponse(LiquibaseException.LIQUIBASE_EXCEPTION_MESSAGE, e.getDescription());
 

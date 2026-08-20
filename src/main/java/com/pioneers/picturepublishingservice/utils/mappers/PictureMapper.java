@@ -34,12 +34,12 @@ public final class PictureMapper {
     }
 
     /**
-     * Transfer the Picture to a PictureUrlResponse object.
+     * Creates a new {@link PictureUrlResponse} object from the given URL.
      *
-     * @param picture is the target request need to transform from it.
-     * @return a new pictureUrlResponse object from the request.
+     * @param url the direct URL pointing to the stored picture resource
+     * @return a new {@link PictureUrlResponse} containing the given URL
      */
-    public static PictureUrlResponse toPictureUrlResponse(final Picture picture) {
-        return new PictureUrlResponse(picture.getUrl());
+    public static PictureUrlResponse toPictureUrlResponse(final String url) {
+        return new PictureUrlResponse(url);
     }
 }

@@ -13,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.pioneers.picturepublishingservice.models.valueobjects.ImageDimensions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
@@ -21,30 +20,31 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.pioneers.picturepublishingservice.errors.exceptions.FileException;
 import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
+import com.pioneers.picturepublishingservice.models.valueobjects.ImageDimensions;
 
 /**
- * Unit tests for the {@link ImageHelper} utility class.
+ * Unit tests for the {@link FileHelper} utility class.
  *
  * @author esraa
  */
 @ExtendWith(MockitoExtension.class)
-public class ImageHelperTest {
+public class FileHelperTest {
 
     private static final int DEFAULT_WIDTH = 100;
     private static final int DEFAULT_HEIGHT = 50;
 
     @Test
     void testDeleteFileWhenFileExistsThenDeletedSuccessfully() {
-        try (MockedStatic<ImageHelper> mockedFileHelper = mockStatic(ImageHelper.class)) {
+        try (MockedStatic<FileHelper> mockedFileHelper = mockStatic(FileHelper.class)) {
             // Arrange
-            mockedFileHelper.when(() -> ImageHelper.deleteFile("test.txt"))
+            mockedFileHelper.when(() -> FileHelper.deleteFile("test.txt"))
                     .thenAnswer(invocation -> null);
 
             // Act
-            ImageHelper.deleteFile("test.txt");
+            FileHelper.deleteFile("test.txt");
 
             // Assert
-            mockedFileHelper.verify(() -> ImageHelper.deleteFile("test.txt"), times(1));
+            mockedFileHelper.verify(() -> FileHelper.deleteFile("test.txt"), times(1));
         }
     }
 
@@ -52,7 +52,7 @@ public class ImageHelperTest {
     void testDeleteFileWhenFilePathIsBlankThenThrowsFileException() {
         // Act
         FileException ex = assertThrows(FileException.class,
-                () -> ImageHelper.deleteFile(""));
+                () -> FileHelper.deleteFile(""));
 
         // Assert
         assertTrue(ex.getMessage().contains("File path is null or blank"));
@@ -71,7 +71,7 @@ public class ImageHelperTest {
 
             // Act
             FileException ex = assertThrows(FileException.class,
-                    () -> ImageHelper.deleteFile("Z:/invalid/path/file.txt"));
+                    () -> FileHelper.deleteFile("Z:/invalid/path/file.txt"));
 
             // Assert
             assertTrue(ex.getMessage().contains("Failed to delete file"));
@@ -81,7 +81,7 @@ public class ImageHelperTest {
     @Test
     void testCreatePathReturnsPathSuccessfully() {
         // Arrange
-        final Path path = ImageHelper.createPath("uploads", "jpg");
+        final Path path = FileHelper.createPath("uploads", "jpg");
 
         // Assert
         assertNotNull(path);
@@ -90,7 +90,7 @@ public class ImageHelperTest {
     @Test
     void testBuildUrlThenReturnFullPathSuccessfully() {
         // Arrange
-        final String result = ImageHelper.buildUrl("uploads", "image.jpg");
+        final String result = FileHelper.buildPath("uploads", "image.jpg");
 
         // Assert
         assertEquals(Paths.get("uploads", "image.jpg").toString(), result);
@@ -99,7 +99,7 @@ public class ImageHelperTest {
     @Test
     void testBuildUrlWithBaseDirectoryAndFileName() {
         // Arrange
-        final String result = ImageHelper.buildUrl("uploads", "image.jpg");
+        final String result = FileHelper.buildPath("uploads", "image.jpg");
 
         // Assert
         assertEquals(Paths.get("uploads", "image.jpg").toString(), result);
@@ -108,7 +108,7 @@ public class ImageHelperTest {
     @Test
     void testBuildUrlWithNestedDirectory() {
         // Arrange
-        final String result = ImageHelper.buildUrl("uploads/photos", "nature.png");
+        final String result = FileHelper.buildPath("uploads/photos", "nature.png");
 
         // Assert
         assertEquals(Paths.get("uploads/photos", "nature.png").toString(), result);
@@ -117,7 +117,7 @@ public class ImageHelperTest {
     @Test
     void testBuildUrlWithEmptyBaseDirectory() {
         // Arrange
-        final String result = ImageHelper.buildUrl("", "file.txt");
+        final String result = FileHelper.buildPath("", "file.txt");
 
         // Assert
         assertEquals(Paths.get("", "file.txt").toString(), result);
@@ -126,7 +126,7 @@ public class ImageHelperTest {
     @Test
     void testBuildUrlWithEmptyFileName() {
         // Arrange
-        final String result = ImageHelper.buildUrl("uploads", "");
+        final String result = FileHelper.buildPath("uploads", "");
 
         // Assert
         assertEquals(Paths.get("uploads", "").toString(), result);
@@ -135,7 +135,7 @@ public class ImageHelperTest {
     @Test
     void testBuildUrlWithAbsolutePath() {
         // Arrange
-        final String result = ImageHelper.buildUrl("/var/data", "picture.gif");
+        final String result = FileHelper.buildPath("/var/data", "picture.gif");
 
         // Assert
         assertEquals(Paths.get("/var/data", "picture.gif").toString(), result);
@@ -145,7 +145,7 @@ public class ImageHelperTest {
     @Test
     void testFetchExtensionThenReturnExtensionSuccessfully() {
         // Arrange
-        final String result = ImageHelper.fetchExtension("image.png");
+        final String result = FileHelper.fetchExtension("image.png");
 
         // Assert
         assertEquals("png", result);
@@ -153,15 +153,15 @@ public class ImageHelperTest {
 
     @Test
     void testValidateExtensionWithValidExtensionDoesNotThrow() {
-        ImageHelper.validateExtension("jpg");
-        ImageHelper.validateExtension("png");
-        ImageHelper.validateExtension("gif");
+        ImageFileHelper.validateExtension("jpg");
+        ImageFileHelper.validateExtension("png");
+        ImageFileHelper.validateExtension("gif");
     }
 
     @Test
     void testValidateExtensionWithInvalidExtensionThrowsPictureException() {
-        assertThrows(PictureException.class, () -> ImageHelper.validateExtension("bmp"));
-        assertThrows(PictureException.class, () -> ImageHelper.validateExtension("exe"));
+        assertThrows(PictureException.class, () -> ImageFileHelper.validateExtension("bmp"));
+        assertThrows(PictureException.class, () -> ImageFileHelper.validateExtension("exe"));
     }
 
     @Test
@@ -171,7 +171,7 @@ public class ImageHelperTest {
         final byte[] content = "Hello World".getBytes();
 
         // Act
-        ImageHelper.writeIn(filePath, content);
+        ImageFileHelper.writeIn(filePath, content);
 
         // Assert
         assertTrue(Files.exists(filePath));
@@ -186,7 +186,7 @@ public class ImageHelperTest {
 
         // Act
         PictureException ex = assertThrows(PictureException.class,
-                () -> ImageHelper.writeIn(invalidPath, content));
+                () -> ImageFileHelper.writeIn(invalidPath, content));
 
         // Assert
         assertTrue(ex.getMessage().contains("Failed to save picture file"));
@@ -198,7 +198,7 @@ public class ImageHelperTest {
         final BufferedImage image = new BufferedImage(DEFAULT_WIDTH, DEFAULT_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
         // Act
-        final ImageDimensions dimensions = ImageHelper.createImageDimensions(image.getWidth(), image.getHeight());
+        final ImageDimensions dimensions = ImageFileHelper.createImageDimensions(image.getWidth(), image.getHeight());
 
         // Assert
         assertEquals(DEFAULT_WIDTH, dimensions.width());

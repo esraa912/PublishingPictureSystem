@@ -5,27 +5,32 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.pioneers.picturepublishingservice.errors.dtos.responses.ErrorResponse;
 import com.pioneers.picturepublishingservice.errors.dtos.responses.GenericResponse;
-import com.pioneers.picturepublishingservice.utils.file.FileHelper;
+import com.pioneers.picturepublishingservice.errors.exceptions.FileException;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * Handles all exceptions required for file deletion issues.
+ * Global exception handler dedicated to managing {@link FileException} cases.
  *
  * @author esraa
  */
+@Slf4j
 @RestControllerAdvice
 public class FileExceptionHandler {
 
     /**
-     * Handles {@link FileHelper.PictureException} thrown during file-related operations.
+     * Handles {@link FileException} thrown during file operations.
      *
-     * @param e the {@link FileHelper.PictureException} containing error description and timestamp
+     * @param e the {@link FileException} containing error description and timestamp
      * @return a {@link GenericResponse} containing the error code, timestamp, and detailed error response
      */
-    @ExceptionHandler(FileHelper.PictureException.class)
-    public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final FileHelper.PictureException e) {
-        final ErrorResponse error =
-                new ErrorResponse(FileHelper.PictureException.PICTURE_EXCEPTION_MESSAGE, e.getDescription());
+    @ExceptionHandler(FileException.class)
+    public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final FileException e) {
+        log.error(e.getMessage());
 
-        return new GenericResponse<>(FileHelper.PictureException.PICTURE_EXCEPTION_CODE, e.getTimestamp(), error);
+        final ErrorResponse error =
+                new ErrorResponse(FileException.FILE_EXCEPTION_MESSAGE, e.getDescription());
+
+        return new GenericResponse<>(FileException.FILE_EXCEPTION_CODE, e.getTimestamp(), error);
     }
 }

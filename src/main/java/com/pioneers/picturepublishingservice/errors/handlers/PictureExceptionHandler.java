@@ -7,11 +7,14 @@ import com.pioneers.picturepublishingservice.errors.dtos.responses.ErrorResponse
 import com.pioneers.picturepublishingservice.errors.dtos.responses.GenericResponse;
 import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Handles all exceptions required for Picture Extension issues.
  *
  * @author esraa
  */
+@Slf4j
 @RestControllerAdvice
 public class PictureExceptionHandler {
 
@@ -23,6 +26,8 @@ public class PictureExceptionHandler {
      */
     @ExceptionHandler(PictureException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final PictureException e) {
+        log.error(e.getMessage());
+
         final ErrorResponse error =
                 new ErrorResponse(PictureException.PICTURE_EXCEPTION_MESSAGE, e.getDescription());
 

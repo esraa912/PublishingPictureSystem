@@ -34,13 +34,9 @@ public class AdminUserServiceImpl implements AdminUserService {
         log.debug("{} - Attempting to delete user with id: {}", methodName, id);
 
         final User user = userRepository.findById(id)
-                .orElseThrow(() -> {
-                    log.error("{} - User not found with id={}", methodName, id);
-                    return new UserNotFoundException("User not found");
-                });
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         if (user.isArchived()) {
-            log.error("{} - User with id: {} is already archived", methodName, id);
             throw new UserAlreadyArchivedException("User is already archived");
         }
 

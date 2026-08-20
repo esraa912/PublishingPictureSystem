@@ -7,11 +7,14 @@ import com.pioneers.picturepublishingservice.errors.dtos.responses.ErrorResponse
 import com.pioneers.picturepublishingservice.errors.dtos.responses.GenericResponse;
 import com.pioneers.picturepublishingservice.errors.exceptions.LogoutException;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Handles all exceptions required for Logout issues.
  *
  * @author esraa
  */
+@Slf4j
 @RestControllerAdvice
 public class LogoutExceptionHandler {
 
@@ -23,6 +26,8 @@ public class LogoutExceptionHandler {
      */
     @ExceptionHandler(LogoutException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final LogoutException e) {
+        log.error(e.getMessage());
+
         final ErrorResponse error =
                 new ErrorResponse(LogoutException.LOGOUT_EXCEPTION_MESSAGE, e.getDescription());
 

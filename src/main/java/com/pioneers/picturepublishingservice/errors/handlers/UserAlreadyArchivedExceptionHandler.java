@@ -7,11 +7,14 @@ import com.pioneers.picturepublishingservice.errors.dtos.responses.ErrorResponse
 import com.pioneers.picturepublishingservice.errors.dtos.responses.GenericResponse;
 import com.pioneers.picturepublishingservice.errors.exceptions.UserAlreadyArchivedException;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Handles all exceptions required for Register issues.
  *
  * @author esraa
  */
+@Slf4j
 @RestControllerAdvice
 public class UserAlreadyArchivedExceptionHandler {
 
@@ -24,6 +27,8 @@ public class UserAlreadyArchivedExceptionHandler {
      */
     @ExceptionHandler(UserAlreadyArchivedException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final UserAlreadyArchivedException e) {
+        log.error(e.getMessage());
+
         final ErrorResponse error =
                 new ErrorResponse(UserAlreadyArchivedException.USER_ALREADY_ARCHIVED_EXCEPTION_MESSAGE,
                         e.getDescription());

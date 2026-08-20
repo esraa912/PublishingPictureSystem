@@ -7,11 +7,14 @@ import com.pioneers.picturepublishingservice.errors.dtos.responses.ErrorResponse
 import com.pioneers.picturepublishingservice.errors.dtos.responses.GenericResponse;
 import com.pioneers.picturepublishingservice.errors.exceptions.LiquibaseRollbackException;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Handles all exceptions required for Register issues.
  *
  * @author esraa
  */
+@Slf4j
 @RestControllerAdvice
 public class LiquibaseRollbackExceptionHandler {
 
@@ -23,6 +26,8 @@ public class LiquibaseRollbackExceptionHandler {
      */
     @ExceptionHandler(LiquibaseRollbackException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final LiquibaseRollbackException e) {
+        log.error(e.getMessage());
+
         final ErrorResponse error =
                 new ErrorResponse(LiquibaseRollbackException.LIQUIBASE_ROLLBACK_EXCEPTION_MESSAGE, e.getDescription());
 
