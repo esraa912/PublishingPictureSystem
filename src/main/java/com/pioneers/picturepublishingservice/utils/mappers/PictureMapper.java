@@ -40,8 +40,6 @@ public final class PictureMapper {
      * @return a new pictureUrlResponse object from the request.
      */
     public static PictureUrlResponse toPictureUrlResponse(final Picture picture) {
-        return PictureUrlResponse.builder()
-                .url(picture.getUrl())
-                .build();
+        return new PictureUrlResponse(picture.getUrl());
     }
 }

@@ -1,7 +1,7 @@
 package com.pioneers.picturepublishingservice.services.admin;
 
-import static com.pioneers.picturepublishingservice.utils.file.FileHelper.buildUrl;
-import static com.pioneers.picturepublishingservice.utils.file.FileHelper.deleteFile;
+import static com.pioneers.picturepublishingservice.utils.image.ImageHelper.buildUrl;
+import static com.pioneers.picturepublishingservice.utils.image.ImageHelper.deleteFile;
 
 import java.util.List;
 import java.util.UUID;

@@ -66,7 +66,7 @@ public class PictureController {
 
         final PictureResponse response = pictureService.displayPictureDetails(id);
 
-        log.info("{} - Retrieved details successfully for picture Id: {}", methodName, id);
+        log.info("{} - Retrieved details successfully", methodName);
         return response;
     }
 
@@ -78,7 +78,7 @@ public class PictureController {
     @GetMapping("/display-all")
     public List<PictureUrlResponse> displayAllAcceptedPicturesUrlApi() {
         final String methodName = "displayAllAcceptedPicturesUrlApi()";
-        log.debug("{} - Fetching all accepted picture URLs", methodName);
+        log.info("{} - Fetching all accepted picture URLs", methodName);
 
         final List<PictureUrlResponse> urls = pictureService.displayAllAcceptedPictureUrl();
 

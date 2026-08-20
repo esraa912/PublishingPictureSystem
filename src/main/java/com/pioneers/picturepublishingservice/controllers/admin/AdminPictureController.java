@@ -36,7 +36,7 @@ public class AdminPictureController {
     @GetMapping("/show-pending-pictures")
     public List<PictureResponse> showPendingPicturesApi() {
         final String methodName = "showPendingPicturesApi()";
-        log.debug("{} - Fetching all pending pictures...", methodName);
+        log.info("{} - Fetching all pending pictures...", methodName);
 
         final List<PictureResponse> pendingPictures = adminPictureServiceService.getPendingPictures();
 
@@ -56,7 +56,7 @@ public class AdminPictureController {
 
         adminPictureServiceService.approvePicture(id);
 
-        log.info("{} - Picture approved successfully with id: {}", methodName, id);
+        log.info("{} - Picture approved successfully", methodName);
     }
 
     /**
@@ -71,6 +71,6 @@ public class AdminPictureController {
 
         adminPictureServiceService.rejectPicture(id);
 
-        log.info("{} - Picture rejected successfully with id: {}", methodName, id);
+        log.info("{} - Picture rejected successfully", methodName);
     }
 }

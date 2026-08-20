@@ -1,6 +1,7 @@
 package com.pioneers.picturepublishingservice.services.user;
 
 import java.util.UUID;
+import java.util.function.Function;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -42,18 +43,15 @@ public class AuthServiceImpl implements AuthService {
         log.debug("{} - Attempting to register user with email: {}", methodName, userSignup.email());
 
         userRepository.findByEmail(userSignup.email())
-                .ifPresent(user -> throwRegisterException(methodName, "Email is already used in system"));
+                .ifPresent(user ->
+                        logAndThrow(methodName, "Email is already used in system", RegisterException::new)
+                );
 
         final User user = UserMapper.toUser(userSignup);
         log.debug("{} - Converted userSignup to User entity", methodName);
 
         userRepository.save(user);
         log.debug("{} - User registered successfully with email: {}", methodName, user.getEmail());
-    }
-
-    private static void throwRegisterException(final String methodName, final String errorMessage) {
-        log.error("{}, {}", methodName, errorMessage);
-        throw new RegisterException(errorMessage);
     }
 
     @Transactional
@@ -74,20 +72,15 @@ public class AuthServiceImpl implements AuthService {
             log.debug("{} - Password matched: {}", methodName, isPasswordMatched);
 
             if (!isPasswordMatched) {
-                final String[] passwordArgsErrorLogs = new String[]{methodName, "Password is incorrect"};
-                log.error("{}, {}", methodName, passwordArgsErrorLogs);
-                throw new LoginException("Email or password incorrect");
+                logAndThrow(methodName, "Password is incorrect", LoginException::new);
             }
         } catch (CredentialsException e) {
-            log.error("{} - Cannot hash/verify password for email: {}", methodName, userLogin.email());
-            throw new LoginException("Cannot hash the plain text password");
+            logAndThrow(methodName, "Cannot hash the plain text password", LoginException::new);
         }
 
         if (foundUser.isLogin()) {
-            final String errorDetails = "User with email: " + userLogin.email() + " is already login";
-            log.error("{}, {}", methodName, errorDetails);
-
-            throw new LoginException(errorDetails);
+            logAndThrow(methodName,
+                    "User with email: " + userLogin.email() + " is already login", LoginException::new);
         }
 
         foundUser.login();
@@ -109,18 +102,25 @@ public class AuthServiceImpl implements AuthService {
         log.debug("{} - Attempting to logout user", methodName);
 
         User foundUser = userRepository.findById(id)
-                .orElseThrow(() -> new LogoutException("User with id: [" + id + "is not found"));
+                .orElseThrow(() -> new LogoutException("User with id: [" + id + "] is not found"));
 
         if (!foundUser.isLogin()) {
-            final String errorDetail = "User with id: [" + foundUser.getId() + "] is not login";
-            log.error("{}, {}", methodName, errorDetail);
-
-            throw new LogoutException(errorDetail);
+            logAndThrow(methodName,
+                    "User with id: [" + foundUser.getId() + "] is not login", LogoutException::new);
         }
 
         foundUser.logout();
         userRepository.save(foundUser);
 
-        log.info("{} - User logout successful{}", methodName);
+        log.info("{} - User logout successful", methodName);
+    }
+
+    private static <T extends RuntimeException> void logAndThrow(
+            final String methodName,
+            final String errorMessage,
+            final Function<String, T> exceptionSupplier) {
+
+        log.error("{} - {}", methodName, errorMessage);
+        throw exceptionSupplier.apply(errorMessage);
     }
 }

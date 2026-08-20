@@ -1,6 +1,7 @@
 package com.pioneers.picturepublishingservice.models.enums;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Enum representing the possible file types to upload picture in the system.
@@ -8,16 +9,13 @@ import lombok.Getter;
  * @author esraa
  */
 @Getter
+@RequiredArgsConstructor
 public enum FileType {
     JPG("jpg"),
     PNG("png"),
     GIF("gif");
 
     private final String extension;
-
-    FileType(String extension) {
-        this.extension = extension;
-    }
 
     /**
      * Checks if the given extension is allowed.

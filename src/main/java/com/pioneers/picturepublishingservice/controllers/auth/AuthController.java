@@ -42,7 +42,7 @@ public class AuthController {
 
         authService.registerUser(userSignup);
 
-        log.info("{} - User registered successfully with email= {}", methodName, userSignup.email());
+        log.info("{} - User registered successfully with email: {}", methodName, userSignup.email());
     }
 
     /**
@@ -72,6 +72,6 @@ public class AuthController {
 
         authService.logoutUser(id);
 
-        log.info("{} - User logout successfully with id: {}", methodName, id);
+        log.info("{} - User logout successfully", methodName);
     }
 }

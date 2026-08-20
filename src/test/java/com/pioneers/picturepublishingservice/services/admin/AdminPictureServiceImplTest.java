@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,24 +15,26 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.pioneers.picturepublishingservice.errors.exceptions.FileException;
+import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureResponse;
 import com.pioneers.picturepublishingservice.models.entities.Picture;
 import com.pioneers.picturepublishingservice.models.enums.Category;
 import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
 import com.pioneers.picturepublishingservice.repositories.PictureRepository;
-import com.pioneers.picturepublishingservice.utils.file.FileHelper;
 
 @ExtendWith(MockitoExtension.class)
 class AdminPictureServiceImplTest {
@@ -141,7 +144,7 @@ class AdminPictureServiceImplTest {
 
     @Test
     void testRejectPictureWhenPictureExistsAndFilePathIsWrongAndDeletingFileFailedThenThrowFileException() {
-        //Arrange
+        // Arrange
         UUID id = UUID.randomUUID();
 
         Picture picture = Picture.builder()
@@ -152,13 +155,23 @@ class AdminPictureServiceImplTest {
 
         when(pictureRepository.findById(id)).thenReturn(Optional.of(picture));
 
-        //Ack
-        RuntimeException ex = assertThrows(FileHelper.PictureException.class, () -> adminPictureService.rejectPicture(id));
+        Path mockPath = Paths.get("h:uploads/nature.png");
 
-        // Assert
-        assertTrue(ex.getMessage().contains("Failed to delete file at path:"));
-        verify(pictureRepository, times(1)).findById(id);
-        verify(pictureRepository, times(0)).save(picture);
+        try (MockedStatic<Paths> mockedPaths = mockStatic(Paths.class);
+             MockedStatic<Files> mockedFiles = mockStatic(Files.class)) {
+
+            mockedPaths.when(() -> Paths.get("h:uploads/nature.png")).thenReturn(mockPath);
+
+            mockedFiles.when(() -> Files.deleteIfExists(mockPath))
+                    .thenThrow(new IOException("Disk error"));
+
+            // Act & Assert
+            FileException ex = assertThrows(FileException.class, () -> adminPictureService.rejectPicture(id));
+            assertTrue(ex.getMessage().contains("Failed to delete file at path:"));
+
+            verify(pictureRepository, times(1)).findById(id);
+            verify(pictureRepository, times(0)).save(picture);
+        }
     }
 
     @Test
@@ -175,7 +188,7 @@ class AdminPictureServiceImplTest {
         when(pictureRepository.findById(id)).thenReturn(Optional.of(picture));
 
         //Ack & Assert
-        RuntimeException ex = assertThrows(FileHelper.PictureException.class, () -> adminPictureService.rejectPicture(id));
+        RuntimeException ex = assertThrows(FileException.class, () -> adminPictureService.rejectPicture(id));
         assertEquals("File path is null or blank", ex.getMessage());
         verify(pictureRepository, times(1)).findById(id);
         verify(pictureRepository, times(0)).save(picture);

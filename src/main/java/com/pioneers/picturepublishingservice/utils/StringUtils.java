@@ -12,12 +12,12 @@ public final class StringUtils {
     }
 
     /**
-     * Checks if the given file path string is {@code null} or blank.
+     * Checks whether a given string is {@code null} or blank.
      *
-     * @param filePath the file path string to validate
+     * @param str the string to validate
      * @return {@code true} if the string is null or blank, otherwise {@code false}
      */
-    public static boolean isNullOrBlank(final String filePath) {
-        return filePath == null || filePath.isBlank();
+    public static boolean isNullOrBlank(final String str) {
+        return str == null || str.isBlank();
     }
 }
