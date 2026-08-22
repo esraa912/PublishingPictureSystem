@@ -33,32 +33,32 @@ class FileHelperTest {
     private static final int DEFAULT_HEIGHT = 50;
 
     @Test
-    void testDeleteFileWhenFileExistsThenDeletedSuccessfully() {
+    void testDeleteFileWhenExistsThenDeletedSuccessfully() {
         try (MockedStatic<FileHelper> mockedFileHelper = mockStatic(FileHelper.class)) {
             // Arrange
-            mockedFileHelper.when(() -> FileHelper.deleteFile("test.txt"))
+            mockedFileHelper.when(() -> FileHelper.delete("test.txt"))
                     .thenAnswer(invocation -> null);
 
             // Act
-            FileHelper.deleteFile("test.txt");
+            FileHelper.delete("test.txt");
 
             // Assert
-            mockedFileHelper.verify(() -> FileHelper.deleteFile("test.txt"), times(1));
+            mockedFileHelper.verify(() -> FileHelper.delete("test.txt"), times(1));
         }
     }
 
     @Test
-    void testDeleteFileWhenFilePathIsBlankThenThrowsFileException() {
+    void testDeleteFileWhenFilePathIsBlankThenThrowsException() {
         // Act
         FileException ex = assertThrows(FileException.class,
-                () -> FileHelper.deleteFile(""));
+                () -> FileHelper.delete(""));
 
         // Assert
         assertTrue(ex.getMessage().contains("File path is null or blank"));
     }
 
     @Test
-    void testDeleteFileWhenIoExceptionOccursThenThrowsFileException() {
+    void testDeleteFileWhenIoExceptionOccursThenThrowsException() {
         // Arrange
         final Path mockPath = Paths.get("test.txt");
 
@@ -70,7 +70,7 @@ class FileHelperTest {
 
             // Act
             FileException ex = assertThrows(FileException.class,
-                    () -> FileHelper.deleteFile("Z:/invalid/path/file.txt"));
+                    () -> FileHelper.delete("Z:/invalid/path/file.txt"));
 
             // Assert
             assertTrue(ex.getMessage().contains("Failed to delete file"));
@@ -152,15 +152,15 @@ class FileHelperTest {
 
     @Test
     void testValidateExtensionWithValidExtensionDoesNotThrow() {
-        ImageFileHelper.validateExtension("jpg");
-        ImageFileHelper.validateExtension("png");
-        ImageFileHelper.validateExtension("gif");
+        ImageHelper.validateExtension("jpg");
+        ImageHelper.validateExtension("png");
+        ImageHelper.validateExtension("gif");
     }
 
     @Test
     void testValidateExtensionWithInvalidExtensionThrowsPictureException() {
-        assertThrows(PictureException.class, () -> ImageFileHelper.validateExtension("bmp"));
-        assertThrows(PictureException.class, () -> ImageFileHelper.validateExtension("exe"));
+        assertThrows(PictureException.class, () -> ImageHelper.validateExtension("bmp"));
+        assertThrows(PictureException.class, () -> ImageHelper.validateExtension("exe"));
     }
 
     @Test
@@ -170,7 +170,7 @@ class FileHelperTest {
         final byte[] content = "Hello World".getBytes();
 
         // Act
-        ImageFileHelper.writeIn(filePath, content);
+        ImageHelper.writeIn(filePath, content);
 
         // Assert
         assertTrue(Files.exists(filePath));
@@ -185,7 +185,7 @@ class FileHelperTest {
 
         // Act
         PictureException ex = assertThrows(PictureException.class,
-                () -> ImageFileHelper.writeIn(invalidPath, content));
+                () -> ImageHelper.writeIn(invalidPath, content));
 
         // Assert
         assertTrue(ex.getMessage().contains("Failed to save picture file"));
@@ -197,8 +197,8 @@ class FileHelperTest {
         final BufferedImage image = new BufferedImage(DEFAULT_WIDTH, DEFAULT_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
         // Act
-        final ImageFileHelper.ImageDimensions dimensions =
-                ImageFileHelper.createImageDimensions(image.getWidth(), image.getHeight());
+        final ImageHelper.ImageDimensions dimensions =
+                ImageHelper.createDimensions(image.getWidth(), image.getHeight());
 
         // Assert
         assertEquals(DEFAULT_WIDTH, dimensions.width());

@@ -15,11 +15,11 @@ import lombok.extern.slf4j.Slf4j;
  * @author esraa
  */
 @Slf4j
-public final class ImageFileHelper {
+public final class ImageHelper {
 
     private static final int MB = 1024 * 1024;
 
-    private ImageFileHelper() {
+    private ImageHelper() {
         throw new AssertionError("Cannot instantiate the FileHelper");
     }
 
@@ -72,7 +72,7 @@ public final class ImageFileHelper {
      * @param heightPixels the height of the image in pixels
      * @return an {@link ImageDimensions} instance containing width and heightPixels
      */
-    public static ImageDimensions createImageDimensions(final int widthPixels, final int heightPixels) {
+    public static ImageDimensions createDimensions(final int widthPixels, final int heightPixels) {
         return new ImageDimensions(widthPixels, heightPixels);
     }
 

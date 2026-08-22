@@ -1,10 +1,5 @@
 package com.pioneers.picturepublishingservice.services.picture;
 
-import static com.pioneers.picturepublishingservice.utils.files.FileHelper.createPath;
-import static com.pioneers.picturepublishingservice.utils.files.FileHelper.fetchExtension;
-import static com.pioneers.picturepublishingservice.utils.files.ImageFileHelper.validateExtension;
-import static com.pioneers.picturepublishingservice.utils.files.ImageFileHelper.validateSize;
-
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -14,6 +9,7 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
+import com.pioneers.picturepublishingservice.utils.files.FileHelper;
 import jakarta.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -26,7 +22,7 @@ import com.pioneers.picturepublishingservice.models.entities.Picture;
 import com.pioneers.picturepublishingservice.models.enums.Category;
 import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
 import com.pioneers.picturepublishingservice.repositories.PictureRepository;
-import com.pioneers.picturepublishingservice.utils.files.ImageFileHelper;
+import com.pioneers.picturepublishingservice.utils.files.ImageHelper;
 import com.pioneers.picturepublishingservice.utils.mappers.PictureMapper;
 import com.pioneers.picturepublishingservice.utils.time.TimeHelper;
 
@@ -57,18 +53,18 @@ public class PictureServiceImpl implements PictureService {
         final String methodName = "uploadPicture()";
         log.debug("{} - Uploading picture for user Id: [{}] with category = [{}]", methodName, userId, category);
 
-        validateSize(file.getSize());
+        ImageHelper.validateSize(file.getSize());
 
-        final String extension = fetchExtension(Objects.requireNonNull(file.getOriginalFilename()));
-        validateExtension(extension);
+        final String extension = FileHelper.fetchExtension(Objects.requireNonNull(file.getOriginalFilename()));
+        ImageHelper.validateExtension(extension);
 
-        final Path path = createPath("uploads", extension);
+        final Path path = FileHelper.createPath("uploads", extension);
 
-        ImageFileHelper.writeIn(path, file.getBytes());
+        ImageHelper.writeIn(path, file.getBytes());
 
         final BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
-        final ImageFileHelper.ImageDimensions imageDimensions =
-                ImageFileHelper.createImageDimensions(bufferedImage.getWidth(), bufferedImage.getHeight());
+        final ImageHelper.ImageDimensions imageDimensions =
+                ImageHelper.createDimensions(bufferedImage.getWidth(), bufferedImage.getHeight());
 
         log.debug("{} - Picture dimensions widthPixels: [{}], heightPixels: [{}]",
                 methodName, imageDimensions.width(), imageDimensions.height());

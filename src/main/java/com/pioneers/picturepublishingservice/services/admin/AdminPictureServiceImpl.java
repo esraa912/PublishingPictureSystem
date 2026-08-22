@@ -1,11 +1,9 @@
 package com.pioneers.picturepublishingservice.services.admin;
 
-import static com.pioneers.picturepublishingservice.utils.files.FileHelper.buildPath;
-import static com.pioneers.picturepublishingservice.utils.files.FileHelper.deleteFile;
-
 import java.util.List;
 import java.util.UUID;
 
+import com.pioneers.picturepublishingservice.utils.files.FileHelper;
 import jakarta.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -53,7 +51,7 @@ public class AdminPictureServiceImpl implements AdminPictureService {
 
         picture.acceptStatus();
 
-        final String url = buildPath("uploads", picture.getFilePath());
+        final String url = FileHelper.buildPath("uploads", picture.getFilePath());
         log.debug("{} - Generated URL = [{}]", methodName, url);
 
         picture.assignUrl(url);
@@ -74,7 +72,7 @@ public class AdminPictureServiceImpl implements AdminPictureService {
 
         picture.rejectStatus();
 
-        deleteFile(picture.getFilePath());
+        FileHelper.delete(picture.getFilePath());
         log.debug("{} - Deleted file at path: [{}]", methodName, picture.getFilePath());
 
         pictureRepository.save(picture);
