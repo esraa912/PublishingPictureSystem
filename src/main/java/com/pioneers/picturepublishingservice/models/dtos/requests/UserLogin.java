@@ -16,5 +16,6 @@ public record UserLogin(
         @Pattern(
                 regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z\\d]).{8,}$",
                 message = "Password doesn't meet our criteria")
-        String password) {
+        String password
+) {
 }

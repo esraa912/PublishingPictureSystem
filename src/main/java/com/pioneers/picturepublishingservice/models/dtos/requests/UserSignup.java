@@ -26,5 +26,6 @@ public record UserSignup(
                 message = "Password doesn't meet our criteria")
         String password,
         @NotBlank(message = "Role is required")
-        Role role) {
+        Role role
+) {
 }
