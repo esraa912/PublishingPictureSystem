@@ -1,4 +1,4 @@
-package com.pioneers.picturepublishingservice.utils.image;
+package com.pioneers.picturepublishingservice.utils.files;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -6,7 +6,6 @@ import java.nio.file.Path;
 
 import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
 import com.pioneers.picturepublishingservice.models.enums.FileType;
-import com.pioneers.picturepublishingservice.models.valueobjects.ImageDimensions;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -59,9 +58,9 @@ public final class ImageFileHelper {
         final String methodName = "writeIn()";
         try {
             Files.write(filePath, content);
-            log.debug("{} - File written successfully at path={}", methodName, filePath);
+            log.debug("{} - File written successfully at path = [{}]", methodName, filePath);
         } catch (IOException e) {
-            log.error("{} - Failed to save picture file at path: {}", methodName, filePath);
+            log.error("{} - Failed to save picture file at path: [{}]", methodName, filePath);
             throw new PictureException("Failed to save picture file to uploads folder");
         }
     }
@@ -75,5 +74,14 @@ public final class ImageFileHelper {
      */
     public static ImageDimensions createImageDimensions(final int widthPixels, final int heightPixels) {
         return new ImageDimensions(widthPixels, heightPixels);
+    }
+
+    /**
+     * Represents image dimensions with width and height.
+     *
+     * @param width  the width of the image in pixels
+     * @param height the height of the image in pixels
+     */
+    public record ImageDimensions(int width, int height) {
     }
 }

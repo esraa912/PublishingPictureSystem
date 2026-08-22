@@ -39,7 +39,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void registerUser(UserSignup userSignup) {
         final String methodName = "registerUser()";
-        log.debug("{} - Attempting to register user with email: {}", methodName, userSignup.email());
+        log.debug("{} - Attempting to register user with email: [{}]", methodName, userSignup.email());
 
         userRepository.findByEmail(userSignup.email())
                 .ifPresent(user -> {
@@ -50,23 +50,23 @@ public class AuthServiceImpl implements AuthService {
         log.debug("{} - Converted userSignup to User entity", methodName);
 
         userRepository.save(user);
-        log.debug("{} - User registered successfully with email: {}", methodName, user.getEmail());
+        log.debug("{} - User registered successfully with email: [{}]", methodName, user.getEmail());
     }
 
     @Transactional
     @Override
     public void loginUser(UserLogin userLogin) {
         final String methodName = "loginUser()";
-        log.debug("{} - Attempting to login user with email: {}", methodName, userLogin.email());
+        log.debug("{} - Attempting to login user with email: [{}]", methodName, userLogin.email());
 
         final User foundUser = userRepository.findByEmail(userLogin.email())
                 .orElseThrow(() ->
-                        new LoginException(String.format("User with email %s is not found", userLogin.email())));
+                        new LoginException(String.format("User with email [%s] is not found", userLogin.email())));
 
         try {
             final boolean isPasswordMatched =
                     CredentialsHelper.verifyPassword(userLogin.password(), foundUser.getPassword());
-            log.debug("{} - Password matched: {}", methodName, isPasswordMatched);
+            log.debug("{} - Password matched: [{}]", methodName, isPasswordMatched);
 
             if (!isPasswordMatched) {
                 throw new LoginException("Password is incorrect");
@@ -76,14 +76,14 @@ public class AuthServiceImpl implements AuthService {
         }
 
         if (foundUser.isLogin()) {
-            throw new LoginException("User with email: " + userLogin.email() + " is already login");
+            throw new LoginException("User with email: [" + userLogin.email() + "] is already login");
         }
 
         foundUser.login();
         httpSession.setAttribute("user_id", foundUser.getId());
         userRepository.save(foundUser);
 
-        log.info("{} - User login successful with email: {}", methodName, userLogin.email());
+        log.info("{} - User login successful with email: [{}]", methodName, userLogin.email());
     }
 
     @Override

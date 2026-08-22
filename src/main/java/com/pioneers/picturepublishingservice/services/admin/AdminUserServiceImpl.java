@@ -31,7 +31,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Transactional
     public void deleteUser(final UUID id) {
         final String methodName = "deleteUser()";
-        log.debug("{} - Attempting to delete user with id: {}", methodName, id);
+        log.debug("{} - Attempting to delete user with id: [{}]", methodName, id);
 
         final User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
@@ -42,11 +42,12 @@ public class AdminUserServiceImpl implements AdminUserService {
 
         if (user.isLogin()) {
             user.logout();
-            log.debug("{} - User with id: {} is currently logged out", methodName, id);
+            log.debug("{} - User with id: [{}] is currently logged out", methodName, id);
         }
 
         user.markAsArchived();
         userRepository.save(user);
-        log.info("{} - User archived successfully with id: {}", methodName, id);
+        log.debug("{} - User archived successfully with id: {}", methodName, id);
+        log.info("{} - User has been deleted", methodName);
     }
 }

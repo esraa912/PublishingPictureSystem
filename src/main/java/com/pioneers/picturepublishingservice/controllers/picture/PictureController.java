@@ -50,7 +50,7 @@ public class PictureController {
 
         pictureService.uploadPicture(pictureDto.file(), pictureDto.description(), pictureDto.category(), userId);
 
-        log.info("{} - Uploaded picture successfully with category: {}", methodName, pictureDto.category());
+        log.info("{} - Uploaded picture successfully with category: [{}]", methodName, pictureDto.category());
     }
 
     /**
@@ -62,7 +62,7 @@ public class PictureController {
     @GetMapping("/details")
     public PictureResponse displayDetailsApi(@RequestBody final UUID id) {
         final String methodName = "displayDetailsApi()";
-        log.debug("{} - Fetching details for picture Id: {}", methodName, id);
+        log.debug("{} - Fetching details for picture Id: [{}]", methodName, id);
 
         final PictureResponse response = pictureService.displayPictureDetails(id);
 
@@ -82,7 +82,7 @@ public class PictureController {
 
         final List<PictureUrlResponse> urls = pictureService.displayAllAcceptedPictureUrl();
 
-        log.info("{} - Returning {} accepted picture URLs", methodName, urls.size());
+        log.info("{} - Returning [{}] accepted picture URLs", methodName, urls.size());
         return urls;
     }
 }

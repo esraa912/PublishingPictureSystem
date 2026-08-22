@@ -1,7 +1,7 @@
 package com.pioneers.picturepublishingservice.services.admin;
 
-import static com.pioneers.picturepublishingservice.utils.image.FileHelper.buildPath;
-import static com.pioneers.picturepublishingservice.utils.image.FileHelper.deleteFile;
+import static com.pioneers.picturepublishingservice.utils.files.FileHelper.buildPath;
+import static com.pioneers.picturepublishingservice.utils.files.FileHelper.deleteFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -46,7 +46,7 @@ public class AdminPictureServiceImpl implements AdminPictureService {
     public void approvePicture(final UUID id) throws PictureException {
         final String methodName = "approvePicture()";
 
-        log.debug("{} - Trying to approve picture with id={}", methodName, id);
+        log.debug("{} - Trying to approve picture with id = [{}]", methodName, id);
 
         final Picture picture = pictureRepository.findById(id)
                 .orElseThrow(() -> new PictureException("Picture is not found"));
@@ -54,7 +54,7 @@ public class AdminPictureServiceImpl implements AdminPictureService {
         picture.acceptStatus();
 
         final String url = buildPath("uploads", picture.getFilePath());
-        log.debug("{} - Generated URL={}", methodName, url);
+        log.debug("{} - Generated URL = [{}]", methodName, url);
 
         picture.assignUrl(url);
         pictureRepository.save(picture);
@@ -67,7 +67,7 @@ public class AdminPictureServiceImpl implements AdminPictureService {
     public void rejectPicture(final UUID id) throws PictureException {
         final String methodName = "rejectPicture()";
 
-        log.debug("{} - Trying to reject picture with id={}", methodName, id);
+        log.debug("{} - Trying to reject picture with id = [{}]", methodName, id);
 
         final Picture picture = pictureRepository.findById(id)
                 .orElseThrow(() -> new PictureException("Picture is not found"));
@@ -75,7 +75,7 @@ public class AdminPictureServiceImpl implements AdminPictureService {
         picture.rejectStatus();
 
         deleteFile(picture.getFilePath());
-        log.debug("{} - Deleted file at path: {}", methodName, picture.getFilePath());
+        log.debug("{} - Deleted file at path: [{}]", methodName, picture.getFilePath());
 
         pictureRepository.save(picture);
         log.info("{} - Picture rejected successfully", methodName);

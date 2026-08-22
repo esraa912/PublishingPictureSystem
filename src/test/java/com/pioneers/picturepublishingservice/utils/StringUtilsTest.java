@@ -13,7 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
  * @author esraa
  */
 @ExtendWith(MockitoExtension.class)
-public class StringUtilsTest {
+class StringUtilsTest {
 
     @Test
     void testIsNullOrBlankWhenNullThenReturnTrue() {

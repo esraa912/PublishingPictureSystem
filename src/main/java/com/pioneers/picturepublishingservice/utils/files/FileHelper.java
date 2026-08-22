@@ -1,4 +1,4 @@
-package com.pioneers.picturepublishingservice.utils.image;
+package com.pioneers.picturepublishingservice.utils.files;
 
 import static com.pioneers.picturepublishingservice.utils.StringUtils.isNullOrBlank;
 
@@ -30,7 +30,7 @@ public final class FileHelper {
      * @param filePath the path of the file to delete
      * @throws FileException if the file path is null/blank or if deletion fails
      */
-    public static void deleteFile(final String filePath) throws FileException {
+    public static void deleteFile(final String filePath) {
         final String methodName = "deleteFileIfExists()";
         if (isNullOrBlank(filePath)) {
             throw new FileException("File path is null or blank");

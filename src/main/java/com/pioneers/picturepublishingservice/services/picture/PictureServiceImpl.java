@@ -1,9 +1,9 @@
 package com.pioneers.picturepublishingservice.services.picture;
 
-import static com.pioneers.picturepublishingservice.utils.image.FileHelper.createPath;
-import static com.pioneers.picturepublishingservice.utils.image.FileHelper.fetchExtension;
-import static com.pioneers.picturepublishingservice.utils.image.ImageFileHelper.validateExtension;
-import static com.pioneers.picturepublishingservice.utils.image.ImageFileHelper.validateSize;
+import static com.pioneers.picturepublishingservice.utils.files.FileHelper.createPath;
+import static com.pioneers.picturepublishingservice.utils.files.FileHelper.fetchExtension;
+import static com.pioneers.picturepublishingservice.utils.files.ImageFileHelper.validateExtension;
+import static com.pioneers.picturepublishingservice.utils.files.ImageFileHelper.validateSize;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -25,9 +25,8 @@ import com.pioneers.picturepublishingservice.models.dtos.responses.PictureUrlRes
 import com.pioneers.picturepublishingservice.models.entities.Picture;
 import com.pioneers.picturepublishingservice.models.enums.Category;
 import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
-import com.pioneers.picturepublishingservice.models.valueobjects.ImageDimensions;
 import com.pioneers.picturepublishingservice.repositories.PictureRepository;
-import com.pioneers.picturepublishingservice.utils.image.ImageFileHelper;
+import com.pioneers.picturepublishingservice.utils.files.ImageFileHelper;
 import com.pioneers.picturepublishingservice.utils.mappers.PictureMapper;
 import com.pioneers.picturepublishingservice.utils.time.TimeHelper;
 
@@ -56,7 +55,7 @@ public class PictureServiceImpl implements PictureService {
             final UUID userId
     ) throws IOException {
         final String methodName = "uploadPicture()";
-        log.debug("{} - Uploading picture for user Id: {} with category={}", methodName, userId, category);
+        log.debug("{} - Uploading picture for user Id: [{}] with category = [{}]", methodName, userId, category);
 
         validateSize(file.getSize());
 
@@ -68,10 +67,10 @@ public class PictureServiceImpl implements PictureService {
         ImageFileHelper.writeIn(path, file.getBytes());
 
         final BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
-        final ImageDimensions imageDimensions = ImageFileHelper.createImageDimensions(bufferedImage.getWidth(),
-                bufferedImage.getHeight()
-        );
-        log.debug("{} - Picture dimensions widthPixels: {}, heightPixels: {}",
+        final ImageFileHelper.ImageDimensions imageDimensions =
+                ImageFileHelper.createImageDimensions(bufferedImage.getWidth(), bufferedImage.getHeight());
+
+        log.debug("{} - Picture dimensions widthPixels: [{}], heightPixels: [{}]",
                 methodName, imageDimensions.width(), imageDimensions.height());
 
         final Picture picture = Picture.builder()

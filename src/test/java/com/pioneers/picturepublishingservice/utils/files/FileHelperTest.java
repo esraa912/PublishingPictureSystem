@@ -1,4 +1,4 @@
-package com.pioneers.picturepublishingservice.utils.image;
+package com.pioneers.picturepublishingservice.utils.files;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -20,7 +20,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.pioneers.picturepublishingservice.errors.exceptions.FileException;
 import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
-import com.pioneers.picturepublishingservice.models.valueobjects.ImageDimensions;
 
 /**
  * Unit tests for the {@link FileHelper} utility class.
@@ -28,7 +27,7 @@ import com.pioneers.picturepublishingservice.models.valueobjects.ImageDimensions
  * @author esraa
  */
 @ExtendWith(MockitoExtension.class)
-public class FileHelperTest {
+class FileHelperTest {
 
     private static final int DEFAULT_WIDTH = 100;
     private static final int DEFAULT_HEIGHT = 50;
@@ -198,7 +197,8 @@ public class FileHelperTest {
         final BufferedImage image = new BufferedImage(DEFAULT_WIDTH, DEFAULT_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
         // Act
-        final ImageDimensions dimensions = ImageFileHelper.createImageDimensions(image.getWidth(), image.getHeight());
+        final ImageFileHelper.ImageDimensions dimensions =
+                ImageFileHelper.createImageDimensions(image.getWidth(), image.getHeight());
 
         // Assert
         assertEquals(DEFAULT_WIDTH, dimensions.width());

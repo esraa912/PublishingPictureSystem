@@ -40,7 +40,7 @@ public class RollbackHandler {
      */
     public void rollback(final int changes) throws LiquibaseException {
         final String methodName = "rollback()";
-        log.debug("{} - Starting rollback for changes: {}", methodName, changes);
+        log.debug("{} - Starting rollback for changes: [{}]", methodName, changes);
 
         final Liquibase liquibase;
 
@@ -56,7 +56,7 @@ public class RollbackHandler {
 
         try {
             liquibase.rollback(changes, String.valueOf(new Contexts()));
-            log.info("{} - Rollback successfully finished for changes: {}", methodName, changes);
+            log.info("{} - Rollback successfully finished for changes: [{}]", methodName, changes);
         } catch (LiquibaseException e) {
             throw new LiquibaseRollbackException("Rollback failed for " + changes + " changes");
         }
