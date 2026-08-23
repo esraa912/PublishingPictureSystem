@@ -7,7 +7,6 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pioneers.picturepublishingservice.models.dtos.requests.UserLogin;
@@ -38,11 +37,10 @@ public class AuthController {
     @PostMapping("/register")
     public void registrationApi(@Valid @RequestBody final UserSignup userSignup) {
         final String methodName = "registrationApi()";
-        log.debug("{} - Registering user with email= {}", methodName, userSignup.email());
 
         authService.registerUser(userSignup);
 
-        log.info("{} - User registered successfully with email: {}", methodName, userSignup.email());
+        log.info("{} - User registered successfully with email: [{}]", methodName, userSignup.email());
     }
 
     /**
@@ -53,11 +51,10 @@ public class AuthController {
     @PostMapping("/login")
     public void loginApi(@RequestBody final UserLogin userLogin) {
         final String methodName = "loginApi()";
-        log.debug("{} - Attempting login for user: {}", methodName, userLogin.email());
 
         authService.loginUser(userLogin);
 
-        log.info("{} - User login successfully with username: {}", methodName, userLogin.email());
+        log.info("{} - User login successfully with username: [{}]", methodName, userLogin.email());
     }
 
     /**
@@ -66,9 +63,8 @@ public class AuthController {
      * @param id The unique identifier of the user to log out.
      */
     @PostMapping("/logout")
-    public void logoutApi(@RequestParam final UUID id) {
+    public void logoutApi(@RequestBody final UUID id) {
         final String methodName = "logoutApi()";
-        log.debug("{} - Logging out user with id: {}", methodName, id);
 
         authService.logoutUser(id);
 

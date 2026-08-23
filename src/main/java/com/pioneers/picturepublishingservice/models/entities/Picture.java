@@ -16,6 +16,7 @@ import jakarta.persistence.Table;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import com.pioneers.picturepublishingservice.errors.exceptions.InvalidUrlException;
 import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
 import com.pioneers.picturepublishingservice.models.enums.Category;
 import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
@@ -112,11 +113,15 @@ public class Picture {
     }
 
     /**
-     * Assigns a URL to the picture.
+     * Assigns a URL to this object after validating its format.
      *
-     * @param url the URL to assign to the picture
+     * @param url the URL string to assign; must start with {@code http://} or {@code https://}
+     * @throws InvalidUrlException if the URL does not start with {@code http://} or {@code https://}
      */
     public void assignUrl(final String url) {
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            throw new InvalidUrlException("URL must start with http:// or https://");
+        }
         this.url = url;
     }
 

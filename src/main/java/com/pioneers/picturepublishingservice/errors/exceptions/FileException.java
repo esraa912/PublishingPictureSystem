@@ -20,9 +20,9 @@ public class FileException extends RuntimeException {
     private final Timestamp timestamp;
 
     /**
-     * Constructs a new {@code LiquibaseException} with the specified description.
+     * Constructs a new {@code FileException} with the specified description.
      *
-     * @param description a detailed explanation of the Liquibase error
+     * @param description a detailed explanation of the File operations error
      */
     public FileException(String description) {
         super(description);

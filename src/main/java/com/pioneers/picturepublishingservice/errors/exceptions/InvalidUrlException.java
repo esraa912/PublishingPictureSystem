@@ -1,0 +1,32 @@
+package com.pioneers.picturepublishingservice.errors.exceptions;
+
+import java.sql.Timestamp;
+
+import com.pioneers.picturepublishingservice.utils.time.TimeHelper;
+
+import lombok.Getter;
+
+/**
+ * Custom runtime exception used to indicate errors related to invalid or malformed URLs.
+ *
+ * @author esraa
+ */
+@Getter
+public class InvalidUrlException extends RuntimeException {
+    public static final String INVALID_URL_EXCEPTION_MESSAGE = "invalidUrlException";
+    public static final int INVALID_URL_EXCEPTION_CODE = 1013;
+
+    private final String description;
+    private final Timestamp timestamp;
+
+    /**
+     * Constructs a new {@code InvalidUrlException} with the specified description.
+     *
+     * @param description a detailed explanation of the invalid URL error
+     */
+    public InvalidUrlException(String description) {
+        super(description);
+        this.description = description;
+        this.timestamp = TimeHelper.currentTimestamp();
+    }
+}

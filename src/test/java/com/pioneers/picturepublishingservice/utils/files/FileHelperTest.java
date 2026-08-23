@@ -170,7 +170,7 @@ class FileHelperTest {
         final byte[] content = "Hello World".getBytes();
 
         // Act
-        ImageHelper.writeIn(filePath, content);
+        FileHelper.writeIn(filePath, content);
 
         // Assert
         assertTrue(Files.exists(filePath));
@@ -185,7 +185,7 @@ class FileHelperTest {
 
         // Act
         PictureException ex = assertThrows(PictureException.class,
-                () -> ImageHelper.writeIn(invalidPath, content));
+                () -> FileHelper.writeIn(invalidPath, content));
 
         // Assert
         assertTrue(ex.getMessage().contains("Failed to save picture file"));

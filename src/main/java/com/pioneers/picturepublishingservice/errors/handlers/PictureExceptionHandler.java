@@ -9,6 +9,8 @@ import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
 
 import lombok.extern.slf4j.Slf4j;
 
+import static com.pioneers.picturepublishingservice.utils.MethodNameExtractor.extractOriginalMethodName;
+
 /**
  * Handles all exceptions required for Picture Extension issues.
  *
@@ -26,7 +28,8 @@ public class PictureExceptionHandler {
      */
     @ExceptionHandler(PictureException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final PictureException e) {
-        log.error(e.getMessage());
+        String methodName = extractOriginalMethodName(e);
+        log.error("{} - {}", methodName, e.getMessage());
 
         final ErrorResponse error =
                 new ErrorResponse(PictureException.PICTURE_EXCEPTION_MESSAGE, e.getDescription());

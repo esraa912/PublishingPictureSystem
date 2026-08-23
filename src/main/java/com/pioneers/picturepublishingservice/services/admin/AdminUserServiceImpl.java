@@ -47,7 +47,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
         user.markAsArchived();
         userRepository.save(user);
-        log.debug("{} - User archived successfully with id: {}", methodName, id);
+        log.debug("{} - User archived successfully with id: [{}]", methodName, id);
         log.info("{} - User has been deleted", methodName);
     }
 }

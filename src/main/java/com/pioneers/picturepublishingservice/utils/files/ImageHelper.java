@@ -1,9 +1,5 @@
 package com.pioneers.picturepublishingservice.utils.files;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
 import com.pioneers.picturepublishingservice.models.enums.FileType;
 
@@ -42,27 +38,7 @@ public final class ImageHelper {
      * @throws PictureException if the extension is not allowed
      */
     public static void validateExtension(final String extension) {
-        if (!FileType.isExtensionAllowed(extension)) {
-            throw new PictureException("Only jpg, png, gif are allowed");
-        }
-    }
-
-    /**
-     * Writes the given byte content into a file at the specified path.
-     *
-     * @param filePath the path where the file should be written
-     * @param content  the byte array content to write into the file
-     * @throws PictureException if the file cannot be saved to the uploads folder
-     */
-    public static void writeIn(final Path filePath, final byte[] content) throws PictureException {
-        final String methodName = "writeIn()";
-        try {
-            Files.write(filePath, content);
-            log.debug("{} - File written successfully at path = [{}]", methodName, filePath);
-        } catch (IOException e) {
-            log.error("{} - Failed to save picture file at path: [{}]", methodName, filePath);
-            throw new PictureException("Failed to save picture file to uploads folder");
-        }
+        FileType.isExtensionAllowed(extension);
     }
 
     /**

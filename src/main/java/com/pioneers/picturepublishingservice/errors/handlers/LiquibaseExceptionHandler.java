@@ -9,6 +9,8 @@ import com.pioneers.picturepublishingservice.errors.exceptions.LiquibaseExceptio
 
 import lombok.extern.slf4j.Slf4j;
 
+import static com.pioneers.picturepublishingservice.utils.MethodNameExtractor.extractOriginalMethodName;
+
 /**
  * Handles all exceptions required for Register issues.
  *
@@ -26,7 +28,8 @@ public class LiquibaseExceptionHandler {
      */
     @ExceptionHandler(LiquibaseException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final LiquibaseException e) {
-        log.error(e.getMessage());
+        String methodName = extractOriginalMethodName(e);
+        log.error("{} - {}", methodName, e.getMessage());
 
         final ErrorResponse error =
                 new ErrorResponse(LiquibaseException.LIQUIBASE_EXCEPTION_MESSAGE, e.getDescription());

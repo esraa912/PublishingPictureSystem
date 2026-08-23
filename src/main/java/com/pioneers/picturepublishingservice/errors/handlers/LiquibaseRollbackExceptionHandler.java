@@ -9,8 +9,10 @@ import com.pioneers.picturepublishingservice.errors.exceptions.LiquibaseRollback
 
 import lombok.extern.slf4j.Slf4j;
 
+import static com.pioneers.picturepublishingservice.utils.MethodNameExtractor.extractOriginalMethodName;
+
 /**
- * Handles all exceptions required for Register issues.
+ * Handles all exceptions required for Liquibase Rollback issues.
  *
  * @author esraa
  */
@@ -26,7 +28,8 @@ public class LiquibaseRollbackExceptionHandler {
      */
     @ExceptionHandler(LiquibaseRollbackException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final LiquibaseRollbackException e) {
-        log.error(e.getMessage());
+        String methodName = extractOriginalMethodName(e);
+        log.error("{} - {}", methodName, e.getMessage());
 
         final ErrorResponse error =
                 new ErrorResponse(LiquibaseRollbackException.LIQUIBASE_ROLLBACK_EXCEPTION_MESSAGE, e.getDescription());

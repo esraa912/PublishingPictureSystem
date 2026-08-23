@@ -52,7 +52,6 @@ public class AdminPictureController {
     @PutMapping("/approve-picture")
     public void approvePictureApi(@RequestBody final UUID id) {
         final String methodName = "approvePictureApi()";
-        log.debug("{} - Approving picture with id: {}", methodName, id);
 
         adminPictureServiceService.approvePicture(id);
 
@@ -67,7 +66,6 @@ public class AdminPictureController {
     @PutMapping("/reject-picture")
     public void rejectPictureApi(@RequestBody final UUID id) {
         final String methodName = "rejectPictureApi()";
-        log.debug("{} - Rejecting picture with id: {}", methodName, id);
 
         adminPictureServiceService.rejectPicture(id);
 

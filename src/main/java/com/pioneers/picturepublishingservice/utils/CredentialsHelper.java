@@ -14,6 +14,7 @@ import lombok.NonNull;
  * @author esraa
  */
 public final class CredentialsHelper {
+
     private CredentialsHelper() {
         throw new AssertionError("Utility class");
     }

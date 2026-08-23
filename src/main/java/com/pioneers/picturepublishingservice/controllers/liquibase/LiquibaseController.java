@@ -1,7 +1,5 @@
 package com.pioneers.picturepublishingservice.controllers.liquibase;
 
-import java.sql.SQLException;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,13 +28,11 @@ public class LiquibaseController {
      * Executes a Liquibase rollback operation for a given number of changes.
      *
      * @param changes: the number of changesets to rollback.
-     * @throws SQLException:       if a database access error occurs during rollback.
      * @throws LiquibaseException: if Liquibase fails to perform the rollback.
      */
     @PostMapping("rollback/{changes}")
-    public void rollbackApi(@PathVariable final int changes) throws SQLException, LiquibaseException {
+    public void rollbackApi(@PathVariable final int changes) throws LiquibaseException {
         final String methodName = "rollbackApi()";
-        log.debug("{} - Starting rollback for changes: {}", methodName, changes);
 
         liquibaseHandler.rollback(changes);
 

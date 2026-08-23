@@ -1,5 +1,9 @@
 package com.pioneers.picturepublishingservice.models.enums;
 
+import java.util.Arrays;
+
+import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -21,14 +25,11 @@ public enum FileType {
      * Checks if the given extension is allowed.
      *
      * @param extension the file extension to check
-     * @return true if the extension is allowed, false otherwise
      */
-    public static boolean isExtensionAllowed(final String extension) {
-        for (FileType type : values()) {
-            if (type.getExtension().equalsIgnoreCase(extension)) {
-                return true;
-            }
-        }
-        return false;
+    public static void isExtensionAllowed(final String extension) {
+        Arrays.stream(values())
+                .filter(fileType -> fileType.getExtension().equalsIgnoreCase(extension))
+                .findFirst()
+                .orElseThrow(() -> new PictureException("Extension is not allowed: " + extension));
     }
 }

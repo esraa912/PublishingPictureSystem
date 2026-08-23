@@ -33,7 +33,6 @@ public class AdminUserController {
     @DeleteMapping("/delete-user")
     public void deleteUserApi(@RequestBody final UUID id) {
         final String methodName = "deleteUserApi()";
-        log.debug("{} - Deleting user with id: {}", methodName, id);
 
         adminUserService.deleteUser(id);
 

@@ -9,6 +9,8 @@ import com.pioneers.picturepublishingservice.errors.exceptions.UserNotFoundExcep
 
 import lombok.extern.slf4j.Slf4j;
 
+import static com.pioneers.picturepublishingservice.utils.MethodNameExtractor.extractOriginalMethodName;
+
 /**
  * Handles all exceptions required for Register issues.
  *
@@ -28,7 +30,8 @@ public class UserNotFoundExceptionHandler {
      */
     @ExceptionHandler(UserNotFoundException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final UserNotFoundException e) {
-        log.error(e.getMessage());
+        String methodName = extractOriginalMethodName(e);
+        log.error("{} - {}", methodName, e.getMessage());
 
         final ErrorResponse error =
                 new ErrorResponse(UserNotFoundException.USER_NOT_FOUND_EXCEPTION_MESSAGE, e.getDescription());

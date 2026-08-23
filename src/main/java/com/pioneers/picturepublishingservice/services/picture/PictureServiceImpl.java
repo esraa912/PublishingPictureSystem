@@ -60,7 +60,7 @@ public class PictureServiceImpl implements PictureService {
 
         final Path path = FileHelper.createPath("uploads", extension);
 
-        ImageHelper.writeIn(path, file.getBytes());
+        FileHelper.writeIn(path, file.getBytes());
 
         final BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
         final ImageHelper.ImageDimensions imageDimensions =
@@ -87,6 +87,9 @@ public class PictureServiceImpl implements PictureService {
 
     @Override
     public PictureResponse displayPictureDetails(final UUID id) {
+        final String methodName = "displayPictureDetails()";
+        log.debug("{} - Fetching details for picture Id: [{}]", methodName, id);
+
         return pictureRepository.findById(id)
                 .map(PictureMapper::toPictureResponse)
                 .orElseThrow(() -> new PictureException("Picture not found"));
