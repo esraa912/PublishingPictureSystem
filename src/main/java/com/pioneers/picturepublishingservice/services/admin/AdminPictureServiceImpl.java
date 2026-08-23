@@ -3,7 +3,6 @@ package com.pioneers.picturepublishingservice.services.admin;
 import java.util.List;
 import java.util.UUID;
 
-import com.pioneers.picturepublishingservice.utils.files.FileHelper;
 import jakarta.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -13,6 +12,7 @@ import com.pioneers.picturepublishingservice.models.dtos.responses.PictureRespon
 import com.pioneers.picturepublishingservice.models.entities.Picture;
 import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
 import com.pioneers.picturepublishingservice.repositories.PictureRepository;
+import com.pioneers.picturepublishingservice.utils.files.FileHelper;
 import com.pioneers.picturepublishingservice.utils.mappers.PictureMapper;
 
 import lombok.RequiredArgsConstructor;

@@ -1,8 +1,5 @@
 package com.pioneers.picturepublishingservice.utils.mappers;
 
-import static com.pioneers.picturepublishingservice.utils.CredentialsHelper.hashPassword;
-import static com.pioneers.picturepublishingservice.utils.time.TimeHelper.currentTimestamp;
-
 import java.sql.Timestamp;
 
 import com.pioneers.picturepublishingservice.errors.exceptions.CredentialsException;
@@ -10,6 +7,9 @@ import com.pioneers.picturepublishingservice.models.dtos.requests.UserSignup;
 import com.pioneers.picturepublishingservice.models.entities.User;
 
 import lombok.extern.slf4j.Slf4j;
+
+import static com.pioneers.picturepublishingservice.utils.CredentialsHelper.hashPassword;
+import static com.pioneers.picturepublishingservice.utils.time.TimeHelper.currentTimestamp;
 
 /**
  * Mapper class to transform to/from User.

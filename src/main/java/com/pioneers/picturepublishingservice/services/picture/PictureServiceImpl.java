@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
-import com.pioneers.picturepublishingservice.utils.files.FileHelper;
 import jakarta.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -22,6 +21,7 @@ import com.pioneers.picturepublishingservice.models.entities.Picture;
 import com.pioneers.picturepublishingservice.models.enums.Category;
 import com.pioneers.picturepublishingservice.models.enums.PictureStatus;
 import com.pioneers.picturepublishingservice.repositories.PictureRepository;
+import com.pioneers.picturepublishingservice.utils.files.FileHelper;
 import com.pioneers.picturepublishingservice.utils.files.ImageHelper;
 import com.pioneers.picturepublishingservice.utils.mappers.PictureMapper;
 import com.pioneers.picturepublishingservice.utils.time.TimeHelper;

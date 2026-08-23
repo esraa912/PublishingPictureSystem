@@ -1,7 +1,5 @@
 package com.pioneers.picturepublishingservice.utils.files;
 
-import static com.pioneers.picturepublishingservice.utils.StringUtils.isNullOrBlank;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,6 +9,8 @@ import java.util.UUID;
 import com.pioneers.picturepublishingservice.errors.exceptions.FileException;
 
 import lombok.extern.slf4j.Slf4j;
+
+import static com.pioneers.picturepublishingservice.utils.StringUtils.isNullOrBlank;
 
 /**
  * Utility class that provides helper methods for file and path operations.

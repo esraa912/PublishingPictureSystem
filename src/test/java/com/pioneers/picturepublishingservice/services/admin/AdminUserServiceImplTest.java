@@ -1,13 +1,5 @@
 package com.pioneers.picturepublishingservice.services.admin;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,6 +13,14 @@ import com.pioneers.picturepublishingservice.errors.exceptions.UserAlreadyArchiv
 import com.pioneers.picturepublishingservice.errors.exceptions.UserNotFoundException;
 import com.pioneers.picturepublishingservice.models.entities.User;
 import com.pioneers.picturepublishingservice.repositories.UserRepository;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AdminUserServiceImplTest {

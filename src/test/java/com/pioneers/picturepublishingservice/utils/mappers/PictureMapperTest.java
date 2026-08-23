@@ -1,7 +1,5 @@
 package com.pioneers.picturepublishingservice.utils.mappers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -10,6 +8,8 @@ import com.pioneers.picturepublishingservice.models.dtos.responses.PictureRespon
 import com.pioneers.picturepublishingservice.models.dtos.responses.PictureUrlResponse;
 import com.pioneers.picturepublishingservice.models.entities.Picture;
 import com.pioneers.picturepublishingservice.models.enums.Category;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit tests for {@link PictureMapper}.

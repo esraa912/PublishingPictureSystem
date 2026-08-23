@@ -56,7 +56,7 @@
             <property name="groups" value="java,javax,jakarta,org,com"/>
             <property name="ordered" value="true"/>
             <property name="separated" value="true"/>
-            <property name="option" value="top"/>
+            <property name="option" value="bottom"/>
             <property name="sortStaticImportsAlphabetically" value="true"/>
         </module>
 

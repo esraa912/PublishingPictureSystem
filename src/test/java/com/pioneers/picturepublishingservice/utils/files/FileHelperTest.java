@@ -1,12 +1,5 @@
 package com.pioneers.picturepublishingservice.utils.files;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.times;
-
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,6 +13,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.pioneers.picturepublishingservice.errors.exceptions.FileException;
 import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.times;
 
 /**
  * Unit tests for the {@link FileHelper} utility class.
