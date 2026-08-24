@@ -58,7 +58,7 @@ public class RollbackHandler {
             liquibase.rollback(changes, String.valueOf(new Contexts()));
             log.info("{} - Rollback successfully finished for changes: [{}]", methodName, changes);
         } catch (LiquibaseException e) {
-            throw new LiquibaseRollbackException("Rollback failed for " + changes + " changes");
+            throw new LiquibaseRollbackException("Rollback failed for " + changes + " changes", methodName);
         }
     }
 }

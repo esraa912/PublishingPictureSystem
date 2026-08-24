@@ -34,10 +34,10 @@ public class AdminUserServiceImpl implements AdminUserService {
         log.debug("{} - Attempting to delete user with id: [{}]", methodName, id);
 
         final User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found", methodName));
 
         if (user.isArchived()) {
-            throw new UserAlreadyArchivedException("User is already archived");
+            throw new UserAlreadyArchivedException("User is already archived", methodName);
         }
 
         if (user.isLogin()) {
@@ -48,6 +48,5 @@ public class AdminUserServiceImpl implements AdminUserService {
         user.markAsArchived();
         userRepository.save(user);
         log.debug("{} - User archived successfully with id: [{}]", methodName, id);
-        log.info("{} - User has been deleted", methodName);
     }
 }

@@ -18,6 +18,7 @@ public class CredentialsException extends RuntimeException {
     public static final int CREDENTIALS_EXCEPTION_CODE = 1001;
 
     private final String description;
+    private final String methodName;
     private final Timestamp timestamp;
 
     /**
@@ -25,8 +26,9 @@ public class CredentialsException extends RuntimeException {
      *
      * @param description a detailed explanation of the credential error
      */
-    public CredentialsException(String description) {
+    public CredentialsException(String description, String methodName) {
         this.description = description;
+        this.methodName = methodName;
         this.timestamp = TimeHelper.currentTimestamp();
     }
 
@@ -36,10 +38,12 @@ public class CredentialsException extends RuntimeException {
      *
      * @param description a detailed explanation of the credential error
      * @param e           the underlying exception that caused this error
+     * @param methodName  the name of the method where exception happen
      */
-    public CredentialsException(String description, Throwable e) {
+    public CredentialsException(String description, Throwable e, String methodName) {
         super(description, e);
         this.description = description;
+        this.methodName = methodName;
         this.timestamp = TimeHelper.currentTimestamp();
     }
 }

@@ -18,16 +18,19 @@ public class PictureException extends RuntimeException {
     public static final int PICTURE_EXCEPTION_CODE = 1004;
 
     private final String description;
+    private final String methodName;
     private final Timestamp timestamp;
 
     /**
      * Constructs a new {@code PictureException} with the specified description.
      *
      * @param description a detailed explanation of the Picture error
+     * @param methodName  the name of the method where the exception happen
      */
-    public PictureException(String description) {
+    public PictureException(String description, String methodName) {
         super(description);
         this.description = description;
+        this.methodName = methodName;
         this.timestamp = TimeHelper.currentTimestamp();
     }
 }

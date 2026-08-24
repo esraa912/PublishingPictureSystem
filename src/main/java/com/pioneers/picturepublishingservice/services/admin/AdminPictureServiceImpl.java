@@ -47,7 +47,7 @@ public class AdminPictureServiceImpl implements AdminPictureService {
         log.debug("{} - Trying to approve picture with id = [{}]", methodName, id);
 
         final Picture picture = pictureRepository.findById(id)
-                .orElseThrow(() -> new PictureException("Picture is not found"));
+                .orElseThrow(() -> new PictureException("Picture is not found", methodName));
 
         picture.acceptStatus();
 
@@ -68,7 +68,7 @@ public class AdminPictureServiceImpl implements AdminPictureService {
         log.debug("{} - Trying to reject picture with id = [{}]", methodName, id);
 
         final Picture picture = pictureRepository.findById(id)
-                .orElseThrow(() -> new PictureException("Picture is not found"));
+                .orElseThrow(() -> new PictureException("Picture is not found", methodName));
 
         picture.rejectStatus();
 

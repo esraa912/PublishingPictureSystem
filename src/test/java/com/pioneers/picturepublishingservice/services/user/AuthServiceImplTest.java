@@ -144,7 +144,7 @@ class AuthServiceImplTest {
 
         try (MockedStatic<CredentialsHelper> mockedHelper = Mockito.mockStatic(CredentialsHelper.class)) {
             mockedHelper.when(() -> CredentialsHelper.verifyPassword(userLogin.password(), hashedPassword))
-                    .thenThrow(new CredentialsException("Cannot hash the plain text password"));
+                    .thenThrow(new CredentialsException("Cannot hash the plain text password", "loginUser()"));
 
             //Ack & Assert
             LoginException ex = assertThrows(LoginException.class, () -> authService.loginUser(userLogin));

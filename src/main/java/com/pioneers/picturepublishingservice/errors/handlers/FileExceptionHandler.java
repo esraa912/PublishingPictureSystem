@@ -9,8 +9,6 @@ import com.pioneers.picturepublishingservice.errors.exceptions.FileException;
 
 import lombok.extern.slf4j.Slf4j;
 
-import static com.pioneers.picturepublishingservice.utils.MethodNameExtractor.extractOriginalMethodName;
-
 /**
  * Global exception handler dedicated to managing {@link FileException} cases.
  *
@@ -28,8 +26,7 @@ public class FileExceptionHandler {
      */
     @ExceptionHandler(FileException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final FileException e) {
-        String methodName = extractOriginalMethodName(e);
-        log.error("{} - {}", methodName, e.getMessage());
+        log.error("{} - {}", e.getMethodName(), e.getMessage());
 
         final ErrorResponse error =
                 new ErrorResponse(FileException.FILE_EXCEPTION_MESSAGE, e.getDescription());

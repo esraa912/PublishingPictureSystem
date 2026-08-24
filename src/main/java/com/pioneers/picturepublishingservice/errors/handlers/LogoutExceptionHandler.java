@@ -9,8 +9,6 @@ import com.pioneers.picturepublishingservice.errors.exceptions.LogoutException;
 
 import lombok.extern.slf4j.Slf4j;
 
-import static com.pioneers.picturepublishingservice.utils.MethodNameExtractor.extractOriginalMethodName;
-
 /**
  * Handles all exceptions required for Logout issues.
  *
@@ -28,8 +26,7 @@ public class LogoutExceptionHandler {
      */
     @ExceptionHandler(LogoutException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final LogoutException e) {
-        String methodName = extractOriginalMethodName(e);
-        log.error("{} - {}", methodName, e.getMessage());
+        log.error("{} - {}", e.getMethodName(), e.getMessage());
 
         final ErrorResponse error =
                 new ErrorResponse(LogoutException.LOGOUT_EXCEPTION_MESSAGE, e.getDescription());

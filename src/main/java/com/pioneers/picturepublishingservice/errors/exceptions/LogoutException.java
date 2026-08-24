@@ -17,16 +17,19 @@ public class LogoutException extends RuntimeException {
     public static final int LOGOUT_EXCEPTION_CODE = 1003;
 
     private final String description;
+    private final String methodName;
     private final Timestamp timestamp;
 
     /**
      * Constructs a new {@code LogoutException} with the specified description.
      *
      * @param description a detailed explanation of the Logout error
+     * @param methodName  the name of the method where the exception happen
      */
-    public LogoutException(String description) {
+    public LogoutException(String description, String methodName) {
         super(description);
         this.description = description;
+        this.methodName = methodName;
         this.timestamp = TimeHelper.currentTimestamp();
     }
 }

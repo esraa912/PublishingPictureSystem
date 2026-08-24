@@ -92,7 +92,7 @@ public class PictureServiceImpl implements PictureService {
 
         return pictureRepository.findById(id)
                 .map(PictureMapper::toPictureResponse)
-                .orElseThrow(() -> new PictureException("Picture not found"));
+                .orElseThrow(() -> new PictureException("Picture not found", methodName));
     }
 
     @Override

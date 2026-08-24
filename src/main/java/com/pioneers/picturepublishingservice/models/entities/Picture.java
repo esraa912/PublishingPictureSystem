@@ -105,8 +105,10 @@ public class Picture {
      * @throws PictureException if PictureStatus not pinding
      */
     public void rejectStatus() {
+        final String methodName = "rejectStatus()";
+
         if (!PictureStatus.PENDING.equals(status)) {
-            throw new PictureException("Picture must be pending");
+            throw new PictureException("Picture must be pending", methodName);
         }
 
         this.status = PictureStatus.REJECTED;
@@ -119,8 +121,9 @@ public class Picture {
      * @throws InvalidUrlException if the URL does not start with {@code http://} or {@code https://}
      */
     public void assignUrl(final String url) {
+        final String methodName = "assignUrl()";
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            throw new InvalidUrlException("URL must start with http:// or https://");
+            throw new InvalidUrlException("URL must start with http:// or https://", methodName);
         }
         this.url = url;
     }

@@ -9,8 +9,6 @@ import com.pioneers.picturepublishingservice.errors.exceptions.UserAlreadyArchiv
 
 import lombok.extern.slf4j.Slf4j;
 
-import static com.pioneers.picturepublishingservice.utils.MethodNameExtractor.extractOriginalMethodName;
-
 /**
  * Handles all exceptions required for Register issues.
  *
@@ -29,8 +27,7 @@ public class UserAlreadyArchivedExceptionHandler {
      */
     @ExceptionHandler(UserAlreadyArchivedException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final UserAlreadyArchivedException e) {
-        String methodName = extractOriginalMethodName(e);
-        log.error("{} - {}", methodName, e.getMessage());
+        log.error("{} - {}", e.getMethodName(), e.getMessage());
 
         final ErrorResponse error =
                 new ErrorResponse(UserAlreadyArchivedException.USER_ALREADY_ARCHIVED_EXCEPTION_MESSAGE,

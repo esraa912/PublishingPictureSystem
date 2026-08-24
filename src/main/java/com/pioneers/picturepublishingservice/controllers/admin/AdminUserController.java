@@ -36,6 +36,6 @@ public class AdminUserController {
 
         adminUserService.deleteUser(id);
 
-        log.info("{} - User deleted successfully with id: {}", methodName, id);
+        log.info("{} - User deleted successfully", methodName);
     }
 }

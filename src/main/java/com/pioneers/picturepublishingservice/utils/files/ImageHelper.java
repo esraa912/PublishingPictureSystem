@@ -26,8 +26,10 @@ public final class ImageHelper {
      * @throws PictureException if the file size exceeds the limit
      */
     public static void validateSize(final long fileSize) {
+        final String methodName = "validateSize()";
+
         if (fileSize > (2 * MB)) {
-            throw new PictureException("File size exceeds 2MB limit");
+            throw new PictureException("File size exceeds 2MB limit", methodName);
         }
     }
 

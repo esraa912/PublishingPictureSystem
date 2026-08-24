@@ -17,16 +17,19 @@ public class UserNotFoundException extends RuntimeException {
     public static final int USER_NOT_FOUND_EXCEPTION_CODE = 1009;
 
     private final String description;
+    private final String methodName;
     private final Timestamp timestamp;
 
     /**
      * Constructs a new {@code UserNotFoundException} with the specified description.
      *
      * @param description a detailed explanation of the user not found error
+     * @param methodName  the name of the method where the exception happen
      */
-    public UserNotFoundException(String description) {
+    public UserNotFoundException(String description, String methodName) {
         super(description);
         this.description = description;
+        this.methodName = methodName;
         this.timestamp = TimeHelper.currentTimestamp();
     }
 }

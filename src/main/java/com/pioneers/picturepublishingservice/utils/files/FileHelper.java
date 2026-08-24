@@ -34,7 +34,7 @@ public final class FileHelper {
     public static void delete(final String filePath) {
         final String methodName = "deleteFileIfExists()";
         if (isNullOrBlank(filePath)) {
-            throw new FileException("File path is null or blank");
+            throw new FileException("File path is null or blank", methodName);
         }
 
         try {
@@ -42,7 +42,7 @@ public final class FileHelper {
             Files.deleteIfExists(path);
         } catch (final IOException e) {
             log.error("{} - Failed to delete file at path: [{}] due to [{}]", methodName, filePath, e.getMessage());
-            throw new FileException("Failed to delete file at path: " + filePath);
+            throw new FileException("Failed to delete file at path: " + filePath, methodName);
         }
     }
 
@@ -95,7 +95,7 @@ public final class FileHelper {
             log.debug("{} - File written successfully at path = [{}]", methodName, filePath);
         } catch (IOException e) {
             log.error("{} - Failed to save picture file at path: [{}]", methodName, filePath);
-            throw new PictureException("Failed to save picture file to uploads folder");
+            throw new FileException("Failed to save picture file to uploads folder", methodName);
         }
     }
 }

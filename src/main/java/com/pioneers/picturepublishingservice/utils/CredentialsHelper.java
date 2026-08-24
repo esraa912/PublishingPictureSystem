@@ -27,12 +27,13 @@ public final class CredentialsHelper {
      * @throws CredentialsException is the returned exception during the hashing process
      */
     public static String hashPassword(@NonNull final String password) throws CredentialsException {
+        final String methodName = "hashPassword()";
         final byte[] hashed;
         try {
             final MessageDigest md = MessageDigest.getInstance("SHA-256");
             hashed = md.digest(password.getBytes());
         } catch (NoSuchAlgorithmException e) {
-            throw new CredentialsException("Cannot hash the password", e);
+            throw new CredentialsException("Cannot hash the password", e, methodName);
         }
 
         return Base64.getEncoder().encodeToString(hashed);

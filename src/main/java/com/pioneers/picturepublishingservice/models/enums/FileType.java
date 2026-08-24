@@ -27,9 +27,10 @@ public enum FileType {
      * @param extension the file extension to check
      */
     public static void isExtensionAllowed(final String extension) {
+        final String methodName = "isExtensionAllowed()";
         Arrays.stream(values())
                 .filter(fileType -> fileType.getExtension().equalsIgnoreCase(extension))
                 .findFirst()
-                .orElseThrow(() -> new PictureException("Extension is not allowed: " + extension));
+                .orElseThrow(() -> new PictureException("Extension is not allowed: " + extension, methodName));
     }
 }

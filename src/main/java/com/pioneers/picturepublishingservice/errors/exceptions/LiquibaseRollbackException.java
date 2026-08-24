@@ -17,16 +17,19 @@ public class LiquibaseRollbackException extends RuntimeException {
     public static final int LIQUIBASE_ROLLBACK_EXCEPTION_CODE = 1010;
 
     private final String description;
+    private final String methodName;
     private final Timestamp timestamp;
 
     /**
      * Constructs a new {@code LiquibaseRollbackException} with the specified description.
      *
      * @param description a detailed explanation of the Liquibase rollback error
+     * @param methodName  the name of the method where the exception happen
      */
-    public LiquibaseRollbackException(String description) {
+    public LiquibaseRollbackException(String description, String methodName) {
         super(description);
         this.description = description;
+        this.methodName = methodName;
         this.timestamp = TimeHelper.currentTimestamp();
     }
 }

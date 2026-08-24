@@ -9,8 +9,6 @@ import com.pioneers.picturepublishingservice.errors.exceptions.CredentialsExcept
 
 import lombok.extern.slf4j.Slf4j;
 
-import static com.pioneers.picturepublishingservice.utils.MethodNameExtractor.extractOriginalMethodName;
-
 /**
  * Handles all exceptions required for Credentials issues.
  *
@@ -28,8 +26,7 @@ public class CredentialsExceptionHandler {
      */
     @ExceptionHandler(CredentialsException.class)
     public GenericResponse<ErrorResponse> handleNoSuchAlgorithmException(final CredentialsException e) {
-        String methodName = extractOriginalMethodName(e);
-        log.error("{} - {}", methodName, e.getMessage());
+        log.error("{} - {}", e.getMethodName(), e.getMessage());
 
         final ErrorResponse error =
                 new ErrorResponse(CredentialsException.CREDENTIALS_EXCEPTION_MESSAGE, e.getDescription());

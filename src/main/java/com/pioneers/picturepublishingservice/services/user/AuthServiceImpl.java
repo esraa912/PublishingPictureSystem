@@ -43,7 +43,7 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.findByEmail(userSignup.email())
                 .ifPresent(user -> {
-                    throw new RegisterException("Email is already used in the system");
+                    throw new RegisterException("Email is already used in the system", methodName);
                 });
 
         final User user = UserMapper.toUser(userSignup);
@@ -61,7 +61,8 @@ public class AuthServiceImpl implements AuthService {
 
         final User foundUser = userRepository.findByEmail(userLogin.email())
                 .orElseThrow(() ->
-                        new LoginException(String.format("User with email [%s] is not found", userLogin.email())));
+                        new LoginException(
+                                String.format("User with email [%s] is not found", userLogin.email()), methodName));
 
         try {
             final boolean isPasswordMatched =
@@ -69,14 +70,14 @@ public class AuthServiceImpl implements AuthService {
             log.debug("{} - Password matched: [{}]", methodName, isPasswordMatched);
 
             if (!isPasswordMatched) {
-                throw new LoginException("Password is incorrect");
+                throw new LoginException("Password is incorrect", methodName);
             }
         } catch (CredentialsException e) {
-            throw new LoginException("Cannot hash the plain text password");
+            throw new LoginException("Cannot hash the plain text password", methodName);
         }
 
         if (foundUser.isLogin()) {
-            throw new LoginException("User with email: [" + userLogin.email() + "] is already login");
+            throw new LoginException("User with email: [" + userLogin.email() + "] is already login", methodName);
         }
 
         foundUser.login();
@@ -98,10 +99,10 @@ public class AuthServiceImpl implements AuthService {
         log.debug("{} - Attempting to logout user", methodName);
 
         User foundUser = userRepository.findById(id)
-                .orElseThrow(() -> new LogoutException("User with id: [" + id + "] is not found"));
+                .orElseThrow(() -> new LogoutException("User with id: [" + id + "] is not found", methodName));
 
         if (!foundUser.isLogin()) {
-            throw new LogoutException("User with id: [" + foundUser.getId() + "] is not login");
+            throw new LogoutException("User with id: [" + foundUser.getId() + "] is not login", methodName);
         }
 
         foundUser.logout();
