@@ -122,7 +122,7 @@ public class Picture {
      */
     public void assignUrl(final String url) {
         final String methodName = "assignUrl()";
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        if (!url.startsWith("http://") || !url.startsWith("https://")) {
             throw new InvalidUrlException("URL must start with http:// or https://", methodName);
         }
         this.url = url;

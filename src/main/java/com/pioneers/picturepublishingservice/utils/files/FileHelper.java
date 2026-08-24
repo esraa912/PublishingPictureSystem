@@ -94,7 +94,6 @@ public final class FileHelper {
             Files.write(filePath, content);
             log.debug("{} - File written successfully at path = [{}]", methodName, filePath);
         } catch (IOException e) {
-            log.error("{} - Failed to save picture file at path: [{}]", methodName, filePath);
             throw new FileException("Failed to save picture file to uploads folder", methodName);
         }
     }
