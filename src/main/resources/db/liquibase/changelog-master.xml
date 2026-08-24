@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <include file="/db/liquibase/changelogs/0001-create-roles-enum.xml" relativeToChangelogFile="false" author="esraa.foad"/>
+    <include file="/db/liquibase/changelogs/0002-create-users-table.xml" relativeToChangelogFile="false" author="esraa.foad"/>
+    <include file="/db/liquibase/changelogs/0003-create-category-enum.xml" relativeToChangelogFile="false" author="esraa.foad"/>
+    <include file="/db/liquibase/changelogs/0004-create-pictures-status-enum.xml" relativeToChangelogFile="false" author="esraa.foad"/>
+    <include file="/db/liquibase/changelogs/0005-create-pictures-table.xml" relativeToChangelogFile="false" author="esraa.foad"/>
+    <include file="/db/liquibase/changelogs/0006-insert-dummy-data-for-admins.xml" relativeToChangelogFile="false" author="esraa.foad"/>
+</databaseChangeLog>

@@ -1,0 +1,35 @@
+package com.pioneers.picturepublishingservice.errors.exceptions;
+
+import java.sql.Timestamp;
+
+import com.pioneers.picturepublishingservice.utils.time.TimeHelper;
+
+import lombok.Getter;
+
+/**
+ * Custom runtime exception used to indicate errors related to Liquibase rollback operations.
+ *
+ * @author esraa
+ */
+@Getter
+public class LiquibaseRollbackException extends RuntimeException {
+    public static final String LIQUIBASE_ROLLBACK_EXCEPTION_MESSAGE = "liquibaseRollbackException";
+    public static final int LIQUIBASE_ROLLBACK_EXCEPTION_CODE = 1010;
+
+    private final String description;
+    private final String methodName;
+    private final Timestamp timestamp;
+
+    /**
+     * Constructs a new {@code LiquibaseRollbackException} with the specified description.
+     *
+     * @param description a detailed explanation of the Liquibase rollback error
+     * @param methodName  the name of the method where the exception happen
+     */
+    public LiquibaseRollbackException(String description, String methodName) {
+        super(description);
+        this.description = description;
+        this.methodName = methodName;
+        this.timestamp = TimeHelper.currentTimestamp();
+    }
+}
