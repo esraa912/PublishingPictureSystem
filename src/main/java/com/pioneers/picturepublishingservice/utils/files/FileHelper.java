@@ -41,7 +41,6 @@ public final class FileHelper {
             final Path path = Paths.get(filePath);
             Files.deleteIfExists(path);
         } catch (final IOException e) {
-            log.error("{} - Failed to delete file at path: [{}] due to [{}]", methodName, filePath, e.getMessage());
             throw new FileException("Failed to delete file at path: " + filePath, methodName);
         }
     }
