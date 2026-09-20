@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 import com.pioneers.picturepublishingservice.errors.exceptions.FileException;
-import com.pioneers.picturepublishingservice.errors.exceptions.PictureException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -85,9 +84,9 @@ public final class FileHelper {
      *
      * @param filePath the path where the file should be written
      * @param content  the byte array content to write into the file
-     * @throws PictureException if the file cannot be saved to the uploads folder
+     * @throws FileException if the file cannot be saved to the uploads folder
      */
-    public static void writeIn(final Path filePath, final byte[] content) throws PictureException {
+    public static void writeIn(final Path filePath, final byte[] content) throws FileException {
         final String methodName = "writeIn()";
         try {
             Files.write(filePath, content);

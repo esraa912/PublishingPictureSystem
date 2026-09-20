@@ -25,6 +25,7 @@ public class CredentialsException extends RuntimeException {
      * Constructs a new {@code CredentialsException} with the given description.
      *
      * @param description a detailed explanation of the credential error
+     * @param methodName  the name of the method where the exception happen
      */
     public CredentialsException(String description, String methodName) {
         this.description = description;
